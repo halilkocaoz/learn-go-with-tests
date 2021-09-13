@@ -4,6 +4,8 @@
 
 [Denise tarafından çizildi](https://twitter.com/deniseyu21)
 
+[İngilizce versiyonu](https://quii.gitbook.io/learn-go-with-tests/)
+
 ## Bu fikrin anasahibini destekleyebilirsiniz
 
 * [Twitter @quii](https://twitter.com/quii)
@@ -20,13 +22,13 @@
 
 Go programlama dilini, yazılım ekiplerini tanıtma konusunda biraz deneyimim var ve Go'yu merak eden bazı kişilerden, Go sistemlerinin son derece etkili yazılımcılarına dönüştürülecek bir ekibin nasıl büyütüleceği konusunda farklı yaklaşımlar denedim.
 
-### Ne işe yaramadı
+### Neler işe yaramadı
 
 #### Mavi kitabı okumak
 
 Denediğimiz yaklaşımlardan biri [mavi kitabı](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) okumak ve her hafta alıştırmalarla birlikte bir sonraki bölümünü tartışmaktı.
 
-Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerliyor ve bu herkes için iyi, uygun değil.
+Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerlemeli ve bu herkes için iyi, uygun değil.
 
 Bir çok insan herhangi bir bölümü okuyup araştırmaları yapmadan geçiyordu.
 
@@ -38,17 +40,17 @@ Bir diğer problemse, değişken seviyelerde coşkuya sahip olmak. Another probl
 
 Bu öğrenme sürecinizin sistematik olarak düzene sokulmamış ve geçiçi olduğunu hissettirir.
 
-### Ne işe yaradı
+### Neler işe yaradı
 
 Şimdiye kadarki en etkili yol, [go by example](https://gobyexample.com/) örneklerini baştan sona okuyarak, yavaş yavaş keşfetmek ve grup halinde bunları tartışmaktı. Bu yaklaşım, "x bölümünü ödev için oku"dan daha etkileşimli bir yoldu.
 
-Zaman geçtikçe, yazılım ekibi dilin temellerine dahil sağlam bir birikim elde etti, böylece takım olarak sistemler oluşturmaya başlayabilirdik.
+Zaman geçtikçe, yazılım ekibi dilin temellerine dair sağlam bir birikim elde etti, böylece takım olarak sistemler oluşturmaya başlayabilirdik.
 
 Bu bana gitar öğrenmeye çalışırken, gam pratiği yapmayı andırdı.
 
 Ne kadar artist olursanız olun, temelleri bilmeden ve mekaniklere çalışmadan iyi müzik yapamazsınız.
 
-### Benim için işe yarayan nedir
+### Benim(quii) için işe yarayan nedir
 
 Yeni bir programlama dili öğrenirken, genellikle REPL(Read-eval-print loop)'ı ile başlarım, en sonundaysa daha fazla yapıya ihtiyacım olur.
 

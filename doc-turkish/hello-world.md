@@ -23,7 +23,7 @@ func main() {
 
 Go'da bir program yazdığınızda, içinde bir `main` fonksiyon'u olan bir `main` paketine sahip olacaksınız. Paketler, ilgili Go kodunu birlikte gruplandırmanın yoludur.
 
-`func` anahtar kelimesi ile adı ve gövdesi olan bir fonksiyon tanımlamınızı sağlar.
+`func` anahtar kelimesi, adı ve gövdesi olan bir fonksiyon tanımlamınızı sağlar.
 
 `import "fmt"` ile ekrana yazdırma fonksiyonunu olan `Println`'ı içeren bir paketi içe aktarıyoruz.
 
