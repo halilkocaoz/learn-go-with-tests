@@ -1,30 +1,22 @@
-# Learn Go with Tests
+# Test yazarak Go programlama dilini öğren
 
 <p align="center">
-  <img src="red-green-blue-gophers-smaller.png" />
+  <img src="../red-green-blue-gophers-smaller.png" />
 </p>
 
-[Art by Denise](https://twitter.com/deniseyu21)
+[Yukarıda gördüğünüz eser Denise tarafından yapıldı](https://twitter.com/deniseyu21)
 
-## Support me
+## Bu fikrin anasahibini destekleyebilirsiniz
 
-I am proud to offer this resource for free, but if you wish to give some appreciation
+- [Tweet @quii](https://twitter.com/quii)
+- [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
+- [quii'e GitHub'da sponsor ol](https://github.com/sponsors/quii)
 
-- [Tweet me @quii](https://twitter.com/quii)
-- [Buy me a coffee](https://www.buymeacoffee.com/quii)
-- [Sponsor me on GitHub](https://github.com/sponsors/quii)
+## Go ile test-driven development öğrenin
 
-## Learn test-driven development with Go
-
-* Explore the Go language by writing tests
-* **Get a grounding with TDD**. Go is a good language for learning TDD because it is a simple language to learn and testing is built-in
-* Be confident that you'll be able to start writing robust, well-tested systems in Go
-
-Translations:
-
-- [中文](https://studygolang.gitbook.io/learn-go-with-tests)
-- [Português](https://larien.gitbook.io/aprenda-go-com-testes/)
-- [日本語](https://andmorefine.gitbook.io/learn-go-with-tests/)
+- Go programlama dilini test yazarak keşfedin.
+- Go programlama dili TDD öğrenmek için iyi bir dil, çünkü öğrenmek ve test yazmak için basit bir programlama dili.
+- Bu seri ardından, Go'da iyi test edilmiş sistemler yazacağınızdan emin olabilirsiniz.
 
 ## Background
 
