@@ -2,76 +2,71 @@
 
 ![](.gitbook/assets/red-green-blue-gophers-smaller.png)
 
-[Yukarıda gördüğünüz eser Denise tarafından yapıldı](https://twitter.com/deniseyu21)
+[Denise tarafından çizildi](https://twitter.com/deniseyu21)
 
 ## Bu fikrin anasahibini destekleyebilirsiniz
 
-* [Tweet @quii](https://twitter.com/quii)
+* [Twitter @quii](https://twitter.com/quii)
 * [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
 * [quii'e GitHub'da sponsor ol](https://github.com/sponsors/quii)
 
 ## Go ile test-driven development öğrenin
 
 * Go programlama dilini test yazarak keşfedin.
-* Go programlama dili TDD öğrenmek için iyi bir dil, çünkü öğrenmek ve test yazmak için basit bir programlama dili.
+* Go programlama dili öğrenmek ve TDD pratiği yapmak için iyi bir dil, çünkü öğrenmek ve test yazmak için basit(basit != kolay) bir programlama dili.
 * Bu seri ardından, Go'da iyi test edilmiş sistemler yazacağınızdan emin olabilirsiniz.
 
-## Kısaca quii'nin önceden yaptıkları
+## quii'nin önceden yaptıkları
 
 Go programlama dilini, yazılım ekiplerini tanıtma konusunda biraz deneyimim var ve Go'yu merak eden bazı kişilerden, Go sistemlerinin son derece etkili yazılımcılarına dönüştürülecek bir ekibin nasıl büyütüleceği konusunda farklı yaklaşımlar denedim.
 
 ### Ne işe yaramadı
 
-#### Kitap okumak
+#### Mavi kitabı okumak
 
 Denediğimiz yaklaşımlardan biri [mavi kitap](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)'ı okumak ve her hafta alıştırmalarla birlikte bir sonraki bölümünü tartışmaktı.
 
-Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerliyor ve bu herkes için iyi uygun değil.
+Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerliyor ve bu herkes için iyi, uygun değil.
 
 Bir çok insan herhangi bir bölümü okuyup araştırmaları yapmadan geçiyordu.
 
-#### Solve some problems
+#### Problem çözmek
 
-Katas are fun but they are usually limited in their scope for learning a language; you're unlikely to use goroutines to solve a kata.
+Programlama egsersizleri(katalar) eğlenceli ama genellikle dili öğrenmekle sınırlıdır. Programlama egzersizlerini çözerken goroutinelerini kullanman pek olası değil.
 
-Another problem is when you have varying levels of enthusiasm. Some people just learn way more of the language than others and when demonstrating what they have done end up confusing people with features the others are not familiar with.
+Bir diğer problemse, değişken seviyelerde çoşkuya sahip olmak. Another problem is when you have varying levels of enthusiasm. Some people just learn way more of the language than others and when demonstrating what they have done end up confusing people with features the others are not familiar with.
 
-This ends up making the learning feel quite _unstructured_ and _ad hoc_.
+Bu öğrenme sürecinizin sistematik olarak düzene sokulmamış ve geçiçi olduğunu hissettirir.
 
-### What did work
+### Ne işe yaradı
 
-By far the most effective way was by slowly introducing the fundamentals of the language by reading through [go by example](https://gobyexample.com/), exploring them with examples and discussing them as a group. This was a more interactive approach than "read chapter x for homework".
+Şimdiye kadarki en etkili yol, [go by example](https://gobyexample.com/) örneklerini baştan sona okuyarak, yavaş yavaş keşfetmek ve grup halinde bunları tartışmaktı. Bu yaklaşım, "x bölümünü ödev için oku"dan daha etkileşimli bir yoldu.
 
-Over time the team gained a solid foundation of the _grammar_ of the language so we could then start to build systems.
+Zaman geçtikçe, yazılım ekibi dilin temellerine dahil sağlam bir birikim elde etti, böylece takım olarak sistemler oluşturmaya başlayabilirdik.
 
-This to me seems analogous to practicing scales when trying to learn guitar.
+Bu bana gitar öğrenmeye çalışırken, gam pratiği yapmayı andırdı.
 
-It doesn't matter how artistic you think you are, you are unlikely to write good music without understanding the fundamentals and practicing the mechanics.
+Ne kadar artist olursanız olun, temelleri bilmeden ve mekaniklere çalışmadan iyi müzik yapamazsınız.
 
-### What works for me
+### Benim için işe yarıyan nedir
 
-When _I_ learn a new programming language I usually start by messing around in a REPL but eventually, I need more structure.
+Yeni bir programlama dili öğrenirken, genellikle REPL(Read-eval-print loop)'ı ile başlarım, en sonundaysa daha fazla yapıya ihtiyacım olur.
 
-What I like to do is explore concepts and then solidify the ideas with tests. Tests verify the code I write is correct and documents the feature I have learned.
+Yapmayı sevdiğim şey, dilin kavramlarını keşfetmek ve fikirleri testler ile sağlamlaştırmak. Test kodları, bana yazdığım kodların doğru olup olmadığını gösteriyor ve ne öğrendiğimi belgelendiriyor.
 
 Taking my experience of learning with a group and my own personal way I am going to try and create something that hopefully proves useful to other teams. Learning the fundamentals by writing small tests so that you can then take your existing software design skills and ship some great systems.
 
-## Who this is for
+## Bu kimler içindir
 
-* People who are interested in picking up Go
-* People who already know some Go, but want to explore testing more
+* Go programlama dilini öğrenmekle ilgilenen kişiler
+* Go programlama dilini zaten bilen fakat test etmeyi daha fazla keşfetmek isteyen kişiler
 
-## What you'll need
+## Neye ihtiyacınız olacak
 
-* A computer!
-* [Installed Go](https://golang.org/)
-* A text editor
-* Some experience with programming. Understanding of concepts like `if`, variables, functions etc.
-* Comfortable with using the terminal
-
-## Feedback
-
-* Add issues/submit PRs [here](https://github.com/quii/learn-go-with-tests) or [tweet me @quii](https://twitter.com/quii)
+* Bir bilgisayar
+* [Go](https://golang.org/)
+* Yazı düzenleyici
+* Programlamaya dair biraz deneyim. Mesela `if`, değişkenler, fonksiyonlar gibi kavramları hali hazırda anlamış olmak
+* Terminali kullanmaktan çekinmemek
 
 [MIT license](https://github.com/halilkocaoz/learn-go-with-tests/tree/1a61412ecfcc1a7368ed32985788c6d952ce7a3a/LICENSE.md)
-
