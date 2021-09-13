@@ -1,11 +1,11 @@
 # Hello, World
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
+**[Bu bölümde geçen geçen bütün kodlara buradan ulaşabilirsin](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
 
-It is traditional for your first program in a new language to be [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program).
+Yeni bir programlama dilinde, ilk programınızın [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program) olması artık gelenekseldir.
 
-- Create a folder wherever you like
-- Put a new file in it called `hello.go` and put the following code inside it
+- İstediğiniz yere bir klasör oluşturun
+- İçine `hello.go` adında yeni bir dosya oluşturun ve oluşturduğunuz dosyanın içine aşağıdaki kodu yazın.
 
 ```go
 package main
@@ -17,17 +17,17 @@ func main() {
 }
 ```
 
-To run it type `go run hello.go`.
+Çalıştırmak için `go run hello.go` yazın.
 
-## How it works
+## Nasıl çalışıyor
 
-When you write a program in Go you will have a `main` package defined with a `main` func inside it. Packages are ways of grouping up related Go code together.
+Go'da bir program yazdığınızda, içinde bir `main` fonksiyon'u olan bir `main` paketine sahip olacaksınız. Paketler, ilgili Go kodunu birlikte gruplandırmanın yoludur.
 
-The `func` keyword is how you define a function with a name and a body.
+`func` anahtar kelimesi ile adı ve gövdesi olan bir fonksiyon tanımlamınızı sağlar.
 
-With `import "fmt"` we are importing a package which contains the `Println` function that we use to print.
+`import "fmt"` ile ekrana yazdırma fonksiyonunu olan `Println`'ı içeren bir paketi içe aktarıyoruz.
 
-## How to test
+## Nasıl test edilir
 
 How do you test this? It is good to separate your "domain" code from the outside world \(side-effects\). The `fmt.Println` is a side effect \(printing to stdout\) and the string we send in is our domain.
 
@@ -66,7 +66,7 @@ func TestHello(t *testing.T) {
 }
 ```
 
-## Go modules?
+## Go moduleleri?
 
 The next step is to run the tests. Enter `go test` in your terminal. If the tests pass, then you are probably using an earlier version of Go. However, if you are using Go 1.16 or later, then the tests will likely not run at all. Instead, you will see an error message like this in the terminal:
 
@@ -87,13 +87,13 @@ This file tells the `go` tools essential information about your code. If you pla
 
 In future chapters you will need to run `go mod init SOMENAME` in each new folder before running commands like `go test` or `go build`.
 
-## Back to Testing
+## Tekrardan test etme
 
 Run `go test` in your terminal. It should've passed! Just to check, try deliberately breaking the test by changing the `want` string.
 
 Notice how you have not had to pick between multiple testing frameworks and then figure out how to install. Everything you need is built in to the language and the syntax is the same as the rest of the code you will write.
 
-### Writing tests
+### Test yazma
 
 Writing a test is just like writing a function, with a few rules
 
@@ -109,7 +109,7 @@ We've covered some new topics:
 #### `if`
 If statements in Go are very much like other programming languages.
 
-#### Declaring variables
+#### Variable tanımlama
 
 We're declaring some variables with the syntax `varName := value`, which lets us re-use some values in our test for readability.
 
@@ -129,7 +129,7 @@ The vast majority of the standard library has excellent documentation with examp
 
 If you don't have `godoc` command, then maybe you are using the newer version of Go (1.14 or later) which is [no longer including `godoc`](https://golang.org/doc/go1.14#godoc). You can manually install it with `go get golang.org/x/tools/cmd/godoc`.
 
-### Hello, YOU
+### Hello, SEN
 
 Now that we have a test we can iterate on our software safely.
 
@@ -200,7 +200,7 @@ func Hello(name string) string {
 
 When you run the tests they should now pass. Normally as part of the TDD cycle we should now _refactor_.
 
-### A note on source control
+### Source control ile ilgili bir not
 
 At this point, if you are using source control \(which you should!\) I would
 `commit` the code as it is. We have working software backed by a test.
@@ -210,7 +210,7 @@ to commit at this point in case you somehow get into a mess with refactoring - y
 
 There's not a lot to refactor here, but we can introduce another language feature, _constants_.
 
-### Constants
+### Constantlar
 
 Constants are defined like so
 
@@ -234,7 +234,7 @@ Constants should improve performance of your application as it saves you creatin
 
 To be clear, the performance boost is incredibly negligible for this example! But it's worth thinking about creating constants to capture the meaning of values and sometimes to aid performance.
 
-## Hello, world... again
+## Hello, world... tekrardan
 
 The next requirement is when our function is called with an empty string it defaults to printing "Hello, World", rather than "Hello, ".
 
@@ -318,12 +318,12 @@ func Hello(name string) string {
 
 If we run our tests we should see it satisfies the new requirement and we haven't accidentally broken the other functionality.
 
-### Back to source control
+### Tekrardan source control
 
 Now we are happy with the code I would amend the previous commit so we only
 check in the lovely version of our code with its test.
 
-### Discipline
+### Disiplin
 
 Let's go over the cycle again
 
@@ -343,7 +343,7 @@ By ensuring your tests are _fast_ and setting up your tools so that running test
 
 By not writing tests you are committing to manually checking your code by running your software which breaks your state of flow and you won't be saving yourself any time, especially in the long run.
 
-## Keep going! More requirements
+## Devam et! Daha fazla gereksinim
 
 Goodness me, we have more requirements. We now need to support a second parameter, specifying the language of the greeting. If a language is passed in that we do not recognise, just default to English.
 
@@ -477,7 +477,7 @@ func Hello(name string, language string) string {
 
 Write a test to now include a greeting in the language of your choice and you should see how simple it is to extend our _amazing_ function.
 
-### one...last...refactor?
+### son...bir...refactor?
 
 You could argue that maybe our function is getting a little big. The simplest refactor for this would be to extract out some functionality into another function.
 
@@ -513,7 +513,7 @@ A few new concepts:
 * `default` in the switch case will be branched to if none of the other `case` statements match.
 * The function name starts with a lowercase letter. In Go public functions start with a capital letter and private ones start with a lowercase. We don't want the internals of our algorithm to be exposed to the world, so we made this function private.
 
-## Wrapping up
+## Sonuç
 
 Who knew you could get so much out of `Hello, world`?
 

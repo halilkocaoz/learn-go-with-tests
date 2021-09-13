@@ -60,7 +60,7 @@ go version
 
 [Moduleler](https://github.com/golang/go/wiki/Modules) Go 1.11 ile duyuruldu. Bu yaklaşım, Go 1.16'dan beri varsayılan derleme moduludur, artık `GOPATH` kullanılması önerilmez.
 
-Moduleler dependency management, versiyon seçimi ve tekrar üretilebilir yapıları ile ilgili sorunları çözmeyi amaçlar. Ayrıca yazılımcıların `GOPATH` dışında yazdığı Go kodunu çalıştırmalarına yardımcı olur.
+Moduleler dependency management, version selection ve reproducible buildler ile ilgili sorunları çözmeyi amaçlar. Ayrıca yazılımcıların `GOPATH` dışında yazdığı Go kodunu çalıştırmalarına yardımcı olur.
 
 Go Modullerini kullanmak oldukça basittir. Projenizin kök dizini olarak `GOPATH` dışında herhangi bir dizini seçebilirsiniz ve o dizinde `go mod init` komutu ile yeni bir modül oluşturarak kullanmaya başlayabilirsiniz.
 
@@ -92,7 +92,7 @@ go help mod init
 
 ## Go Editor
 
-Editor seçimi oldukça kişiseldir, zaten Go'yu destekleyen bir Editor seçiminiz olur. Eğer yoksa, [Visual Studio Code](https://code.visualstudio.com) seçebilirsiniz.
+Editor seçimi oldukça kişiseldir, zaten Go'yu destekleyen bir Editor seçiminiz olabilir. Eğer yoksa, [Visual Studio Code](https://code.visualstudio.com)'u seçebilirsiniz.
 
 Aşağıdaki komutu kullanarak VS Code'u yükleyebilirsiniz:
 
@@ -100,13 +100,13 @@ Aşağıdaki komutu kullanarak VS Code'u yükleyebilirsiniz:
 brew install --cask visual-studio-code
 ```
 
-VS Code'un yüklendiğini aşağıdaki komutu kullanarak doğrulayabilirsiniz
+VS Code'un yüklendiğini aşağıdaki komutu kullanarak doğrulayabilirsiniz:
 
 ```sh
 code .
 ```
 
-VS Code otomatik olarak herhangi bir yazılım diline destek vermez fakat siz VS Code uzantıları yükleyerek, istediğiniz herhangi bir dil için VS Code'un destek sağlamasını edinebilirsiniz. Go programlama dili için çeşitli seçenekleriniz var, en iyilerinden biri [Luke Hoban VSCode Go](https://github.com/golang/vscode-go). Bu uzantıyı yüklemek için:
+VS Code otomatik olarak herhangi bir yazılım diline destek vermez fakat siz VS Code uzantıları yükleyerek, istediğiniz herhangi bir programlama dili için VS Code'un destek sağlamasını edinebilirsiniz. Go programlama dili için çeşitli seçenekleriniz var, en iyilerinden biri [Luke Hoban VSCode Go](https://github.com/golang/vscode-go). Bu uzantıyı yüklemek için:
 
 ```sh
 code --install-extension golang.go
@@ -116,7 +116,7 @@ VS Code ile ilk defa bir Go dosyası açtığınız zaman, VS Code analiz araçl
 
 ## Go Debugger
 
-Go programlarınızı debug etmek için iyi seçeneklerden biri Delve'dır. Bunu yüklemek için aşağıdaki komutu kullanabilirsiniz,
+Go programlarınızı debug etmek için en iyi seçeneklerden biri Delve'dır. Bunu yüklemek için aşağıdaki komutu kullanabilirsiniz,
 
 ```sh
 go get -u github.com/go-delve/delve/cmd/dlv
