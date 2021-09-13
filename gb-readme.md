@@ -1,22 +1,20 @@
-# Test yazarak Go programlama dilini öğren
+# Introduction
 
-<p align="center">
-  <img src="red-green-blue-gophers-smaller.png" />
-</p>
+![](.gitbook/assets/red-green-blue-gophers-smaller.png)
 
 [Yukarıda gördüğünüz eser Denise tarafından yapıldı](https://twitter.com/deniseyu21)
 
 ## Bu fikrin anasahibini destekleyebilirsiniz
 
-- [Tweet @quii](https://twitter.com/quii)
-- [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
-- [quii'e GitHub'da sponsor ol](https://github.com/sponsors/quii)
+* [Tweet @quii](https://twitter.com/quii)
+* [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
+* [quii'e GitHub'da sponsor ol](https://github.com/sponsors/quii)
 
 ## Go ile test-driven development öğrenin
 
-- Go programlama dilini test yazarak keşfedin.
-- Go programlama dili TDD öğrenmek için iyi bir dil, çünkü öğrenmek ve test yazmak için basit bir programlama dili.
-- Bu seri ardından, Go'da iyi test edilmiş sistemler yazacağınızdan emin olabilirsiniz.
+* Go programlama dilini test yazarak keşfedin.
+* Go programlama dili TDD öğrenmek için iyi bir dil, çünkü öğrenmek ve test yazmak için basit bir programlama dili.
+* Bu seri ardından, Go'da iyi test edilmiş sistemler yazacağınızdan emin olabilirsiniz.
 
 ## Background
 
@@ -75,4 +73,5 @@ Taking my experience of learning with a group and my own personal way I am going
 
 * Add issues/submit PRs [here](https://github.com/quii/learn-go-with-tests) or [tweet me @quii](https://twitter.com/quii)
 
-[MIT license](LICENSE.md)
+[MIT license](https://github.com/halilkocaoz/learn-go-with-tests/tree/1a61412ecfcc1a7368ed32985788c6d952ce7a3a/LICENSE.md)
+
