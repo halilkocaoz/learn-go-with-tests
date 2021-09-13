@@ -1,63 +1,43 @@
-# Go programlama dilinin kurulumu
+# Install Go, set up environment for productivity
 
-[Buradan](https://golang.org/doc/install) Go'nun resmi kurulum yönlendirmelerine ulaşabilirsiniz.
+The official installation instructions for Go are available [here](https://golang.org/doc/install).
 
-Yada OSX veya Ubuntu için yazdığımız yönlendirmeyi takip edebilirsiniz.
+This guide will assume that you are using a package manager for e.g. [Homebrew](https://brew.sh), [Chocolatey](https://chocolatey.org), [Apt](https://help.ubuntu.com/community/AptGet/Howto) or [yum](https://access.redhat.com/solutions/9934).
 
-## Kurulum
+For demonstration purposes we will show the installation procedure for OSX using Homebrew.
 
-### OSX
+## Installation
 
-OSX sisteminize Go'yu yüklemek için yapmanız gerekenlerden ilki, Homebrew'ı yüklemek, fakat Homebrew'ı yükleme işlemi Xcode ile bağlantılıdır. Yani ilk önce Xcode'un yüklü olduğundan emin olun.
+The process of installation is very easy. First, what you have to do is to run this command to install homebrew. It has a dependency on Xcode so you should ensure this is installed first.
 
 ```sh
 xcode-select --install
 ```
 
-Ardından Homebrew'ı yüklemek için bu komutu çalıştırın
+Then you run the following to install homebrew:
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
-Bundan sonra brew ile Go'yu yükleyebilirsiniz
+At this point you can now install Go with:
 
 ```sh
 brew install go
 ```
 
-### Ubuntu
+*You should follow any instructions recommended by your package manager. **Note** these may be host os specific*.
 
-Ubuntu sisteminize Go'yu yüklemek için APT'nın sisteminizde yüklü olduğundan emin olun ve APT'ye bir depo tanımlayarak başlayalım
-
-```sh
-sudo add-apt-repository ppa:longsleep/golang-backports
-```
-
-Sonraysa APT'nin gerekli güncellemeleri yapmasını sağlayalım
+You can verify the installation with:
 
 ```sh
-sudo apt update
-```
-
-Şimdiyse Golang'ı yükleyebilirsiniz
-
-```sh
-sudo apt install golang-go
-```
-
-### Kurulumu doğrulamak
-
-Kurulumu doğrulamak için aşağıdaki komutu çalıştırabilirsiniz
-
-```sh
-go version
+$ go version
+go version go1.14 darwin/amd64
 ```
 
 ## Go Environment
 
 ### Go Modules
-
 Go 1.11 introduced [Modules](https://github.com/golang/go/wiki/Modules). This approach is the default build mode since Go 1.16, therefore the use of `GOPATH` is not recommended.
 
 Modules aim to solve problems related to dependency management, version selection and reproducible builds; they also enable users to run Go code outside of `GOPATH`.
@@ -158,4 +138,4 @@ Mastering your tools will help you concentrate on the code and reduce context sw
 
 ## Wrapping up
 
-At this point you should have Go installed, an editor available and some basic tooling in place. Go has a very large ecosystem of third party products. We have identified a few useful components here, for a more complete list see <https://awesome-go.com>.
+At this point you should have Go installed, an editor available and some basic tooling in place. Go has a very large ecosystem of third party products. We have identified a few useful components here, for a more complete list see https://awesome-go.com.
