@@ -126,21 +126,15 @@ VS Code'da Go programlarınızı debug yapılandırması ve çalıştırma konus
 
 ## Go Linting
 
-An improvement over the default linter can be configured using [GolangCI-Lint](https://golangci-lint.run).
-
-This can be installed as follows:
-
-```sh
-brew install golangci/tap/golangci-lint
-```
+Varolan linter'ı [GolangCI-Lint](https://golangci-lint.run) kullanarak yapılandırabilirsiniz, GolangCI-Lint'ı yüklemek için [buraya](https://golangci-lint.run/usage/install/) bakabilirsiniz.
 
 ## Refactoring ve araçlarınız
 
 Bu kitabın en fazla değindiği refactoring'in önemidir.
 
-Araçlarınız, güvenle içinde daha büyük refactoringler yapmanıza yardımcı olur.
+Araçlarınız, güven içinde daha büyük bir parçaya etki eden refactoringler yapmanıza yardımcı olur.
 
-Bir kaç tuş dokunuşu ile aşağıdakileri editörunuzde(örn: VS Code) gerçekleştirecek kadar aşina olmalısınız
+Editörunuze(örn: VS Code), bir kaç tuş dokunuşu ile aşağıdakileri gerçekleştirecek kadar aşina olmalısınız:
 
 - **Extract/Inline variable**. Being able to take magic values and give them a name lets you simplify your code quickly
 - **Extract method/function**. It is vital to be able to take a section of code and extract functions/methods
