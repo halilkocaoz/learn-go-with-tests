@@ -16,19 +16,19 @@
 * Go programlama dili TDD öğrenmek için iyi bir dil, çünkü öğrenmek ve test yazmak için basit bir programlama dili.
 * Bu seri ardından, Go'da iyi test edilmiş sistemler yazacağınızdan emin olabilirsiniz.
 
-## Background
+## Kısaca quii'nin önceden yaptıkları
 
-I have some experience introducing Go to development teams and have tried different approaches as to how to grow a team from some people curious about Go into highly effective writers of Go systems.
+Go programlama dilini, yazılım ekiplerini tanıtma konusunda biraz deneyimim var ve Go'yu merak eden bazı kişilerden, Go sistemlerinin son derece etkili yazılımcılarına dönüştürülecek bir ekibin nasıl büyütüleceği konusunda farklı yaklaşımlar denedim.
 
-### What didn't work
+### Ne işe yaramadı
 
-#### Read _the_ book
+#### Kitap okumak
 
-An approach we tried was to take [the blue book](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) and every week discuss the next chapter along with the exercises.
+Denediğimiz yaklaşımlardan biri [mavi kitap](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)'ı okumak ve her hafta alıştırmalarla birlikte bir sonraki bölümünü tartışmaktı.
 
-I love this book but it requires a high level of commitment. The book is very detailed in explaining concepts, which is obviously great but it means that the progress is slow and steady - this is not for everyone.
+Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerliyor ve bu herkes için iyi uygun değil.
 
-I found that whilst a small number of people would read chapter X and do the exercises, many people didn't.
+Bir çok insan herhangi bir bölümü okuyup araştırmaları yapmadan geçiyordu.
 
 #### Solve some problems
 
