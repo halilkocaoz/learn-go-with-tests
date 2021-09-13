@@ -15,6 +15,7 @@
 
 ## Translations
 
+- [Türkçe](https://halilkocaoz.gitbook.io/go-programlama-dilini-ogren/)
 - [中文](https://studygolang.gitbook.io/learn-go-with-tests)
 - [Português](https://larien.gitbook.io/aprenda-go-com-testes/)
 - [日本語](https://andmorefine.gitbook.io/learn-go-with-tests/)
