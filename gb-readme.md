@@ -24,7 +24,7 @@ Go programlama dilini, yazılım ekiplerini tanıtma konusunda biraz deneyimim v
 
 #### Mavi kitabı okumak
 
-Denediğimiz yaklaşımlardan biri [mavi kitap](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440)'ı okumak ve her hafta alıştırmalarla birlikte bir sonraki bölümünü tartışmaktı.
+Denediğimiz yaklaşımlardan biri [mavi kitabı](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) okumak ve her hafta alıştırmalarla birlikte bir sonraki bölümünü tartışmaktı.
 
 Bu kitabı seviyorum ama gerçek anlamda bir kararlılık göstermeniz gerekiyor. Kitap kavramları açıklarken çok ayrıntılı, bu harika bir şey ama süreç yavaş ve istikrarlı bir şekilde ilerliyor ve bu herkes için iyi, uygun değil.
 
