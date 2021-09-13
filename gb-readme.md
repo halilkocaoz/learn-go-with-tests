@@ -48,7 +48,7 @@ Bu bana gitar öğrenmeye çalışırken, gam pratiği yapmayı andırdı.
 
 Ne kadar artist olursanız olun, temelleri bilmeden ve mekaniklere çalışmadan iyi müzik yapamazsınız.
 
-### Benim için işe yarıyan nedir
+### Benim için işe yarayan nedir
 
 Yeni bir programlama dili öğrenirken, genellikle REPL(Read-eval-print loop)'ı ile başlarım, en sonundaysa daha fazla yapıya ihtiyacım olur.
 
