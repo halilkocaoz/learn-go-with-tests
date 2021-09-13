@@ -2,7 +2,7 @@
 
 [**You can find all the code here**](https://github.com/quii/learn-go-with-tests/tree/main/q-and-a/http-handlers-revisited)
 
-This book already has a chapter on [testing a HTTP handler](../build-an-application/http-server.md) but this will feature a broader discussion on designing them, so they are simple to test.
+This book already has a chapter on [testing a HTTP handler](../turkish/http-server.md) but this will feature a broader discussion on designing them, so they are simple to test.
 
 We'll take a look at a real example and how we can improve how it's designed by applying principles such as single responsibility principle and separation of concerns. These principles can be realised by using [interfaces](../go-fundamentals/structs-methods-and-interfaces.md) and [dependency injection](../go-fundamentals/dependency-injection.md). By doing this we'll show how testing handlers is actually quite trivial.
 
@@ -241,7 +241,7 @@ Our `RegisterUser` method matches the shape of `http.HandlerFunc` so we're good 
 
 Interfaces are a fantastic way to ensure our `HTTP` concerns are decoupled from any specific implementation; we can just call the method on the dependency, and we don't have to care _how_ a user gets registered.
 
-If you wish to explore this approach in more detail following TDD read the [Dependency Injection](../go-fundamentals/dependency-injection.md) chapter and the [HTTP Server chapter of the "Build an application" section](../build-an-application/http-server.md).
+If you wish to explore this approach in more detail following TDD read the [Dependency Injection](../go-fundamentals/dependency-injection.md) chapter and the [HTTP Server chapter of the "Build an application" section](../turkish/http-server.md).
 
 Now that we've decoupled ourselves from any specific implementation detail around registration writing the code for our handler is straightforward and follows the responsibilities described earlier.
 
