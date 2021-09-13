@@ -1,4 +1,4 @@
-# Introduction
+# Giriş
 
 ![](.gitbook/assets/red-green-blue-gophers-smaller.png)
 

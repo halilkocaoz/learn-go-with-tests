@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Introduction](gb-readme.md)
+* [Giriş](gb-readme.md)
 
 ## Go fundamentals
 
