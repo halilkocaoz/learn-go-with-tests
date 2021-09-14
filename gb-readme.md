@@ -6,7 +6,7 @@
 
 [İngilizce versiyonu](https://quii.gitbook.io/learn-go-with-tests/)
 
-## Bu fikrin anasahibini destekleyebilirsiniz
+## Bu fikrin sahibi quii'i destekleyebilirsiniz
 
 * [Twitter @quii](https://twitter.com/quii)
 * [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
