@@ -68,14 +68,15 @@ func TestHello(t *testing.T) {
 
 ## Go moduleleri?
 
-The next step is to run the tests. Enter `go test` in your terminal. If the tests pass, then you are probably using an earlier version of Go. However, if you are using Go 1.16 or later, then the tests will likely not run at all. Instead, you will see an error message like this in the terminal:
+Bir sonraki yapacağımız şey, yazdığımız test kodunu çalıştırmak. Terminalde `go test` komutunu çalıştırın. Eğer testler geçerse, büyük ihtimalle Go'nun eski bir sürümünü kullanıyorsun. 1.16 veya üstü bir versiyon kullanıyorsanız testler çalışmayacaktır ve terminalde şöyle bir hata göreceksiniz
 
 ```shell
 $ go test
 go: cannot find main module; see 'go help modules'
 ```
 
-What's the problem? In a word, [modules](https://blog.golang.org/go116-module-changes). Luckily, the problem is easy to fix. Enter `go mod init hello` in your terminal. That will create a new file with the following contents:
+Problem nedir? Tek kelime ile, [module](https://blog.golang.org/go116-module-changes). Şanslısın ki, bu problemi çözmek oldukça kolay.
+Terminalde `go mod init hello` komutunu çalıştırın ve bu komut `go.mod` dosyasını şu içeriklerle oluşturacaktır
 
 ```go
 module hello
@@ -89,37 +90,38 @@ In future chapters you will need to run `go mod init SOMENAME` in each new folde
 
 ## Tekrardan test etme
 
-Run `go test` in your terminal. It should've passed! Just to check, try deliberately breaking the test by changing the `want` string.
+Terminalde `go test` komutunu tekrardan çalıştırın. Testleri geçmiş olmalı. `want` string'inin içerisindeki değeri değiştirerek kasıtlı olarak testlerin başarısız olmasını deneyebilirsiniz.
 
 Notice how you have not had to pick between multiple testing frameworks and then figure out how to install. Everything you need is built in to the language and the syntax is the same as the rest of the code you will write.
 
 ### Test yazma
 
-Writing a test is just like writing a function, with a few rules
+Test yazmak, bir kaç kurala dayanarak bir fonksiyon yazmaktan farksızdır.
 
-* It needs to be in a file with a name like `xxx_test.go`
-* The test function must start with the word `Test`
-* The test function takes one argument only `t *testing.T`
-* In order to use the `*testing.T` type, you need to `import "testing"`, like we did with `fmt` in the other file
+*  `xxx_test.go` gibi adlandırılmış bir .go dosyasının içinde bulunmalıdır
+* Test fonksiyonlarının isimlendirmesi, `Test` keywordu ile başlamalıdır
+* Test fonksiyonları sadece bir argüman alır ve oda `t *testing.T`'dır.
+* `*testing.T` tipini kullanabilmek için, "testing" paketini eklemelisin `import "testing"`
 
-For now, it's enough to know that your `t` of type `*testing.T` is your "hook" into the testing framework so you can do things like `t.Fail()` when you want to fail.
 
-We've covered some new topics:
+Şimdilik, `*testing.T` tipindeki `t` argümanınızın test çerçevesine bir "hook" olduğunu bilmeniz yeterli. Testi başarısız kılmak için, `t.Fail()` gibi metotları kullanabilirsin.
+
+Bazı yeni konulara değindik
 
 #### `if`
-If statements in Go are very much like other programming languages.
+Go dilindeki if ifadeleri, diğer dillere çok benzer.
 
 #### Variable tanımlama
 
-We're declaring some variables with the syntax `varName := value`, which lets us re-use some values in our test for readability.
+`varName := value` söz dizimi ile, tekrar kullanabildiğimiz ve okunabilirliği arttırmak için bazı variablelar tanımladık.
 
 #### `t.Errorf`
 
-We are calling the `Errorf` _method_ on our `t` which will print out a message and fail the test. The `f` stands for format which allows us to build a string with values inserted into the placeholder values `%q`. When you made the test fail it should be clear how it works.
+`t` üzerinde `Errorf` _method_ çağırıyoruz, bu metot mesaj yazdıracak ve testi başarsız kılacak. 'f', '%q' gibi yer tutucular ile yer tutucuların yerine gelecek yeni bir string oluşturmamıza izin veren biçimi ifade eder. Testin başarısız olmasını sağladınız da hangi sebeplerden dolayı başarısız olduğunu açıkca belirtmeniz gerekir.
 
-You can read more about the placeholder strings in the [fmt go doc](https://golang.org/pkg/fmt/#hdr-Printing). For tests `%q` is very useful as it wraps your values in double quotes.
+Yer tutucu stringler ile alakalı daha ayrıntılı bilgiye [fmt go](https://golang.org/pkg/fmt/#hdr-Printing) belgesinden ulaşabilirsiniz. `q`, testler için oldukça kullanışlı bir yer tutucudur.
 
-We will later explore the difference between methods and functions.
+`Errorf` gibi metotlar ve bizim yazdıklarımız gibi fonksiyonlar arasındaki farka ileride değineceğiz.
 
 ### Go doc
 
