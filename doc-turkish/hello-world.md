@@ -29,9 +29,9 @@ Go'da bir program yazdığınızda, içinde bir `main` fonksiyon'u olan bir `mai
 
 ## Nasıl test edilir
 
-How do you test this? It is good to separate your "domain" code from the outside world \(side-effects\). The `fmt.Println` is a side effect \(printing to stdout\) and the string we send in is our domain.
+Bunu nasıl test edersin? "Domain" kodunuzu dış dünyanın vereceği yan etkilerden ayırarak başlayabiliriz. `fmt.Println` bizim yazmadığımız bir fonksiyon ve dış dünyadan gelen bir kod, "Hello World" stringini göndermek ise domain(bizim yazdığımız) kod.
 
-So let's separate these concerns so it's easier to test
+Bunları birbirinden ayıralım ve test edilebilir olsun
 
 ```go
 package main
@@ -47,9 +47,9 @@ func main() {
 }
 ```
 
-We have created a new function again with `func` but this time we've added another keyword `string` in the definition. This means this function returns a `string`.
+`func` ile başlayan yeni bir fonksiyon oluşturduk ama bu sefer tanımlarken `string` keywordunu de kullandık. Yaptığımız tanım ile bu yeni fonksiyonun `string` bir değer döneceğini belirttik.
 
-Now create a new file called `hello_test.go` where we are going to write a test for our `Hello` function
+Şimdiyse, `hello_test.go` adında bir dosya oluşturalım ve bu dosya ile `hello.go` dosyasının içindeki `func Hello()` fonksiyonunu test edelim.
 
 ```go
 package main
