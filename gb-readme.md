@@ -12,6 +12,12 @@
 * [quii'e bir kahve ısmarla](https://www.buymeacoffee.com/quii)
 * [quii'e GitHub'da sponsor ol](https://github.com/sponsors/quii)
 
+## Türkçe çeviriye katkı sağlayanlar
+
+- [@bariscanyilmaz](https://github.com/bariscanyilmaz)
+- [@halilkocaoz](https://github.com/halilkocaoz)
+
+
 ## Go ile test-driven development öğrenin
 
 * Go programlama dilini test yazarak keşfedin.
