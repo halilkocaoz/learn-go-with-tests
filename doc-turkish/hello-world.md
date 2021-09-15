@@ -1,6 +1,6 @@
 # Hello, World
 
-**[Bu bölümde geçen geçen bütün kodlara buradan ulaşabilirsin](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
+**[Bu bölümde geçen bütün kodlara buradan ulaşabilirsin](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
 
 Yeni bir programlama dilinde, ilk programınızın [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program) olması artık gelenekseldir.
 
@@ -21,11 +21,11 @@ func main() {
 
 ## Nasıl çalışıyor
 
-Go'da bir program yazdığınızda, içinde bir `main` fonksiyon'u olan bir `main` paketine sahip olacaksınız. Paketler, ilgili Go kodunu birlikte gruplandırmanın yoludur.
+Go'da bir program yazmaya başladığınızda, içinde `main` fonksiyonu olan bir `main` paketine sahip olacaksınız. Paketler, ilgili Go kodunu birlikte gruplandırmanın yoludur.
 
 `func` anahtar kelimesi, adı ve gövdesi olan bir fonksiyon tanımlamınızı sağlar.
 
-`import "fmt"` ile ekrana yazdırma fonksiyonunu olan `Println`'ı içeren bir paketi içe aktarıyoruz.
+`import "fmt"` ile ekrana yazdırma fonksiyonu olan `Println`'ı içeren bir paketi içe aktarıyoruz.
 
 ## Nasıl test edilir
 
@@ -84,15 +84,15 @@ module hello
 go 1.16
 ```
 
-This file tells the `go` tools essential information about your code. If you planned to distribute your application, you would include where the code was available for download as well as information about dependencies. For now, your module file is minimal, and you can leave it that way. To read more about modules, [you can check out the reference in the Golang documentation](https://golang.org/doc/modules/gomod-ref). We can get back to testing and learning Go now since the tests should run, even on Go 1.16.
+Bu dosya, `go` tarafından kullanılan araçlara(örn: cli) kodunuzla alakalı temel bilgileri verir. Yazdığınız kodu veya uygulamayı dağıtmayı düşünüyorsanız kodun indirilebileceği yerleri ve bağımlılıklarını burada bildirirsiniz. Şimdilik module dosyanız minimum düzeyde ve bu şekilde olması normal. Moduller hakkında daha fazla bilgi edinmek için [bu referansa](https://golang.org/doc/modules/gomod-ref) bakabilirsin. Şimdi test etmeye ve Go öğrenmeye dönebiliriz.
 
-In future chapters you will need to run `go mod init SOMENAME` in each new folder before running commands like `go test` or `go build`.
+Sonraki bölümlerde, `go test` veya `go build` gibi go cli komutlarını çalıştırmadan önce her yeni projeniz için `go mod init SOMENAME` komutunu çalıştırmanız gerekecek.
 
 ## Tekrardan test etme
 
-Terminalde `go test` komutunu tekrardan çalıştırın. Testleri geçmiş olmalı. `want` string'inin içerisindeki değeri değiştirerek kasıtlı olarak testlerin başarısız olmasını deneyebilirsiniz.
+Terminalde `go test` komutunu tekrardan çalıştırın. Testleri geçmiş olmalı. `want` string'inin içerisindeki değeri değiştirerek kasıtlı olarak testlerin başarısız olmasını sağlayabilirsiniz.
 
-Notice how you have not had to pick between multiple testing frameworks and then figure out how to install. Everything you need is built in to the language and the syntax is the same as the rest of the code you will write.
+Şunu göz ardı etmeyin, birden çok test çatısı arasından bir seçim yapmanıza veya nasıl kurulacağını öğrenmenize gerek yoktur. İhtiyacınız olan her şey dilde yerleşik olarak bulunur ve test yazarken kullandığınız sözdizimi(syntax) yazacağınız kodun geri kalanında olduğu gibidir.
 
 ### Test yazmak
 

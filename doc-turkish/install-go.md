@@ -40,7 +40,7 @@ Sonraysa APT'nin gerekli güncellemeleri yapmasını sağlayalım,
 sudo apt update
 ```
 
-Şimdiyse Golang'ı yükleyebilirsiniz
+Şimdiyse, Go programlama dilini yükleyebilirsiniz
 
 ```sh
 sudo apt install golang-go
