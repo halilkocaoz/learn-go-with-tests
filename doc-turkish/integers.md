@@ -4,7 +4,7 @@
 
 Integerlar beklediğiniz gibi çalışır.Bir şeyler denemek için `Add` fonksiyonu yazalım.`adder_test.go` adında test dosyası oluşturalım ve bu kodu yazalım.
 
-**Not:** Go kaynak dosyaları her dizinde sadece bir tane `package` a sahip olabilir, dosaylarınızı ayrı ayrı düzenlediğinizden emin olun. [Burada bunu ile ilgili bir açıklama var.](https://dave.cheney.net/2014/12/01/five-suggestions-for-setting-up-a-go-project)
+**Not:** Go kaynak dosyaları her dizinde sadece bir tane `package` a sahip olabilir, dosyalarınızı ayrı ayrı düzenlediğinizden emin olun. [Burada bunu ile ilgili bir açıklama var.](https://dave.cheney.net/2014/12/01/five-suggestions-for-setting-up-a-go-project)
 
 ## İlk olarak test yaz
 
@@ -87,7 +87,7 @@ Var olan kodda iyileştirme yapabileceğimiz bir şey yok.
 
 Dönüş argümanını adlandırarak bunun belgelerde ve aynı zamanda çoğu geliştiricinin editöründe nasıl göründüğünü daha önce keşfetmiştik.
 
-Bu harika çünkü yazdığınız kodun kullanılabilirliğine yardımcı oluyor. Kullanıcı sadece kodunuzun imzasına ve dokümanına bakarak kullanımını anlayabilir.
+Bu harika çünkü yazdığınız kodun kullanılabilirliğine yardımcı oluyor. Kullanıcı sadece kodunuzun imzasına([type signature](https://en.wikipedia.org/wiki/Type_signature)) ve dokümanına bakarak kullanımını anlayabilir.
 
 Fonksiyonunuza yorum ekleyerek onlara doküman ekleyebilirsiniz. Standart kütüphanede olduğu gibi bunlar da Go Doc'ta gözükecektir.
 
@@ -100,7 +100,7 @@ func Add(x, y int) int {
 
 ### Örnekler
 
-Gerçekten ekstra mesafe katetmek istiyorsanız [örnekleri](https://blog.golang.org/examples) yapabilirsiniz. Standart kütühanenin dokümanında bir çok örnek bulabilirsiniz.
+Gerçekten ekstra mesafe katetmek istiyorsanız [örnekleri](https://blog.golang.org/examples) yapabilirsiniz. Standart kütüphanenin dokümanında bir çok örnek bulabilirsiniz.
 
 Codebasein dışında kalan, readme dosyası gibi dosyaların kod örnekleri kontrol edilmedikleri için eski olmuş olabilir ve var olan kod ile kıyaslandığında yanlış olabilirler.
 
