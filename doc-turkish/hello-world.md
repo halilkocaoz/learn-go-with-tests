@@ -94,7 +94,7 @@ Terminalde `go test` komutunu tekrardan çalıştırın. Testleri geçmiş olmal
 
 Notice how you have not had to pick between multiple testing frameworks and then figure out how to install. Everything you need is built in to the language and the syntax is the same as the rest of the code you will write.
 
-### Test yazma
+### Test yazmak
 
 Test yazmak, bir kaç kurala dayanarak bir fonksiyon yazmaktan farksızdır.
 
@@ -235,7 +235,7 @@ Constants should improve performance of your application as it saves you creatin
 
 To be clear, the performance boost is incredibly negligible for this example! But it's worth thinking about creating constants to capture the meaning of values and sometimes to aid performance.
 
-## Hello, world... tekrardan
+## Tekrardan "Hello, world"
 
 The next requirement is when our function is called with an empty string it defaults to printing "Hello, World", rather than "Hello, ".
 
