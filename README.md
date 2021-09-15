@@ -21,6 +21,11 @@
 - [日本語](https://andmorefine.gitbook.io/learn-go-with-tests/)
 - [한국어](https://miryang.gitbook.io/learn-go-with-tests/)
 
+## Turkish translation contributors
+
+- [@bariscanyilmaz](https://github.com/bariscanyilmaz)
+- [@halilkocaoz](https://github.com/halilkocaoz)
+
 ## Support me
 
 I am proud to offer this resource for free, but if you wish to give some appreciation:
