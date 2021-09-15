@@ -1,12 +1,12 @@
-# Integers
+# Integerlar
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/integers)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/integers)**
 
-Integers work as you would expect. Let's write an `Add` function to try things out. Create a test file called `adder_test.go` and write this code.
+Integerlar beklediğiniz gibi çalışır.Bir şeyler denemek için `Add` fonksiyonu yazalım.`adder_test.go` adında test dosyası oluşturalım ve bu kodu yazalım.
 
-**Note:** Go source files can only have one `package` per directory, make sure that your files are organised separately. [Here is a good explanation on this.](https://dave.cheney.net/2014/12/01/five-suggestions-for-setting-up-a-go-project)
+**Not:** Go kaynak dosyaları her dizinde sadece bir tane `package` a sahip olabilir, dosaylarınızı ayrı ayrı düzenlediğinizden emin olun. [Burada bunu ile ilgili bir açıklama var.](https://dave.cheney.net/2014/12/01/five-suggestions-for-setting-up-a-go-project)
 
-## Write the test first
+## İlk olarak test yaz
 
 ```go
 package integers
@@ -23,21 +23,21 @@ func TestAdder(t *testing.T) {
 }
 ```
 
-You will notice that we're using `%d` as our format strings rather than `%q`. That's because we want it to print an integer rather than a string.
+Stringleri formatlarken `%q` yerine `%d` kullandığımızı farketmişsinizdir. Bunun sebebi string yerine integer yazdırmak istememiz.
 
-Also note that we are no longer using the main package, instead we've defined a package named `integers`, as the name suggests this will group functions for working with integers such as `Add`.
+Ayrıca `main` paketini kullanmadığımızı da unutmayın, bunu yerine adından da anlaşılacağı üzere `integers` adında bir paket tanımladık. Integerlar ile çalışırken `Add` gibi fonksiyonları burada gruplandıracağız.
 
-## Try and run the test
+## Dene ve testi çalıştır
 
-Run the test `go test`
+Testi çalıştır `go test`
 
-Inspect the compilation error
+Derleme hatasını incele
 
 `./adder_test.go:6:9: undefined: Add`
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-Write enough code to satisfy the compiler _and that's all_ - remember we want to check that our tests fail for the correct reason.
+Derleyici hata vermeyecek kadar kod yaz. Testlerimizin doğru nedenle başarısız olup olmadığını kontrol etmek istediğimizi unutma.
 
 ```go
 package integers
@@ -47,17 +47,17 @@ func Add(x, y int) int {
 }
 ```
 
-When you have more than one argument of the same type \(in our case two integers\) rather than having `(x int, y int)` you can shorten it to `(x, y int)`.
+Aynı tipte iki tane argüman olduğunda (bizim durumumuzda iki integer) `(x int, y int)` yazmak yerine `(x, y int)` yazarak kısaltabilirsin.
 
-Now run the tests and we should be happy that the test is correctly reporting what is wrong.
+Şimdi testleri çalıştır ve testin neyin yanlış olduğunu doğru şekilde raporladığını görün.
 
 `adder_test.go:10: expected '4' but got '0'`
 
-If you have noticed we learnt about _named return value_ in the [last](hello-world.md#one...last...refactor?) section but aren't using the same here. It should generally be used when the meaning of the result isn't clear from context, in our case it's pretty much clear that `Add` function will add the parameters. You can refer [this](https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters) wiki for more details.
+Farkettiyseniz [son](hello-world.md#one...last...refactor?) bölümde _named return value_ öğrenmiştik ama burada aynısını kullanmadık. Bu durum genelde bağlamın sonucu anlaşılır olmadığında kullanılmalıdır. Bizim durumumuzda ise `Add` fonksiyonunun parametrelerini toplayacağı oldukça açıktır. Daha fazla detay için [buraya](https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters) bakabilirsiniz.
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
-In the strictest sense of TDD we should now write the _minimal amount of code to make the test pass_. A pedantic programmer may do this
+TDD'nin tam manası ile _testi geçecek kadar minimum kod_ yazmalıyız. Belki ukala bir programcı bu şekilde yapardı.
 
 ```go
 func Add(x, y int) int {
@@ -65,13 +65,13 @@ func Add(x, y int) int {
 }
 ```
 
-Ah hah! Foiled again, TDD is a sham right?
+Aha! Tekrar engellendi, TDD sahtekarlık değil mi?
 
-We could write another test, with some different numbers to force that test to fail but that feels like [a game of cat and mouse](https://en.m.wikipedia.org/wiki/Cat_and_mouse).
+Testin başarısız olması için farklı numaralarla başka test yazabiliriz ancak bu [kedi fare oyununa](https://en.m.wikipedia.org/wiki/Cat_and_mouse) benzeyecek.
 
-Once we're more familiar with Go's syntax I will introduce a technique called *"Property Based Testing"*, which would stop annoying developers and help you find bugs.
+Go'nun söz dizimine aşina olduğumuzda geliştiricileri sıkmayan ve bug bulmalarına yardımcı olan _"Property Based Testing"_ isimli tekniği anlatacağım.
 
-For now, let's fix it properly
+Şimdilik düzgünce yapalım
 
 ```go
 func Add(x, y int) int {
@@ -79,17 +79,17 @@ func Add(x, y int) int {
 }
 ```
 
-If you re-run the tests they should pass.
+Eğer testi çalıştırırsanız geçecektir.
 
 ## Refactor
 
-There's not a lot in the _actual_ code we can really improve on here.
+Var olan kodda iyileştirme yapabileceğimiz bir şey yok.
 
-We explored earlier how by naming the return argument it appears in the documentation but also in most developer's text editors.
+Dönüş argümanını adlandırarak bunun belgelerde ve aynı zamanda çoğu geliştiricinin editöründe nasıl göründüğünü daha önce keşfetmiştik.
 
-This is great because it aids the usability of code you are writing. It is preferable that a user can understand the usage of your code by just looking at the type signature and documentation.
+Bu harika çünkü yazdığınız kodun kullanılabilirliğine yardımcı oluyor. Kullanıcı sadece kodunuzun imzasına ve dokümanına bakarak kullanımını anlayabilir.
 
-You can add documentation to functions with comments, and these will appear in Go Doc just like when you look at the standard library's documentation.
+Fonksiyonunuza yorum ekleyerek onlara doküman ekleyebilirsiniz. Standart kütüphanede olduğu gibi bunlar da Go Doc'ta gözükecektir.
 
 ```go
 // Add takes two integers and returns the sum of them.
@@ -98,17 +98,17 @@ func Add(x, y int) int {
 }
 ```
 
-### Examples
+### Örnekler
 
-If you really want to go the extra mile you can make [examples](https://blog.golang.org/examples). You will find a lot of examples in the documentation of the standard library.
+Gerçekten ekstra mesafe katetmek istiyorsanız [örnekleri](https://blog.golang.org/examples) yapabilirsiniz. Standart kütühanenin dokümanında bir çok örnek bulabilirsiniz.
 
-Often code examples that can be found outside the codebase, such as a readme file often become out of date and incorrect compared to the actual code because they don't get checked.
+Codebasein dışında kalan, readme dosyası gibi dosyaların kod örnekleri kontrol edilmedikleri için eski olmuş olabilir ve var olan kod ile kıyaslandığında yanlış olabilirler.
 
-Go examples are executed just like tests so you can be confident examples reflect what the code actually does.
+Go örnekleri tıpkı testler gibi yürütülür, böylece örneklerin kodun gerçekte ne yaptığını yansıttığından emin olabilirsiniz.
 
-Examples are compiled \(and optionally executed\) as part of a package's test suite.
+Örnekler derlenir ve isteğe bağlı olarak bir paketin test takımının parçası olarak çalıştırılır.
 
-As with typical tests, examples are functions that reside in a package's `_test.go` files. Add the following `ExampleAdd` function to the `adder_test.go` file.
+Tipik testlerde olduğu gibi örnekler paketin `_test.go` dosyasında olan fonksiyonlardır. `ExampleAdd` fonksiyonunu `adder_test.go` dosyasına ekleyin.
 
 ```go
 func ExampleAdd() {
@@ -118,11 +118,11 @@ func ExampleAdd() {
 }
 ```
 
-(If your editor doesn't automatically import packages for you, the compilation step will fail because you will be missing `import "fmt"` in `adder_test.go`. It is strongly recommended you research how to have these kind of errors fixed for you automatically in whatever editor you are using.)
+(Eğer editörünüz sizin yerinize paketleri otomatik olarak eklemiyorsa, derleme adımı çalışmayacaktır çünkü `import "fmt"` kodu `adder_test.go` dosyası içerisnde eksiktir. Hangi editörü kullanırsanız kullanın, bu tür hataların sizin için otomatik olarak nasıl düzeltileceğini araştırmanız şiddetle tavsiye edilir.)
 
-If your code changes so that the example is no longer valid, your build will fail.
+Eğer kodunuz geçerli olmayacak şekilde değişirse, derlemeniz başarısız olacaktır.
 
-Running the package's test suite, we can see the example function is executed with no further arrangement from us:
+Paketin testini çalıştırırsak, örnek fonksiyonun bizden başka bir düzenleme yapılmasına gerek kalmadan çalıştığını görebiliriz:
 
 ```bash
 $ go test -v
@@ -132,21 +132,21 @@ $ go test -v
 --- PASS: ExampleAdd (0.00s)
 ```
 
-Please note that the example function will not be executed if you remove the comment `// Output: 6`. Although the function will be compiled, it won't be executed.
+Lütfen not edin, eğer `// Output: 6` yorumunu kaldırırsak örnek fonksiyon çalışmayacaktır. Fonksiyon derlenecektir ancak çalışmayacaktır.
 
-By adding this code the example will appear in the documentation inside `godoc`, making your code even more accessible.
+Bu kodu ekleyerek örneğimiz `godoc` içerisindeki dokümanda görünecek ve kodumuz daha da erişilebilir hale gelecektir.
 
-To try this out, run `godoc -http=:6060` and navigate to `http://localhost:6060/pkg/`
+Bunu denemek için `godoc -http=:6060` komutunu çalıştırın ve `http://localhost:6060/pkg/` adresini ziyaret edin.
 
-Inside here you'll see a list of all the packages in your `$GOPATH`, so assuming you wrote this code in somewhere like `$GOPATH/src/github.com/{your_id}` you'll be able to find your example documentation.
+Burada `$GOPATH` içerisindeki tüm paktelerin listesini göreceksiniz, bu kodu `$GOPATH/src/github.com/{your_id}` gibi bir yere yazdığınızı varsayarsak, örnek dokümanlarınızı bulabileceksiniz.
 
-If you publish your code with examples to a public URL, you can share the documentation of your code at [pkg.go.dev](https://pkg.go.dev/). For example, [here](https://pkg.go.dev/github.com/quii/learn-go-with-tests/integers/v2) is the finalised API for this chapter. This web interface allows you to search for documentation of standard library packages and third-party packages.
+Eğer kodunuzu örnekler ile açık bir adreste paylaşırsanız, kodunuzun dokümanını [pkg.go.dev](https://pkg.go.dev/) adresinde paylaşabilirsiniz. Örneğin bu bölüm için nihai API [burada](https://pkg.go.dev/github.com/quii/learn-go-with-tests/integers/v2). Bu web arayüzü standart kütüphane ve 3. parti kütüphanelerinin dokümanını incelemenize olanak sağlar.
 
-## Wrapping up
+## Özetlersek
 
-What we have covered:
+Ele alınanlar:
 
-* More practice of the TDD workflow
-* Integers, addition
-* Writing better documentation so users of our code can understand its usage quickly
-* Examples of how to use our code, which are checked as part of our tests
+-   TDD iş akışının daha fazla uygulanması
+-   Integerlar, ekleme
+-   Kodumuzun kullanıcılar tarafından hızlı bir şekilde anlayabilmeleri için daha iyi doküman yazmak
+-   Testlerimizin bir parçası olarak kontrol edilen kodumuzu nasıl kullanacağımıza dair örnekler
