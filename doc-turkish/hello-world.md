@@ -113,7 +113,7 @@ Go dilindeki if ifadeleri, diğer dillere çok benzer.
 
 #### Variable tanımlama
 
-`varName := value` söz dizimi ile, tekrar kullanabildiğimiz ve okunabilirliği arttırmak için bazı variablelar tanımladık.
+`varName := value` söz dizimi ile tekrar kullanabildiğimiz ve okunabilirliği arttırmak için bazı variablelar tanımladık.
 
 #### `t.Errorf`
 
@@ -125,21 +125,21 @@ Yer tutucu stringler ile alakalı daha ayrıntılı bilgiye [fmt go](https://gol
 
 ### Go doc
 
-Another quality of life feature of Go is the documentation. You can launch the docs locally by running `godoc -http :8000`. If you go to [localhost:8000/pkg](http://localhost:8000/pkg) you will see all the packages installed on your system.
+Another quality of life feature of Go is the documentation. `godoc -http :8000` komutunu çalıştararak dökümanlara yerelde göz atabilirsiniz. [localhost:8000/pkg](http://localhost:8000/pkg) adresine gittiğinizde, sisteminizde yüklü bütün paketleri göreceksiniz.
 
-The vast majority of the standard library has excellent documentation with examples. Navigating to [http://localhost:8000/pkg/testing/](http://localhost:8000/pkg/testing/) would be worthwhile to see what's available to you.
+Standart kütüphanelerin büyük bir çoğunluğu örneklerle açıklanmış mükemmel dokümantasyona sahiptir. [http://localhost:8000/pkg/testing/](http://localhost:8000/pkg/testing/) adresine giderek Testing konusunda neler yapabileceğinizi görmek faydalı olacaktır.
 
-If you don't have `godoc` command, then maybe you are using the newer version of Go (1.14 or later) which is [no longer including `godoc`](https://golang.org/doc/go1.14#godoc). You can manually install it with `go get golang.org/x/tools/cmd/godoc`.
+Eğer `godoc` komutuna ulaşamıyorsanız, `go get golang.org/x/tools/cmd/godoc` yazarak edinebilirsiniz.
 
 ### Hello, SEN
 
-Now that we have a test we can iterate on our software safely.
+Artık bir testimiz olduğuna göre, yazılımımızı güven içinde yineleyip, geliştirebiliriz.
 
-In the last example we wrote the test _after_ the code had been written just so you could get an example of how to write a test and declare a function. From this point on we will be _writing tests first_.
+En son örnekte, testin nasıl yazılacağına ve bir fonksiyon bildireceğine dair bir örnek yapmak için ilk önce kodumuzu yazıp, sonra o koda test kodu yazdık. Artık, ilk önce testimizi yazacağız.
 
-Our next requirement is to let us specify the recipient of the greeting.
+Şimdiki ihtiyacımız, selamlamayı spesifik olarak kime yapacağını belirlemesini sağlamak.
 
-Let's start by capturing these requirements in a test. This is basic test driven development and allows us to make sure our test is _actually_ testing what we want. When you retrospectively write tests there is the risk that your test may continue to pass even if the code doesn't work as intended.
+Bu ihtiyacımızı bir test yazarak başlayalım. Bu temel Test Driven Development yaklaşımıdır ve testinizin gerçekten istediğimiz şeyi test ettiğinden emin olmamızı sağlar. İlk önce kodu sonra o koda ait testi yazdığınızda, kod istendiği gibi çalışmasa bile testinizin geçmeye devam etme riski vardır.
 
 ```go
 package main
@@ -155,8 +155,7 @@ func TestHello(t *testing.T) {
 	}
 }
 ```
-
-Now run `go test`, you should have a compilation error
+`go test` komutunu çalıştırınca, bir derleme hatası almalısınız
 
 ```text
 ./hello_test.go:6:18: too many arguments in call to Hello
@@ -164,11 +163,11 @@ Now run `go test`, you should have a compilation error
     want ()
 ```
 
-When using a statically typed language like Go it is important to _listen to the compiler_. The compiler understands how your code should snap together and work so you don't have to.
+Go gibi statik olarak yazılmış bir programlama dili kullanırken _derleyiciye kulak vermek_ önemlidir. Derleyici(compiler) kodunuzun nasıl bir araya gelip çalışması gerektiğini anlar, böylece sizin bunu düşünmenize gerek kalmaz.
 
-In this case the compiler is telling you what you need to do to continue. We have to change our function `Hello` to accept an argument.
+Bu durumda, derleyici size ne yapmanız gerektiğini söylüyor. `Hello` fonksiyonunu değiştirmeliyiz ve bir argüman almasını sağlamalıyız.
 
-Edit the `Hello` function to accept an argument of type string
+`Hello` fonksiyonunu, string türünde bir argümanı kabul edecek şekilde düzenleyin.
 
 ```go
 func Hello(name string) string {
@@ -176,7 +175,7 @@ func Hello(name string) string {
 }
 ```
 
-If you try and run your tests again your `hello.go` will fail to compile because you're not passing an argument. Send in "world" to make it compile.
+Bunu yapar ve tekrardan testleri çalıştırırsanız, `hello.go` dosyası compile olmayacak. Bunu, `main` fonksiyonununda olan `Hello` fonksiyonunun kullanımını güncelleyerek çözebilirsin.
 
 ```go
 func main() {
@@ -184,15 +183,15 @@ func main() {
 }
 ```
 
-Now when you run your tests you should see something like
+Testlerinizi çalıştırdığınızda şöyle bir şey görmelisiniz.
 
 ```text
 hello_test.go:10: got 'Hello, world' want 'Hello, Chris''
 ```
 
-We finally have a compiling program but it is not meeting our requirements according to the test.
+Sonunda compile olan bir programımız var fakat bu program testte yazdığımız gereksinimleri karşılamıyor.
 
-Let's make the test pass by using the name argument and concatenate it with `Hello,`
+`Hello` fonksiyonun aldığı `name` argümanını `Hello,` ile birleştirerek kullanalım ve testi geçelim.
 
 ```go
 func Hello(name string) string {
@@ -200,7 +199,7 @@ func Hello(name string) string {
 }
 ```
 
-When you run the tests they should now pass. Normally as part of the TDD cycle we should now _refactor_.
+Testleri tekrar çalıştırdığınızda, geçmiş olmaları gerekir. Normalde Test Driven Development döngüsünün bir parçası olarak şimdi _refactor_ yapmalıyız.
 
 ### Source control ile ilgili bir not
 
