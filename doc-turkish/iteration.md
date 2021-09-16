@@ -61,7 +61,7 @@ func Repeat(character string) string {
 }
 ```
 
-C, Java veya JavaScript dillerinin aksine, for döngüsünün 3 bileşenini saran parantezler yoktur ve süslü parantezler `{ }` her zaman zorunludur. Muhtemelen şu an satırda ne olduğunu merak ediyorsunuz.
+C, Java veya JavaScript dillerinin aksine, for döngüsünün 3 bileşenini saran parantezler yoktur ve süslü parantezler `{ }` her zaman zorunludur. Muhtemelen şu satırda ne olduğunu merak ediyorsunuz.
 
 ```go
 	var repeated string
@@ -127,7 +127,7 @@ _NOT_ Benchmarklar varsayılan olarak ardışık çalışır.
 
 ## Alıştırmaları yap
 
-- Testi değiştir bu sayede çağıran kişi karakterin kaç kez tekrarlanacağını belirleyebilir sonradan kodu düzeltebilir
+- Testi değiştir, bu sayede çağıran kişi karakterin kaç kez tekrarlanacağını belirleyebilir ve sonradan kodu düzeltebilir
 - Fonksiyonunu dokümente etmek için `ExampleRepeat` yaz
 - [Strings](https://golang.org/pkg/strings) paketine bir göz atın. Yararlı olabileceğini düşündüğünüz fonksiyonları bulun ve burada yaptığımız gibi testler yazarak bunları deneyin. Standard kütüphaneyi öğrenmek için zaman ayırmak ileride gerçekten işe yarayacak.
 
@@ -135,4 +135,4 @@ _NOT_ Benchmarklar varsayılan olarak ardışık çalışır.
 
 -   Daha fazla TDD pratiği
 -   `for` öğrenildi
--   Benchmark (kıyaslama) nasıl yazıldığı öğrenildi
+-   Benchmarkın (kıyaslama) nasıl yazıldığı öğrenildi
