@@ -14,9 +14,8 @@
 
 ## Türkçe çeviriye katkı sağlayanlar
 
-- [@bariscanyilmaz](https://github.com/bariscanyilmaz)
-- [@halilkocaoz](https://github.com/halilkocaoz)
-
+* [@bariscanyilmaz](https://github.com/bariscanyilmaz)
+* [@halilkocaoz](https://github.com/halilkocaoz)
 
 ## Go ile test-driven development öğrenin
 
@@ -42,9 +41,7 @@ Bir çok insan herhangi bir bölümü okuyup araştırmaları yapmadan geçiyord
 
 Programlama egsersizleri(katalar) eğlenceli ama genellikle dili öğrenmekle sınırlıdır. Programlama egzersizlerini çözerken goroutinelerini kullanman pek olası değil.
 
-Bir diğer problemse, değişken seviyelerde coşkuya sahip olmak. Another problem is when you have varying levels of enthusiasm. Some people just learn way more of the language than others and when demonstrating what they have done end up confusing people with features the others are not familiar with.
-
-Bu öğrenme sürecinizin sistematik olarak düzene sokulmamış ve geçiçi olduğunu hissettirir.
+Bir diğer problemse, değişken seviyelerde coşkuya sahip olmak. Bazı insanlar, diğerlerinden daha iyi öğreniyor ve yaptıklarını, öğrendiklerini gösterirken diğer insanların aşina olmadığı şeylerden bahsederek, onların kafasını karıştırabiliyor. Bu gibi durumlarsa, öğrenme sürecinizin sistematik olarak düzene sokulmamış ve geçiçi olduğunu hissettiriyor.
 
 ### Neler işe yaradı
 
