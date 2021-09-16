@@ -6,8 +6,8 @@
 
 * [Go kurulumu](doc-turkish/install-go.md)
 * [Hello, World](doc-turkish/hello-world.md)
-* [Integers](doc-turkish/integers.md)
-* [Iteration](doc-turkish/iteration.md)
+* [Integerlar](doc-turkish/integers.md)
+* [Iterasyon](doc-turkish/iteration.md)
 * [Arrays and slices](doc-turkish/arrays-and-slices.md)
 * [Structs, methods & interfaces](doc-turkish/structs-methods-and-interfaces.md)
 * [Pointers & errors](doc-turkish/pointers-and-errors.md)

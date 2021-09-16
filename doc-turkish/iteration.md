@@ -1,14 +1,14 @@
-# Iteration
+# Iterasyon
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/for)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/for)**
 
-To do stuff repeatedly in Go, you'll need `for`. In Go there are no `while`, `do`, `until` keywords, you can only use `for`. Which is a good thing!
+Go'da tekrarlı işler için `for`'a ihtiyacınız var. Go içerisinde `while`, `do`, `until` anahtar kelimeleri yoktur sadece `for` kullanabilirsiniz ki bu iyi bir şey!
 
-Let's write a test for a function that repeats a character 5 times.
+Hadi bir karakteri 5 kez tekrar eden bir fonksiyon için test yazalım
 
-There's nothing new so far, so try and write it yourself for practice.
+Şimdiye kadar yeni bir şey yok, bu yüzden pratik yapmak için kendiniz yazmaya çalışın.
 
-## Write the test first
+## İlk olarak test yaz
 
 ```go
 package iteration
@@ -25,15 +25,15 @@ func TestRepeat(t *testing.T) {
 }
 ```
 
-## Try and run the test
+## Dene ve testi çalıştır
 
 `./repeat_test.go:6:14: undefined: Repeat`
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-_Keep the discipline!_ You don't need to know anything new right now to make the test fail properly.
+_Disiplini koruyun!_ Testin düzgün bir şekilde başarısız olması için şu anda yeni bir şey bilmenize gerek yok.
 
-All you need to do right now is enough to make it compile so you can check your test is written well.
+Yapmanız gereken tek şey kodu derlemek için yeterli değişikliği yapmak, bu sayede kodunuzun iyi yazıldığını kontrol etmek için test edebilirsiniz.
 
 ```go
 package iteration
@@ -43,13 +43,13 @@ func Repeat(character string) string {
 }
 ```
 
-Isn't it nice to know you already know enough Go to write tests for some basic problems? This means you can now play with the production code as much as you like and know it's behaving as you'd hope.
+Bazı basit problemler için test yazacak kadar Go bilmek hoş değil mi? Bu, artık production koduyla istediğiniz kadar oynayabileceğiniz ve umduğunuz gibi davranmasını bildiğiniz anlamına gelir.
 
 `repeat_test.go:10: expected 'aaaaa' but got ''`
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
-The `for` syntax is very unremarkable and follows most C-like languages.
+`for` söz dizimi çok dikkat çekici değildir ve çoğu C benzeri dillere uyar.
 
 ```go
 func Repeat(character string) string {
@@ -61,21 +61,21 @@ func Repeat(character string) string {
 }
 ```
 
-Unlike other languages like C, Java, or JavaScript there are no parentheses surrounding the three components of the for statement and the braces `{ }` are always required. You might wonder what is happening in the row
+C, Java veya JavaScript dillerinin aksine, for döngüsünün 3 bileşenini saran parantezler yoktur ve süslü parantezler `{ }` her zaman zorunludur. Muhtemelen şu satırda ne olduğunu merak ediyorsunuz.
 
 ```go
 	var repeated string
 ```
 
-as we've been using `:=` so far to declare and initializing variables. However, `:=` is simply [short hand for both steps](https://gobyexample.com/variables). Here we are declaring a `string` variable only. Hence, the explicit version. We can also use `var` to declare functions, as we'll see later on.
+Değişken tanımlamak için bir süre `:=` kullanmıştık ancak `:=` basitçe [her iki adım için kısa yol](https://gobyexample.com/variables). Burada sadece `string` değişkeni tanımladık. Aynı zamanda `var` ile fonksiyon tanımlayabildiğimizi ileride göreceğiz.
 
-Run the test and it should pass.
+Testi çalıştırın ve geçtiğini görün.
 
-Additional variants of the for loop are described [here](https://gobyexample.com/for).
+for döngüsünün farklı kullanımlarını [burada](https://gobyexample.com/for) bulabilirsiniz.
 
 ## Refactor
 
-Now it's time to refactor and introduce another construct `+=` assignment operator.
+Şimdi düzenlemenin ve yeni bir atama `+=` operatörünü tanıtma zamanı.
 
 ```go
 const repeatCount = 5
@@ -89,11 +89,11 @@ func Repeat(character string) string {
 }
 ```
 
-`+=` called _"the Add AND assignment operator"_, adds the right operand to the left operand and assigns the result to left operand. It works with other types like integers.
+`+=` operatörü _"ekle ve ata operatörü"_ olarak bilinir. Sağdaki değeri soldaki depere ekler ve sonucu soldaki değere atar. Integerlar gibi diğer tiplerlede çalışır.
 
-### Benchmarking
+### Kıyaslama
 
-Writing [benchmarks](https://golang.org/pkg/testing/#hdr-Benchmarks) in Go is another first-class feature of the language and it is very similar to writing tests.
+Go'da [benchmark (kıyaslama)](https://golang.org/pkg/testing/#hdr-Benchmarks) yazmak dilin diğer birinci sınıf özelliklerindendir ve test yazmaya çok benzer.
 
 ```go
 func BenchmarkRepeat(b *testing.B) {
@@ -103,15 +103,15 @@ func BenchmarkRepeat(b *testing.B) {
 }
 ```
 
-You'll see the code is very similar to a test.
+Kodun teste çok benzediğni sizde göreceksiniz.
 
-The `testing.B` gives you access to the cryptically named `b.N`.
+`testing.B` şifreli olarak adlandırılan `b.N`'e erişmenizi sağlar.
 
-When the benchmark code is executed, it runs `b.N` times and measures how long it takes.
+Kıyaslama (benchmark) kodu çalıştırıldığında `b.N` kere çalışır ve ne kadar sürdüğünü ölçer.
 
-The amount of times the code is run shouldn't matter to you, the framework will determine what is a "good" value for that to let you have some decent results.
+Kodun çalışma süresni önemsememelisiniz, framework bu durum için neyin "iyi" bir değer olduğuna karar verecek ve bazı iyi sonuçlar elde etmeniz için size izin verecek.
 
-To run the benchmarks do `go test -bench=.` (or if you're in Windows Powershell `go test -bench="."`)
+Benchmarkı çalıştırmak için `go test -bench=.` (Windows Powershell'de iseniz `go test -bench="."`)
 
 ```text
 goos: darwin
@@ -121,18 +121,18 @@ pkg: github.com/quii/learn-go-with-tests/for/v4
 PASS
 ```
 
-What `136 ns/op` means is our function takes on average 136 nanoseconds to run \(on my computer\). Which is pretty ok! To test this it ran it 10000000 times.
+`136 ns/op` fonksiyonumuzun çalışma süresinin ortalama 136 nanosaniye \(benim bilgisayarımda\) sürdüğünü gösteriri. Bu iyi bir değer! Bunu test etmek için 10000000 kere çalıştı.
 
-_NOTE_ by default Benchmarks are run sequentially.
+_NOT_ Benchmarklar varsayılan olarak ardışık çalışır.
 
-## Practice exercises
+## Alıştırmaları yap
 
-* Change the test so a caller can specify how many times the character is repeated and then fix the code
-* Write `ExampleRepeat` to document your function
-* Have a look through the [strings](https://golang.org/pkg/strings) package. Find functions you think could be useful and experiment with them by writing tests like we have here. Investing time learning the standard library will really pay off over time.
+- Testi değiştir, bu sayede çağıran kişi karakterin kaç kez tekrarlanacağını belirleyebilir ve sonradan kodu düzeltebilir
+- Fonksiyonunu dokümente etmek için `ExampleRepeat` yaz
+- [Strings](https://golang.org/pkg/strings) paketine bir göz atın. Yararlı olabileceğini düşündüğünüz fonksiyonları bulun ve burada yaptığımız gibi testler yazarak bunları deneyin. Standard kütüphaneyi öğrenmek için zaman ayırmak ileride gerçekten işe yarayacak.
 
-## Wrapping up
+## Özetlersek
 
-* More TDD practice
-* Learned `for`
-* Learned how to write benchmarks
+-   Daha fazla TDD pratiği
+-   `for` öğrenildi
+-   Benchmarkın (kıyaslama) nasıl yazıldığı öğrenildi
