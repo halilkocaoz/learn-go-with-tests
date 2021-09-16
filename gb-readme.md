@@ -62,7 +62,7 @@ Yeni bir programlama dili öğrenirken, genellikle REPL(Read-eval-print loop)'ı
 
 Yapmayı sevdiğim şey, dilin kavramlarını keşfetmek ve fikirleri testler ile sağlamlaştırmak. Test kodları, bana yazdığım kodların doğru olup olmadığını gösteriyor ve ne öğrendiğimi belgelendiriyor.
 
-Taking my experience of learning with a group and my own personal way I am going to try and create something that hopefully proves useful to other teams. Learning the fundamentals by writing small tests so that you can then take your existing software design skills and ship some great systems.
+Bir grupla öğrenme ve kendi deneyimlediğim yoldan yaptığım çıkarımlar ile diğer takımlar için yararlı olacağını umduğum bir şey ortaya çıkaracağım. Küçük testler yazarak Go ve TDD'nin temellerini öğrenecek, böylece mevcut yazılım tasarım bilgileriniz ile birlikte harika sistemler sunabileceksiniz.
 
 ## Bu kimler içindir
 

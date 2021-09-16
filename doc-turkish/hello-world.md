@@ -1,6 +1,6 @@
 # Hello, World
 
-**[Bu bölümde geçen bütün kodlara buradan ulaşabilirsin](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
 
 Yeni bir programlama dilinde, ilk programınızın [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program) olması artık gelenekseldir.
 
@@ -125,7 +125,7 @@ Yer tutucu stringler ile alakalı daha ayrıntılı bilgiye [fmt go](https://gol
 
 ### Go doc
 
-Another quality of life feature of Go is the documentation. `godoc -http :8000` komutunu çalıştararak dökümanlara yerelde göz atabilirsiniz. [localhost:8000/pkg](http://localhost:8000/pkg) adresine gittiğinizde, sisteminizde yüklü bütün paketleri göreceksiniz.
+Go'nun hayatınızın kalitesini artıracak bir diğer özelliği ise dokümantasyondur. `godoc -http :8000` komutunu çalıştararak dökümanlara yerelde göz atabilirsiniz. [localhost:8000/pkg](http://localhost:8000/pkg) adresine gittiğinizde, sisteminizde yüklü bütün paketleri göreceksiniz.
 
 Standart kütüphanelerin büyük bir çoğunluğu örneklerle açıklanmış mükemmel dokümantasyona sahiptir. [http://localhost:8000/pkg/testing/](http://localhost:8000/pkg/testing/) adresine giderek Testing konusunda neler yapabileceğinizi görmek faydalı olacaktır.
 
