@@ -203,23 +203,21 @@ Testleri tekrar çalıştırdığınızda, geçmiş olmaları gerekir. Normalde 
 
 ### Source control ile ilgili bir not
 
-At this point, if you are using source control \(which you should!\) I would
-`commit` the code as it is. We have working software backed by a test.
+Şimdi, test ile desteklenmiş ve çalışan bir yazılımımız var. Eğer bir source control sistemi kullanıyorsanız(kesinlikle kullanıyor olmalısınız), kodu olduğu gibi `commit` ederdim.
 
-I _wouldn't_ push to master though, because I plan to refactor next. It is nice
-to commit at this point in case you somehow get into a mess with refactoring - you can always go back to the working version.
+Yinede default(main veya master) branch'e pushlamazdım commit'i, çünkü sonradan refactor etmeyi düşünüyorum. Tekrardan refactor edeceğim için herhangi bir karışıklık oluşursa elimizde geri dönebileceğimiz bir versiyonun bulunması güzel, onun için `commit` atabiliriz.
 
-There's not a lot to refactor here, but we can introduce another language feature, _constants_.
+Burada gözden geçirecek, tekrardan düzenleyecek pek bir şey yok. Şimdiyse, başka bir programlama dili özelliği olan _constant_'ı tanıyabiliriz.
 
 ### Constantlar
 
-Constants are defined like so
+Constantlar şu şekilde tanımlanır
 
 ```go
 const englishHelloPrefix = "Hello, "
 ```
 
-We can now refactor our code
+Kodumuzu constantlar ile refactor edebiliriz
 
 ```go
 const englishHelloPrefix = "Hello, "
@@ -228,18 +226,17 @@ func Hello(name string) string {
 	return englishHelloPrefix + name
 }
 ```
+Refactor ettikten sonra hiçbir bir şeyi bozmadığımızdan emin olmak için testleri tekrar çalıştırın.
 
-After refactoring, re-run your tests to make sure you haven't broken anything.
+Bu constant tanımı, her seferinden tekrardan `"Hello, "`'un oluşturulmasından kurtaracağı için uygulamanızın performansını arttırır.
 
-Constants should improve performance of your application as it saves you creating the `"Hello, "` string instance every time `Hello` is called.
-
-To be clear, the performance boost is incredibly negligible for this example! But it's worth thinking about creating constants to capture the meaning of values and sometimes to aid performance.
+Açık olmak gerekirse, çok ahım şahım bir performans artışı olmayacak yani bunu göz ardı edebilirsiniz. Fakat bazı değerleri anlamladırmak ve bazen de performansa yardımcı olması için constantlar oluşturmayı düşünmeye değer.
 
 ## Tekrardan "Hello, world"
 
-The next requirement is when our function is called with an empty string it defaults to printing "Hello, World", rather than "Hello, ".
+Şimdiki ihtiyacımız ise fonksiyonumuz boş bir string değeri ile çağrıldığında varsayılan olarak "Hello, " yerine "Hello, World" yazması.
 
-Start by writing a new failing test
+Yeni bir başarısız olacak test yazarak başlayalım.
 
 ```go
 func TestHello(t *testing.T) {
@@ -262,17 +259,17 @@ func TestHello(t *testing.T) {
 }
 ```
 
-Here we are introducing another tool in our testing arsenal, subtests. Sometimes it is useful to group tests around a "thing" and then have subtests describing different scenarios.
+Burada subtestleri görüyorsunuz, bu testing için kullandığımız yapının içindeki başka bir araçtır. Bazen testleri bir şeyler etrafında gruplamak ve ardından farklı senaryolarda subtestler yazmaya ihtiyaç duyarız.
 
-A benefit of this approach is you can set up shared code that can be used in the other tests.
+Bu yaklaşımın yararlarından biri, diğer testlerde de kullanılabilecek paylaşımlı kodlar barındırabilmek.
 
-There is repeated code when we check if the message is what we expect.
+Tekrar eden bir kod var gördüğünüz gibi, bu kod mesajın nasıl olması gerektiğini kontrol ettiğimiz kod.
 
-Refactoring is not _just_ for the production code!
+Refactor etmek sadece production kodları için geçerli değildir, test kodlarımızı da refactor ederiz.
 
-It is important that your tests _are clear specifications_ of what the code needs to do.
+Testlerinizde bulunan kodlarında _açık ve net_ olması önemlidir.
 
-We can and should refactor our tests.
+Test kodlarımızı refacto edelim,
 
 ```go
 func TestHello(t *testing.T) {
@@ -296,11 +293,11 @@ func TestHello(t *testing.T) {
 }
 ```
 
-What have we done here?
+Şimdi biz burada ne yaptık?
 
-We've refactored our assertion into a function. This reduces duplication and improves readability of our tests. In Go you can declare functions inside other functions and assign them to variables. You can then call them, just like normal functions. We need to pass in `t *testing.T` so that we can tell the test code to fail when we need to.
+Testlerin geçmesi için olması gerektiği durumları, assertion olarak bir fonksiyona dönüştürdük. Bu yaptığımız tekrarlamayı azaltıyor ve test kodlarımızın okunabilirliğini arttırıyor. Go'da fonksiyonların içinde başka bir fonksiyon tanımlaması yapabilirsiniz ve bunları değişkenlere atıyabilirsiniz. Fonksiyonların içinde tanımlanan fonksiyonları, normal tanımlanan fonksiyonlar gibi çağırabilirsiniz. Gerektiğinde test kodunun başarısız olduğunu söylemek için `t *testing.T`'i parametre olarak pass etmeliyiz.
 
-For helper functions, it's a good idea to accept a `testing.TB` which is an interface that `*testing.T` and `*testing.B` both satisfy, so you can call helper functions from a test, or a benchmark.
+Helper fonksiyonunda kullandığımız `testing.TB`, `testing.T` veya `testing.B` tipindeki interfaceleri kabul etmesi için oluşturulmuş başka bir interfacedir. Böylelikle benchmark veya test fonksiyonlarını `testing.TB` ile çağırabiliriz.
 
 `t.Helper()` is needed to tell the test suite that this method is a helper. By doing this when it fails the line number reported will be in our _function call_ rather than inside our test helper. This will help other developers track down problems easier. If you still don't understand, comment it out, make a test fail and observe the test output. Comments in Go are a great way to add additional information to your code, or in this case, a quick way to tell the compiler to ignore a line. You can comment out the `t.Helper()` code by adding two forward slashes `//` at the beginning of the line. You should see that line turn grey or change to another color than the rest of your code to indicate it's now commented out.
 
