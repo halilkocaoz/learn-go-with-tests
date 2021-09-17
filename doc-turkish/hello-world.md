@@ -113,7 +113,7 @@ Go dilindeki if ifadeleri, diğer dillere çok benzer.
 
 #### Variable tanımlama
 
-`varName := value` söz dizimi ile tekrar kullanabildiğimiz ve okunabilirliği arttırmak için bazı variablelar tanımladık.
+`varName := value` sözdizimi ile tekrar kullanabildiğimiz ve okunabilirliği arttırmak için bazı variablelar tanımladık.
 
 #### `t.Errorf`
 

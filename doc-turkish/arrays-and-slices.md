@@ -1,8 +1,8 @@
-# Arrayler and slicelar
+# Arrayler ve slicelar
 
 **[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/arrays)**
 
-Arrayler aynı tipte birden çok elementi bir değişken içerisinde 
+Arrayler aynı tipte birden çok elementi bir değişken içerisinde
 belirli bir sırada saklamanızı sağlar.
 
 Arrayler üzerinde iterasyon yapmanız çok yaygındır.Hadi, `Sum` fonksiyonunu yapmak için [yeni öğrendiğimiz `for`'u](iteration.md) kullanalım. `Sum` sayıların olduğu bir array alacak ve toplamı dönecek.
@@ -31,7 +31,7 @@ func TestSum(t *testing.T) {
 }
 ```
 
-Arraylar _sabit bir kapasiteye_ shiptirler, bir array değişkenini tanımlarken kapasitesini de belirtiriz.
+Arraylar _sabit bir kapasiteye_ sahiptirler, bir array değişkenini tanımlarken kapasitesini de belirtiriz.
 Bir arrayi iki yolla oluşturabiliriz:
 
 * \[N\]type{value1, value2, ..., valueN} e.g. `numbers := [5]int{1, 2, 3, 4, 5}`
@@ -42,13 +42,13 @@ Burada arraylerde de iyi çalışan `%v` fotmatlayıcısını değerleri "varsay
 
 [String formatları hakkında daha fazla bilgi edinin](https://golang.org/pkg/fmt/)
 
-## Tesit çalıştırmayı dene
+## Testi çalıştırmayı dene
 
 `go test` komutunu çalıştırdığınızda derleyici `./sum_test.go:10:15: undefined: Sum` hatasını verecek.
 
 ## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-`sum.go` içerisinde
+`sum.go` içerisine
 
 ```go
 package main
@@ -75,7 +75,7 @@ func Sum(numbers [5]int) int {
 ```
 
 Bir arrayin belirli bir indeksindeki değere ulaşmak için `array[index]`
-söz dizimini kullanın. Bu durumda, `for` kullanarak array üzerinde 5 kez iterasyon yaparak array içerisindeki her değeri `sum` değişkenine ekliyoruz.
+sözdizimini kullanın. Bu durumda, `for` kullanarak array üzerinde 5 kez iterasyon yaparak array içerisindeki her değeri `sum` değişkenine ekliyoruz.
 
 ## Refactor
 
@@ -91,23 +91,23 @@ func Sum(numbers [5]int) int {
 }
 ```
 
-`range` array üzerinde iterasyon yapmanızı sağlar. Her iterasyonda `range` indeks ve değer döner.
+`range` array üzerinde iterasyon yapmanızı sağlar. `range`, her iterasyonda indeksı ve indeksin değerini döner.
 ([Blank Identifier](https://golang.org/doc/effective_go.html#blank)) `_` karakterini kullanarak indeks değerini yok sayabiliriz.
 
 ### Arrayler ve tipleri
 
 Arraylarin ilginç bir özelliği, boyutun kendi tipinde kodlanmış olmasıdır. Eğer `[4]int` arrayini `[5]int` bekleyen bir fonksiyona gönderirseniz, kod derlenmeyecektir.
-Bunlar farklı tiplerdir bu işlem aynı `int` bekleyen bir fonksiyona `string`göndermek gibidir.
+Bunlar farklı tiplerdir bu işlem aynı `int` bekleyen bir fonksiyona `string` göndermek gibidir.
 
 Arraylarin sabit bir uzunluğa sahip olmasının oldukça zahmetli olduğunu düşünüyor olabilirsiniz ve muhtemelen çoğu zaman onları kullanmayacaksınız!
 
-Go koleksiyonunun boyutunu önemsemediği hatta herhangi bir boyutta olabilecek olan  _slice_ tipine sahiptir.
+Go, koleksiyonunun boyutunu önemsemediği hatta herhangi bir boyutta olabilecek olan _slice_ tipine sahiptir.
 
-Bir sonraki koşul, farklı boyularda kikoleksiyonları toplamak olacak.
+Bir sonraki koşul, farklı boyutlardaki koleksiyonları toplamak olacak.
 
 ## İlk testi yaz
 
-Herhangi bir boyutta koleksiyonlara sahip olmamızı sağlayan [slice][slice] tipini kullancağız. Söz dizimi arraylere çok benziyor sadece değişkeni tanımlarken boyutunu kaldırın.
+Herhangi bir boyutta koleksiyonlara sahip olmamızı sağlayan [slice][slice] tipini kullancağız. Sözdizimi arraylere çok benziyor sadece değişkeni tanımlarken boyutunu kaldırın.
 
 `myArray := [3]int{1,2,3}` yerine `mySlice := []int{1,2,3}`
 
@@ -203,13 +203,13 @@ func TestSum(t *testing.T) {
 }
 ```
 
-Testlerimizin değerini sorgulamak önemlidir. Mümkün olduğu kadar çok test olması bir amaç olmamalı ancak kod tabınında (code base) mümkün olduğu kadar tatminkarlık olmalı. Çok fazla testin olması gerçek bir probleme dönüşebilir ve bakimi için ekstra yük olabilir. **Her testin bir maliyeti vardır**.
+Testlerimizin değerini sorgulamak önemlidir. Mümkün olduğu kadar çok test olması bir amaç olmamalı ancak kod tabınında (code base) mümkün olduğu kadar tatminkarlık olmalı. Çok fazla testin olması gerçek bir probleme dönüşebilir ve bakımı için ekstra yük olabilir. **Her testin bir maliyeti vardır**.
 
 Bizim durumumuzda, bu fonksiyon için iki test olması gereksiz.
 Eğer bir slice için belirli bir boyutta çalışıyorsa \(makul ölçüde\) her boyuttaki slice için çalışacaktır.
 
 Go'nun dahili test aracı [kapsama aracı (coverage tool)](https://blog.golang.org/cover) özelliğini içerir.
-%100 kapsama için çabalamak nihai hedefiniz olmamalıdır, kapsama aracı kodunuzun testler tarafından kapsanmayan alanlarını belirlemenizde size yardımcı olabiliri. TDD konusunda katıysanız,
+%100 kapsama için çabalamak nihai hedefiniz olmamalıdır, kapsama aracı kodunuzun testler tarafından kapsanmayan alanlarını belirlemenizde size yardımcı olabilir. TDD konusunda katıysanız,
 100%'e yakın kapsama oranına sahip olmanız çok olasıdır.
 
 Çalıştırmayı deneyin
@@ -227,7 +227,7 @@ coverage: 100.0% of statements
 
 Artık iyi test edilmiş bir fonksiyonumuz olduğu için mutluyuz sonraki mücadeleye girmeden önce yapmış olduğunuz harika işi teslim (commit) etmelisiniz.
 
-`SumAll` isminde yeni bir fonksiyona ihtiyacımız var. Bu fonksiyon çeşitli sayıda slicı parametre olarak alacak,yeni bir slice dönecek ve bu slice her slicın toplamını içerecek.
+`SumAll` isminde yeni bir fonksiyona ihtiyacımız var. Bu fonksiyon çeşitli sayıda sliceı parametre olarak alacak, yeni bir slice dönecek ve bu slice her sliceın toplamını içerecek.
 
 Örneğin
 
@@ -271,7 +271,7 @@ Bu geçerlidir ancak testlerimiz hala derlenmeyecektir!
 
 `./sum_test.go:26:9: invalid operation: got != want (slice can only be compared to nil)`
 
-Go slicelar ile eşittir operatörünü kullanmanıza izin vermez. Her `got` ve `want` slicelarını iteate etmesi için bir fonksiyon yazabilirsiniz ancak  kolaylık olması için, herhangi iki değişkenin aynı olup olmadığını görmemzide kullanışlı olan, [`reflect.DeepEqual`][deepEqual] kullanabiliriz.
+Go slicelar ile eşittir operatörünü kullanmanıza izin vermez. Her `got` ve `want` slicelarını iterate etmesi için bir fonksiyon yazabilirsiniz ancak  kolaylık olması için, herhangi iki değişkenin aynı olup olmadığını görmemizde kullanışlı olan, [`reflect.DeepEqual`][deepEqual] kullanabiliriz.
 
 ```go
 func TestSumAll(t *testing.T) {
@@ -301,9 +301,9 @@ func TestSumAll(t *testing.T) {
 }
 ```
 
-Burada yaptığımız şey bir `slice` ile bir `string` kıyaslamak. Bu kıyaslamayı yapmak mantıklı değil ancak test derleniyor! `reflect.DeepEqual` slicelar ile diğer şeyleri kıyaslamak için kullanışlı,  kullanırken dikkatli olmalısınız.
+Burada yaptığımız şey bir `slice` ile bir `string`'ı kıyaslamak. Bu kıyaslamayı yapmak mantıklı değil ancak test derleniyor! `reflect.DeepEqual` slicelar ile diğer şeyleri kıyaslamak için kullanışlı,  kullanırken dikkatli olmalısınız.
 
-Testi eski haline değiştirin ve çalıştırın. Aşağıdakine benzer bir test çıktısı elde etmelisiniz
+Testi eski haline getirin ve çalıştırın. Aşağıdakine benzer bir test çıktısı elde etmelisiniz
 
 `sum_test.go:30: got [] want [3 9]`
 
@@ -335,9 +335,9 @@ Testler şimdi geçmeli.
 
 ## Refactor
 
-Daha önce bahsettiğimiz gibi, sliceların kapsitesi vardır. Eğer slicınızın boyutu 2 ve `mySlice[10] = 1` işlemini yapmaya çalışırsanız  _çalışma (runtime)_ hatası alırsınız.
+Daha önce bahsettiğimiz gibi, sliceların kapasitesi vardır. Eğer slicesınızın boyutu 2 ve `mySlice[10] = 1` işlemini yapmaya çalışırsanız  _çalışma sırasında (runtime)_ hatası alırsınız.
 
-Bunu yanı sıra, `append` fonksiyonuna slice ve yeni bir değer göndererek yeni bir slice elde edebilirsiniz.
+Bunun yanı sıra, `append` fonksiyonuna slice ve yeni bir değer göndererek yeni bir slice elde edebilirsiniz.
 
 ```go
 func SumAll(numbersToSum ...[]int) []int {
@@ -352,7 +352,7 @@ func SumAll(numbersToSum ...[]int) []int {
 
 Bu uyarlamada, kapasite hakkında daha az endişeliyiz. Boş bir slice olan `sums` ile başlıyoruz ve `Sum` fonksiyonunun sonucunu ekliyoruz.
 
-Sıradaki koşulumuz `SumAll` fonksiyonunu `SumAllTails`'a çevirmek, bu sayede her slicın "tails" deperini hesaplayacağız. Tail (kuyruk), 
+Sıradaki koşulumuz `SumAll` fonksiyonunu `SumAllTails`'a çevirmek, bu sayede her sliceın "tails" değerini hesaplayacağız. Tail (kuyruk),
 koleksiyonun ilk değeri \("kafa"\) haric tüm değerlerdir.
 
 ## İlk testi yaz
@@ -392,7 +392,7 @@ func SumAllTails(numbersToSum ...[]int) []int {
 }
 ```
 
-Slicelar dilimlenebilir! Söz dizimi `slice[low:high]`. Eğer `:` bir tarafında ki değeri kaldırırsanız o taraf haric her değeri kapsar. Bizin durumumuzda, `numbers[1:]` ile "1. indeksten sona kadar" almasını söylüyoruz. Slicelar hakkında başka testler yazmak için biraz zaman harcamak ve daha aşina olmak için slice operatörüyle denemeler yapmak isteyebilirsiniz.
+Slicelar dilimlenebilir! Sözdizimi `slice[low:high]`. Eğer `:` bir tarafında ki değeri kaldırırsanız o taraf haric her değeri kapsar. Bizin durumumuzda, `numbers[1:]` ile "1. indeksten sona kadar" almasını söylüyoruz. Slicelar hakkında başka testler yazmak için biraz zaman harcamak ve daha aşina olmak için slice operatörüyle denemeler yapmak isteyebilirsiniz.
 
 ## Refactor
 
@@ -433,7 +433,7 @@ panic: runtime error: slice bounds out of range [recovered]
     panic: runtime error: slice bounds out of range
 ```
 
-O hayır! Test _derlendi_ ancak çalışma zamanı (runtime) hatası verdi.
+O hayır! Test _derlendi_ ancak çalışma sırasında (runtime) hata verdi.
 Derleme zamanı hataları bizim dostumuzdur çünkü çalışan yazılımlar yapmamıza yardım ediyorlar, çalışma zamanı hatalar düşmanımız çünkü kullanıcıları etkiliyorlar.
 
 ## Testi geçecek kadar kod yaz
@@ -511,6 +511,8 @@ Test yazmaktan başka Go ile deneme yapmanın bir başka kullanışlı yolu da G
 
 Array'in dilimlenmesi ve slice'ın değiştirilmesinin orjinal diziye nasıl etkilediğinin [örneği](https://play.golang.org/p/bTrRmYfNYCp); "Kopya" slice orjinal arraye etki etmeyecektir.
 Neden büyük bir slice'ı dilimledikten sonra slice'ın kopyasını almak neden iyi bir fikirdir [başka bir örnek](https://play.golang.org/p/Poth8JS28sc).
+
+Bu sayfa [bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.
 
 [for]: ../iteration.md#
 [blog-slice]: https://blog.golang.org/go-slices-usage-and-internals

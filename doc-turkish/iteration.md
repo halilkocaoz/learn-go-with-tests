@@ -49,7 +49,7 @@ Bazı basit problemler için test yazacak kadar Go bilmek hoş değil mi? Bu, ar
 
 ## Testi geçecek kadar kod yaz
 
-`for` söz dizimi çok dikkat çekici değildir ve çoğu C benzeri dillere uyar.
+`for` sözdizimi çok dikkat çekici değildir ve çoğu C benzeri dillere uyar.
 
 ```go
 func Repeat(character string) string {
