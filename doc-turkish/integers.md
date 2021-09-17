@@ -69,7 +69,7 @@ Aha! Tekrar engellendi, TDD sahtekarlık değil mi?
 
 Testin başarısız olması için farklı numaralarla başka test yazabiliriz ancak bu [kedi fare oyununa](https://en.m.wikipedia.org/wiki/Cat_and_mouse) benzeyecek.
 
-Go'nun söz dizimine aşina olduğumuzda geliştiricileri sıkmayan ve bug bulmalarına yardımcı olan _"Property Based Testing"_ isimli tekniği anlatacağım.
+Go'nun sözdizimine aşina olduğumuzda geliştiricileri sıkmayan ve bug bulmalarına yardımcı olan _"Property Based Testing"_ isimli tekniği anlatacağım.
 
 Şimdilik düzgünce yapalım
 

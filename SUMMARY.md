@@ -8,7 +8,7 @@
 * [Hello, World](doc-turkish/hello-world.md)
 * [Integerlar](doc-turkish/integers.md)
 * [Iterasyon](doc-turkish/iteration.md)
-* [Arrays and slices](doc-turkish/arrays-and-slices.md)
+* [Arrayler ve slicelar](doc-turkish/arrays-and-slices.md)
 * [Structs, methods & interfaces](doc-turkish/structs-methods-and-interfaces.md)
 * [Pointers & errors](doc-turkish/pointers-and-errors.md)
 * [Maps](doc-turkish/maps.md)
