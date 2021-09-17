@@ -152,6 +152,8 @@ Ek olarak, çalışma yaparken şunlara sahip olmalısınız
 
 Araçlarınıza hakim olmak, sadece koda konsantre olmanıza ve bağlamları değiştirmeyle uğraşacağınız süreyi kısar.
 
-## Sonuç
+## Özetlersek
 
 Şuanda, Go'nun bilgisayarınızda kurulu olması, Go ile kod yazacak bir düzenleyeciye sahip olmanız ve bazı temel araçların mevcut olması gerekir. Go, üçüncü taraf ürünlerden oluşan çok geniş bir ekosisteme sahiptir. Burada bir kaçına değindik, daha eksiksiz bir liste için <https://awesome-go.com> adresine bakın.
+
+Bu sayfa [@halilkocaoz](https://github.com/halilkocaoz) tarafından çevrildi.

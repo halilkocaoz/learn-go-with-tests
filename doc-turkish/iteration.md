@@ -133,6 +133,8 @@ _NOT_ Benchmarklar varsayılan olarak ardışık çalışır.
 
 ## Özetlersek
 
--   Daha fazla TDD pratiği
--   `for` öğrenildi
--   Benchmarkın (kıyaslama) nasıl yazıldığı öğrenildi
+- Daha fazla TDD pratiği
+- `for` öğrenildi
+- Benchmarkın (kıyaslama) nasıl yazıldığı öğrenildi
+
+Bu sayfa [@bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.

@@ -75,3 +75,5 @@ Bir grupla öğrenme ve kendi deneyimlediğim yoldan yaptığım çıkarımlar i
 * Terminali kullanmaktan çekinmemek
 
 [MIT license](https://github.com/halilkocaoz/learn-go-with-tests/tree/1a61412ecfcc1a7368ed32985788c6d952ce7a3a/LICENSE.md)
+
+Bu sayfa [@halilkocaoz](https://github.com/halilkocaoz) tarafından çevrildi.

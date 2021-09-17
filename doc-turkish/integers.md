@@ -146,7 +146,9 @@ Eğer kodunuzu örnekler ile açık bir adreste paylaşırsanız, kodunuzun dok�
 
 Ele alınanlar:
 
--   TDD iş akışının daha fazla uygulanması
--   Integerlar, ekleme
--   Kodumuzun kullanıcılar tarafından hızlı bir şekilde anlayabilmeleri için daha iyi doküman yazmak
--   Testlerimizin bir parçası olarak kontrol edilen kodumuzu nasıl kullanacağımıza dair örnekler
+- TDD iş akışının daha fazla uygulanması
+- Integerlar, ekleme
+- Kodumuzun kullanıcılar tarafından hızlı bir şekilde anlayabilmeleri için daha iyi doküman yazmak
+- Testlerimizin bir parçası olarak kontrol edilen kodumuzu nasıl kullanacağımıza dair örnekler
+
+Bu sayfa [@bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.

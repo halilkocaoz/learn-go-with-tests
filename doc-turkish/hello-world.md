@@ -508,7 +508,7 @@ Yeni kavramlar:
 - Gelen parametre değeri, caselerden hiç biri ile eşleşmezse `default` seçilecektir.
 - Go'da `private`(sadece o paket altında kullanılabilir, dışarıya kapalı) programlama bileşenleri küçük harf ile, `public` (dışarıya açık) bileşenlerse büyük harf ile başlar. Algoritmalarımızın içindeki bileşenlerin hepsini dışarıya açmak istemediğimiz zaman `private` tanım yapmalıyız.
 
-## Sonuç
+## Özetlersek
 
 `Hello, world` programı yazarken bu kadar çok şey öğrenebileceğini kim bilebilirdi?
 
@@ -530,3 +530,5 @@ Yeni kavramlar:
 Bu örnekte, `Hello()`'dan başlayarak, `Hello("name")` sonrasındaysa `Hello("name", "French")` e kadar ilerledik.
 
 Bu elbette gerçek dünyada üretilen yazılımlar için önemsizdir ancak ilkeler hep aynıdır. Sizin burada öğrendiğiniz disiplini ve TDD akışını gerçek dünyada üretilen yazılımları yazan mühendislerde kullanıyor. TDD yaklaşımı ile geliştirme yapmak için bolca pratik yapmalısınız, fakat yazılımlarınızda sorunları test edebilmek için küçük parçalara bölmek işleri her zaman kolaylaştırır.
+
+Bu sayfa [@halilkocaoz](https://github.com/halilkocaoz) tarafından çevrildi.
