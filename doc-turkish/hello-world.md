@@ -230,7 +230,7 @@ Refactor ettikten sonra hiçbir bir şeyi bozmadığımızdan emin olmak için t
 
 Bu constant tanımı, her seferinden tekrardan `"Hello, "`'un oluşturulmasından kurtaracağı için uygulamanızın performansını arttırır.
 
-Açık olmak gerekirse, çok ahım şahım bir performans artışı olmayacak yani bunu göz ardı edebilirsiniz. Fakat bazı değerleri anlamladırmak ve bazen de performansa yardımcı olması için constantlar oluşturmayı düşünmeye değer.
+Açık olmak gerekirse, çok ahım şahım bir performans artışı olmayacak yani bunu göz ardı edebilirsiniz. Fakat bazı değerleri anlamladırmak ve bazen de performansa artışına yardımcı olması için constantları kullanmayı düşünebilirsiniz.
 
 ## Tekrardan "Hello, world"
 
@@ -267,9 +267,9 @@ Tekrar eden bir kod var gördüğünüz gibi, bu kod mesajın nasıl olması ger
 
 Refactor etmek sadece production kodları için geçerli değildir, test kodlarımızı da refactor ederiz.
 
-Testlerinizde bulunan kodlarında _açık ve net_ olması önemlidir.
+Testlerinizde bulunan kodların da _açık ve net_ olması önemlidir.
 
-Test kodlarımızı refacto edelim,
+Test kodlarımızı refactor edelim,
 
 ```go
 func TestHello(t *testing.T) {
@@ -299,9 +299,9 @@ Testlerin geçmesi için olması gerektiği durumları, assertion olarak bir fon
 
 Helper fonksiyonunda kullandığımız `testing.TB`, `testing.T` veya `testing.B` tipindeki interfaceleri kabul etmesi için oluşturulmuş başka bir interfacedir. Böylelikle benchmark veya test fonksiyonlarını `testing.TB` ile çağırabiliriz.
 
-`t.Helper()` is needed to tell the test suite that this method is a helper. By doing this when it fails the line number reported will be in our _function call_ rather than inside our test helper. This will help other developers track down problems easier. If you still don't understand, comment it out, make a test fail and observe the test output. Comments in Go are a great way to add additional information to your code, or in this case, a quick way to tell the compiler to ignore a line. You can comment out the `t.Helper()` code by adding two forward slashes `//` at the beginning of the line. You should see that line turn grey or change to another color than the rest of your code to indicate it's now commented out.
+`t.Helper()`, test kodlarına bu yöntemin bir yardımcı olduğunu söylemek için gereklidir. Bunu yaparak, testler başarısız olduğunda hangi satır ile testin başarısız olduğu bildirilirken, yardımcı fonksiyonun içindeki satırlar değil, fonksiyon çağrımızı yaptığımız satırlarda hata olduğu bildirilecektir. Bu sayede, geliştiriciler hangi testin başarısız olduğunu kolayca takip edebilecektir. Eğer tam olarak anlamadıysanız, herhangi bir testi başarısız olacak şekile getirin(şuan zaten öyle) ve test çıktısını gözlemleyin ve sonrasında aynı hatalı test kodunu `t.Helper()` kodunun başına `//` ekleyerek gözlemleyin.
 
-Now that we have a well-written failing test, let's fix the code, using an `if`.
+Şimdi `Hello()` fonksiyonunu tekrardan refactor ederek, istediğimize ulaşabiliriz.
 
 ```go
 const englishHelloPrefix = "Hello, "
@@ -314,40 +314,39 @@ func Hello(name string) string {
 }
 ```
 
-If we run our tests we should see it satisfies the new requirement and we haven't accidentally broken the other functionality.
+Testlerimizi çalıştırırsak, yeni eklediğimiz gereksinimi karşıladığını ve yanlışlıkla başka fonksiyonları bozmadığımızı görebiliriz.
 
 ### Tekrardan source control
 
-Now we are happy with the code I would amend the previous commit so we only
-check in the lovely version of our code with its test.
+Şimdi yazdığımız koddan memnunuz, tekrardan bu kodları `commit` edebiliriz.
 
 ### Disiplin
 
-Let's go over the cycle again
+TDD disiplini ile ilgili döngüyü tekrar gözden geçirelim,
 
-* Write a test
-* Make the compiler pass
-* Run the test, see that it fails and check the error message is meaningful
-* Write enough code to make the test pass
-* Refactor
+* Bir test yazın
+* Yazdığımız test ile birlikte kodumuzun compile edilmesini sağlayacak duruma getirin
+* Testi çalıştırın, başarısz olduğunu görün ve hata mesajının anlamlı olup, olmadığını kontrol edin
+* Testi geçecek kadar kod yazın
+* Refactor edin
 
-On the face of it this may seem tedious but sticking to the feedback loop is important.
+İlk bakışta bu sıkıcı görünebilir, fakat bu döngüye bağlı kalmak önemlidir.
 
-Not only does it ensure that you have _relevant tests_, it helps ensure _you design good software_ by refactoring with the safety of tests.
+Bu yaptığımız sadece ihtiyacınız olan testlere sahip olmanızı sağlamakla kalmaz, aynı zamanda testlerin verdiği güven ile refactorler yaparak çok daha iyi yazılım tasarımlarına sahip olmanızı sağlar.
 
-Seeing the test fail is an important check because it also lets you see what the error message looks like. As a developer it can be very hard to work with a codebase when failing tests do not give a clear idea as to what the problem is.
+Testlerin başarısız olduğunu da görmek gerekir, çünkü bu bizlere hata mesajlarının nasıl göründüğü gösterir. Başarısız test mesajlarının sorun ile ilgili net bir fikir vermediği durumlarda, sorunu anlamak ve çözüme kavuşturmak çok zor olur ve hiçbir geliştirici böyle bir code base'de çalışmak istemez.
 
 By ensuring your tests are _fast_ and setting up your tools so that running tests is simple you can get in to a state of flow when writing your code.
 
-By not writing tests you are committing to manually checking your code by running your software which breaks your state of flow and you won't be saving yourself any time, especially in the long run.
+Test yazmayarak uzun vadede çok büyük zaman kayıpları yaşarsınız, çünkü herhangi bir değişiklik yaptığınızda yaptığınız değişikliği sizin manuel olarak test etmeniz gerekir ve bu uzun vadede size çok büyük zaman kayıpları yaşatır.
 
 ## Devam et! Daha fazla gereksinim
 
-Goodness me, we have more requirements. We now need to support a second parameter, specifying the language of the greeting. If a language is passed in that we do not recognise, just default to English.
+Kodumuzun yapması gereken daha fazla gereksinim var, şimdiyse selamlamanın hangi dilde olacağını belirleyen ikinci bir parametre daha eklemeliyiz. Eğer destek verilmeyen, tanınmayan bir dil geçilirse varsayılan olarak İngilizce'yi kullanacağız.
 
-We should be confident that we can use TDD to flesh out this functionality easily!
+Bu özelliği, TDD kullanarak kolayca geliştirebiliyor olmamızdan emin olmalıyız.
 
-Write a test for a user passing in Spanish. Add it to the existing suite.
+Mevcut test kodlarına Ispanyolca ile selamlama için bir test yazın.
 
 ```go
 	t.Run("in Spanish", func(t *testing.T) {
@@ -356,16 +355,14 @@ Write a test for a user passing in Spanish. Add it to the existing suite.
 		assertCorrectMessage(t, got, want)
 	})
 ```
-
-Remember not to cheat! _Test first_. When you try and run the test, the compiler _should_ complain because you are calling `Hello` with two arguments rather than one.
+Hile yapmak yok! Unutma **ne olursa olsun, ilk önce test yazılacak**. Şimdi test kodlarınızı çalıştırdığınızda, compiler hata verecek bunun sebebi, `Hello()` fonksiyonu şuanda tek bir parametre alıyor fakat biz iki parametre gönderdik.
 
 ```text
 ./hello_test.go:27:19: too many arguments in call to Hello
     have (string, string)
     want (string)
 ```
-
-Fix the compilation problems by adding another string argument to `Hello`
+Derleme sorunlarını `Hello()` fonksiyonuna bir string parametre daha almasını sağlayarak çözebiliriz.
 
 ```go
 func Hello(name string, language string) string {
@@ -376,7 +373,7 @@ func Hello(name string, language string) string {
 }
 ```
 
-When you try and run the test again it will complain about not passing through enough arguments to `Hello` in your other tests and in `hello.go`
+Testi tekrar çalıştırdığınızda compiler, bu seferse önceden yazılmış testlerin tek parametre ile çağrıldığından şikayetci olacak.
 
 ```text
 ./hello.go:15:19: not enough arguments in call to Hello
@@ -384,13 +381,13 @@ When you try and run the test again it will complain about not passing through e
     want (string, string)
 ```
 
-Fix them by passing through empty strings. Now all your tests should compile _and_ pass, apart from our new scenario
+Diğer testlerdeki fonksiyonu çağrılarına, ikinci bir parametre olarak boş bir string yollayın ve artık yazılımınız derlenecek, yeni senaryomuz dışındaysa bütün testler başarılı olacaktır.
 
 ```text
 hello_test.go:29: got 'Hello, Elodie' want 'Hola, Elodie'
 ```
 
-We can use `if` here to check the language is equal to "Spanish" and if so change the message
+Gönderilen dilin İspanyolcaya eşit olup, olmadığını kontrol etmek için `if` kullanıp, o dile göre selamlama yapabiliriz.
 
 ```go
 func Hello(name string, language string) string {
@@ -405,9 +402,9 @@ func Hello(name string, language string) string {
 }
 ```
 
-The tests should now pass.
+Testlerin hepsi şuanda başarılı olmalıdır.
 
-Now it is time to _refactor_. You should see some problems in the code, "magic" strings, some of which are repeated. Try and refactor it yourself, with every change make sure you re-run the tests to make sure your refactoring isn't breaking anything.
+Şimdiyse yeniden refactor etme zamanı. Görmüş olmalısınız, kodumuzda kendini tekrar eden kısımlar var. İlk önce bu kodu kendiniz düzenlemeye çalışın ve her düzenleme de herhangi bir şeyi bozmadığınızdan emin olmak için testleri çalıştırın.
 
 ```go
 const spanish = "Spanish"
@@ -428,11 +425,11 @@ func Hello(name string, language string) string {
 
 ### French
 
-* Write a test asserting that if you pass in `"French"` you get `"Bonjour, "`
-* See it fail, check the error message is easy to read
-* Do the smallest reasonable change in the code
+* Dil parametresi için `"French"` yollandığı zaman, `"Bonjour, "` ile selamlanacağını iddia ettiğiniz bir test yazın
+* Testin başarısız olduğunu görün ve hata mesajının anlaşılabilir olup, olmadığını kontrol edin
+* Sonra Fransızca için yazılan testi geçmek için, kodda en az değişikliği yapın.
 
-You may have written something that looks roughly like this
+Aşağı yukarı aşağıdaki koda benzer bir şeyler yazmış olmalısınız.
 
 ```go
 func Hello(name string, language string) string {
@@ -452,7 +449,7 @@ func Hello(name string, language string) string {
 
 ## `switch`
 
-When you have lots of `if` statements checking a particular value it is common to use a `switch` statement instead. We can use `switch` to refactor the code to make it easier to read and more extensible if we wish to add more language support later
+Belirli, ortak bir değeri kontrol ederken birçok `if` ifadesi kullanmak yerine, `switch` kullanın. Daha sonra farklı dillerde de destek vermek istersek okumayı kolaylaştırması ve genişletilebilir olması için `switch` kullanmak çok daha iyi olur.
 
 ```go
 func Hello(name string, language string) string {
@@ -473,11 +470,11 @@ func Hello(name string, language string) string {
 }
 ```
 
-Write a test to now include a greeting in the language of your choice and you should see how simple it is to extend our _amazing_ function.
+Şimdi seçtiğiniz bir konuşma dili için test yazın, mesela Türkçe desteği ekleyin ve yeni dile destek vermek için kodunuzu değiştirmenin, genişletmenin ne kadar kolay olduğunu görün.
 
 ### son...bir...refactor?
 
-You could argue that maybe our function is getting a little big. The simplest refactor for this would be to extract out some functionality into another function.
+`Hello()` fonksiyonunun çok kalabalıklaştığını, okumanın zorlaştığını iddia edebilirsiniz ve haklısınız. Ortak olan kısımları alarak yeni bir fonksiyon haline getirerek ona güzel bir isimlendirme yapabilirsiniz.
 
 ```go
 func Hello(name string, language string) string {
@@ -501,35 +498,35 @@ func greetingPrefix(language string) (prefix string) {
 }
 ```
 
-A few new concepts:
+Yeni kavramlar:
 
-* In our function signature we have made a _named return value_ `(prefix string)`.
-* This will create a variable called `prefix` in your function.
-  * It will be assigned the "zero" value. This depends on the type, for example `int`s are 0 and for `string`s it is `""`.
-    * You can return whatever it's set to by just calling `return` rather than `return prefix`.
-  * This will display in the Go Doc for your function so it can make the intent of your code clearer.
-* `default` in the switch case will be branched to if none of the other `case` statements match.
-* The function name starts with a lowercase letter. In Go public functions start with a capital letter and private ones start with a lowercase. We don't want the internals of our algorithm to be exposed to the world, so we made this function private.
+- Yeni fonksiyon tanımlarken ve string bir değer dönüşü yapacağını belirttik.
+- Bu yapılan, yazdığımız fonksiyonunda `prefix` adında bir değişken oluşturacak.
+  - Eğer herhangi bir değer seçilmezse, `string` tipinde bir dönüş için `""` değeri dönecek. Integer bir dönüş olsaydı bu `0` olacaktı.
+    - Bu şekilde bir tanım ile bir değeri dönerken, bu şekilde sadece `return`'da kullanabilirsiniz isterseniz `return prefix`'de tercih edebilirsiniz.
+  - Bu Go doc'ta fonksiyonunuzun için görüntülenebilecektir ve böylece koduzun ne yaptığı daha anlaşılır hale gelir.
+- Gelen parametre değeri, caselerden hiç biri ile eşleşmezse `default` seçilecektir.
+- Go'da `private`(sadece o paket altında kullanılabilir, dışarıya kapalı) programlama bileşenleri küçük harf ile, `public` (dışarıya açık) bileşenlerse büyük harf ile başlar. Algoritmalarımızın içindeki bileşenlerin hepsini dışarıya açmak istemediğimiz zaman `private` tanım yapmalıyız.
 
 ## Sonuç
 
-Who knew you could get so much out of `Hello, world`?
+`Hello, world` programı yazarken bu kadar çok şey öğrenebileceğini kim bilebilirdi?
 
-By now you should have some understanding of:
+Şimdiye kadar şunları biraz anlamış olman lazım:
 
-### Some of Go's syntax around
+### Go'nun bazı sözdizimleri
 
-* Writing tests
-* Declaring functions, with arguments and return types
-* `if`, `const` and `switch`
-* Declaring variables and constants
+- Test yazmak
+- Parametre alan ve dönüş tiplerine sahip fonksiyon tanımlamak
+- `if`, `const` ve `switch`
+- Değişken ve constanlar tanımlama
 
-### The TDD process and _why_ the steps are important
+### TDD süreci ve bu sürecin adımlarının neden önemli olduğu
 
-* _Write a failing test and see it fail_ so we know we have written a _relevant_ test for our requirements and seen that it produces an _easy to understand description of the failure_
-* Writing the smallest amount of code to make it pass so we know we have working software
-* _Then_ refactor, backed with the safety of our tests to ensure we have well-crafted code that is easy to work with
+- Başarısız olacağını bilmemize rağmen test yazmak ve o testin hata mesajını görerek herhangi bir eksiklik varsa hata mesajını düzeltmek, sonraysa kodumuzu bu testin gereksinimlerine göre değiştirmek, geliştirmek
+- Testi geçmek için yazdığımız az miktarda kodlar sayesinde, çalışan bir yazılımımız olduğunu biliyoruz buda bize geliştirme yaparken doğru yolda olduğumuzu ve bu yolda devam etmemiz gerektiğini belirtiyor
+- Ardından refactor etmek, çalıştığını bildiğimiz ve bize güven veren testler sayesinde bir önceki seferde en az seviyede yazıp bıraktığımız kodu, refactor ederek daha iyi bir hale getiriyoruz
 
-In our case we've gone from `Hello()` to `Hello("name")`, to `Hello("name", "French")` in small, easy to understand steps.
+Bu örnekte, `Hello()`'dan başlayarak, `Hello("name")` sonrasındaysa `Hello("name", "French")` e kadar ilerledik.
 
-This is of course trivial compared to "real world" software but the principles still stand. TDD is a skill that needs practice to develop, but by breaking problems down into smaller components that you can test, you will have a much easier time writing software.
+Bu elbette gerçek dünyada üretilen yazılımlar için önemsizdir ancak ilkeler hep aynıdır. Sizin burada öğrendiğiniz disiplini ve TDD akışını gerçek dünyada üretilen yazılımları yazan mühendislerde kullanıyor. TDD yaklaşımı ile geliştirme yapmak için bolca pratik yapmalısınız, fakat yazılımlarınızda sorunları test edebilmek için küçük parçalara bölmek işleri her zaman kolaylaştırır.
