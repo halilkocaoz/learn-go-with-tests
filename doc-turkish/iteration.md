@@ -2,7 +2,7 @@
 
 **[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/for)**
 
-Go'da tekrarlı işler için `for`'a ihtiyacınız var. Go içerisinde `while`, `do`, `until` anahtar kelimeleri yoktur sadece `for` kullanabilirsiniz ki bu iyi bir şey!
+Go'da tekrarlı işler için `for`'a ihtiyacınız var. Go içerisinde `while`, `do`, `until` anahtar kelimeleri yoktur sadece `for` kullanabilirsiniz ve bu iyi bir şey!
 
 Hadi bir karakteri 5 kez tekrar eden bir fonksiyon için test yazalım
 
@@ -49,7 +49,7 @@ Bazı basit problemler için test yazacak kadar Go bilmek hoş değil mi? Bu, ar
 
 ## Testi geçecek kadar kod yaz
 
-`for` sözdizimi çok dikkat çekici değildir ve çoğu C benzeri dillere uyar.
+`for` sözdizimi çok dikkat çekici değildir ve çoğu C benzeri dillerde olduğu gibidir.
 
 ```go
 func Repeat(character string) string {

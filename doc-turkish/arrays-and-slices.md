@@ -105,7 +105,7 @@ Go, koleksiyonunun boyutunu önemsemediği hatta herhangi bir boyutta olabilecek
 
 Bir sonraki koşul, farklı boyutlardaki koleksiyonları toplamak olacak.
 
-## İlk testi yaz
+## İlk olarak test yaz
 
 Herhangi bir boyutta koleksiyonlara sahip olmamızı sağlayan [slice][slice] tipini kullancağız. Sözdizimi arraylere çok benziyor sadece değişkeni tanımlarken boyutunu kaldırın.
 
@@ -237,7 +237,7 @@ veya
 
 `SumAll([]int{1,1,1})` fonskiyonu  `[]int{3}` döndürmeli
 
-## İlk testi yaz
+## İlk olarak test yaz
 
 ```go
 func TestSumAll(t *testing.T) {
@@ -355,7 +355,7 @@ Bu uyarlamada, kapasite hakkında daha az endişeliyiz. Boş bir slice olan `sum
 Sıradaki koşulumuz `SumAll` fonksiyonunu `SumAllTails`'a çevirmek, bu sayede her sliceın "tails" değerini hesaplayacağız. Tail (kuyruk),
 koleksiyonun ilk değeri \("kafa"\) haric tüm değerlerdir.
 
-## İlk testi yaz
+## İlk olarak test yaz
 
 ```go
 func TestSumAllTails(t *testing.T) {
