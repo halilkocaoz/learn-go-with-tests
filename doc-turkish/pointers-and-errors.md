@@ -1,16 +1,17 @@
 # Pointers & errors
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/pointers)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/pointers)**
 
-We learned about structs in the last section which let us capture a number of values related around a concept.
 
-At some point you may wish to use structs to manage state, exposing methods to let users change the state in a way that you can control.
+Son bölümde, bir dizi değerleri tutmamızı sağlayan structları öğrendik.
 
-**Fintech loves Go** and uhhh bitcoins? So let's show what an amazing banking system we can make.
+Bazı nedenlerden dolayı, bir durumu yönetmek için structları kullanmak isteyebilirsiniz, sizin kontrol ettiğiniz, istediğiniz şekilde kullanıcıların bir durumu değiştirmesine izin veren metotları da açığa çıkarabilirsiniz.
 
-Let's make a `Wallet` struct which lets us deposit `Bitcoin`.
+**Fintech, Go'yu seviyor** ya bitcoinler? Öyleyse, ne kadar harika bir bankacılık sistemi yapabildiğimizi görelim .
 
-## Write the test first
+`Bitcoin`lerimizi barındırabildiğimiz bir `Wallet` structı yapalım.
+
+## İlk olarak test yaz
 
 ```go
 func TestWallet(t *testing.T) {
@@ -28,30 +29,30 @@ func TestWallet(t *testing.T) {
 }
 ```
 
-In the [previous example](./structs-methods-and-interfaces.md) we accessed fields directly with the field name, however in our _very secure wallet_ we don't want to expose our inner state to the rest of the world. We want to control access via methods.
+Bir önceki [örnekte](./structs-methods-and-interfaces.md), structın bileşenlerine, alanlarına doğrudan eriştik. Şimdiyse, çok güvenli olması gereken `wallet`ımızı dünyaya açmak istemiyoruz ve bunu metotlar aracılığı ile yapacağız.
 
-## Try to run the test
+## Testi çalıştırmayı dene
 
 `./wallet_test.go:7:12: undefined: Wallet`
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-The compiler doesn't know what a `Wallet` is so let's tell it.
+Derleyici(compiler), `Wallet`'ı bilmiyor. Öyleyse tanımlayalım.
 
 ```go
 type Wallet struct { }
 ```
 
-Now we've made our wallet, try and run the test again
+Cüzdanımızı tanıttık, tekrar testi çalıştırmayı deneyin.
 
 ```go
 ./wallet_test.go:9:8: wallet.Deposit undefined (type Wallet has no field or method Deposit)
 ./wallet_test.go:11:15: wallet.Balance undefined (type Wallet has no field or method Balance)
 ```
 
-We need to define these methods.
+Wallet için tanımlanmamış metotlar ve şimdiyse onları tanımlamamız gerekiyor
 
-Remember to only do enough to make the tests run. We need to make sure our test fails correctly with a clear error message.
+Sadece testleri çalıştırmaya yetecek kadar kod yazmayı unutmayın! Şimdilik sadece testimizin anlaşılır bir hata mesajı ile doğru şekilde başarısız olduğunu görmeliyiz.
 
 ```go
 func (w Wallet) Deposit(amount int) {
@@ -63,15 +64,15 @@ func (w Wallet) Balance() int {
 }
 ```
 
-If this syntax is unfamiliar go back and read the structs section.
+Bu sözdizimi tanıdık gelmediyse, geri dönün ve struct bölümünü okuyun.
 
-The tests should now compile and run
+Yazılımımız derlenmeli ve testler çalışmalıdır.
 
 `wallet_test.go:15: got 0 want 10`
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
-We will need some kind of _balance_ variable in our struct to store the state
+_balance_ durumunu saklamak için bir çeşit değişkene ihtiyacımız olacak.
 
 ```go
 type Wallet struct {
@@ -79,11 +80,11 @@ type Wallet struct {
 }
 ```
 
-In Go if a symbol (variables, types, functions et al) starts with a lowercase symbol then it is private _outside the package it's defined in_.
+Go'da bir bileşenin(variablelar, typelar, fonksiyonlar ve benzerleri) isimlendirmesi küçük harfle başlıyorsa, bu _private_ acces modifier'a sahiptir ve o paketin dışından ulaşılamaz.
 
-In our case we want our methods to be able to manipulate this value, but no one else.
+Biz bu değeri manipüle etmek istiyoruz fakat sadece paket içindeki metotlar yardımı ile yapmak istiyoruz yani paket dışında herhangi bir yerde bunun mümkün olmasını istemiyoruz.
 
-Remember we can access the internal `balance` field in the struct using the "receiver" variable.
+Hatırlayın, internal `balance` fieldına "receiver" ile verilen değişkenini kullanarak ulaşabiliriz.
 
 ```go
 func (w Wallet) Deposit(amount int) {
@@ -95,22 +96,22 @@ func (w Wallet) Balance() int {
 }
 ```
 
-With our career in fintech secured, run the test suite and bask in the passing test
+Şimdi tekrardan test paketini çalıştırın ve  güvence altında olan fintech sektöründeki kariyerinizin tadını geçen testleri izleyerek çıkarın
 
 `wallet_test.go:15: got 0 want 10`
 
 ### ????
 
-Well this is confusing, our code looks like it should work.
-We add the new amount onto our balance and then the balance method should return the current state of it.
+Ne oldu, kodumuzun çalışması gerekiyordu.
+Yeni bakiyemizi ekliyoruz ve `Balance` metotu ile eklediğimiz yeni değeri döndürmesi gerekiyordu
 
-In Go, **when you call a function or a method the arguments are** _**copied**_.
+Go'da **bir fonksiyonu veya yöntemi çağırdınızda onun aldığı argümanlar** _**kopyalanır**_
 
-When calling `func (w Wallet) Deposit(amount int)` the `w` is a copy of whatever we called the method from.
+`func (w Wallet) Deposit(amount int)` metotunu çağırdığımızda buradaki **`w`** argümanı çağrıldığı yerdeki yapının bir kopyası olarak gelir.
 
-Without getting too computer-sciency, when you create a value - like a wallet, it is stored somewhere in memory. You can find out what the _address_ of that bit of memory with `&myVal`.
+Bir tanımı oluşturduğunuzda, bu bellekte bir yerlerde saklanır ve her tanımın bir adresi vardır. `&` kullanarak `&myVal` şeklinde bir çağrı ile bellekte saklandığı adrese ulaşabilirsiniz.
 
-Experiment by adding some prints to your code
+Kodunuzda bazı noktalara çıktı almak için `print` ekleyerek bu durumu gözlemleyin
 
 ```go
 func TestWallet(t *testing.T) {
@@ -138,20 +139,18 @@ func (w Wallet) Deposit(amount int) {
 }
 ```
 
-The `\n` escape character prints a new line after outputting the memory address.
-We get the pointer (memory address) of something by placing an `&` character at the beginning of the symbol.
+Bir tanımın başına `&` karakterini koyarak onun bellekteki adresini, point ettiği adresi alabiliriz.
 
-Now re-run the test
+Testleri tekrar çalıştıralım
 
 ```text
 address of balance in Deposit is 0xc420012268
 address of balance in test is 0xc420012260
 ```
 
-You can see that the addresses of the two balances are different. So when we change the value of the balance inside the code, we are working on a copy of what came from the test. Therefore the balance in the test is unchanged.
+Görebildiğiniz üzere, `balance`ların adresleri farklı. `Deposit` metotunu kullanırken, test kodundan gelen yapının bir kopyasını kullanıyoruz. Bu durumdan dolayı, testteki `balance` değişmiyor.
 
-We can fix this with _pointers_. [Pointers](https://gobyexample.com/pointers) let us _point_ to some values and then let us change them.
-So rather than taking a copy of the whole Wallet, we instead take a pointer to that wallet so that we can change the original values within it.
+Bu problemi pointerları kullanarak aşabiliriz. [Pointerlar](https://gobyexample.com/pointers), bazı değerlerin adreslerini almamıza ve onları değiştirmemize izin verir. Dolayısıyla, cüzdanının bir kopyasını almak yerine içindeki orjinal değerleri değiştirebilmemiz için metotlarda argüman olarak pointer almalıyız.
 
 ```go
 func (w *Wallet) Deposit(amount int) {
@@ -163,11 +162,13 @@ func (w *Wallet) Balance() int {
 }
 ```
 
-The difference is the receiver type is `*Wallet` rather than `Wallet` which you can read as "a pointer to a wallet".
+`*Wallet` ve `Wallet` arasındaki fark,
+`*Wallet`'ın çağrıldığı yerdeki cüzdana point eden bir argüman olacağını belirtiyoruz
+`Wallet` ise çağrıldığı yerden gelen bir kopya.
 
-Try and re-run the tests and they should pass.
+Testleri tekrardan çalıştırın, geçmiş olmaları gerekir.
 
-Now you might wonder, why did they pass? We didn't dereference the pointer in the function, like so:
+Testlerin neden geçtiğini merak ediyor olabilirsiniz. Metotdaki işaretcinin refaransını şu şekile getirmedik:
 
 ```go
 func (w *Wallet) Balance() int {
@@ -175,20 +176,19 @@ func (w *Wallet) Balance() int {
 }
 ```
 
-and seemingly addressed the object directly. In fact, the code above using `(*w)` is absolutely valid. However, the makers of Go deemed this notation cumbersome, so the language permits us to write `w.balance`, without an explicit dereference.
-These pointers to structs even have their own name: _struct pointers_ and they are [automatically dereferenced](https://golang.org/ref/spec#Method_values).
+ve doğrudan nesneye adres etti. Doğrusu yukarıdaki `(*w)` şeklinde olan kullanım kesinlikle geçerlidir. Yine de, Go'nun yapımcıları bu sözdizimini gereksiz buldular, bu sebeple açık bir referanslama olmadan `w.balance` şeklinde kullanıma izin verdiler. Yapılara yönelik bu point etme şeklinin kendine has ismi bile var: **_struct pointers_**. - [automatically dereferenced](https://golang.org/ref/spec#Method_values)
 
 Technically you do not need to change `Balance` to use a pointer receiver as taking a copy of the balance is fine. However, by convention you should keep your method receiver types the same for consistency.
 
 ## Refactor
 
-We said we were making a Bitcoin wallet but we have not mentioned them so far. We've been using `int` because they're a good type for counting things!
+Bitcoin için bir cüzdan yapacağımızı söyledik fakat bitcoin'e dair herhangi bir şeyden bahsetmedik. Şimdilik sadece `int` tipini kullandık, çünkü `int` birşeyleri saymak için iyidir.
 
-It seems a bit overkill to create a `struct` for this. `int` is fine in terms of the way it works but it's not descriptive.
+Bunun için sıfırdan bir `struct` oluşturmak biraz abartılı olabilir, `int` yeterlidir fakat bu durum için açıklayıcı bir veri tipi değil.
 
-Go lets you create new types from existing ones.
+Go mevcut olan bir veri tipinden başka bir veri tipi oluşturmanıza olanak sağlar,
 
-The syntax is `type MyName OriginalType`
+Şu sözdizimi ile varolan bir veri tipinden, başka bir veri tipi türetebilirsiniz: `type MyName OriginalType`
 
 ```go
 type Bitcoin int
@@ -223,11 +223,11 @@ func TestWallet(t *testing.T) {
 }
 ```
 
-To make `Bitcoin` you just use the syntax `Bitcoin(999)`.
+`Bitcoin` oluşturmak için `Bitcoin(999)` sözdizimini kullanabilirsin.
 
-By doing this we're making a new type and we can declare _methods_ on them. This can be very useful when you want to add some domain specific functionality on top of existing types.
+Bunu yaparak, yeni bir tür oluşturuyoruz ve bu tipe özel _methodlar_ tanımlayabiliriz. Tipe özel methodlar oluşturmamız, alanlara özgü başı işlevler eklemek istediğimizde çok yararlı olabilir.
 
-Let's implement [Stringer](https://golang.org/pkg/fmt/#Stringer) on Bitcoin
+Bitcoin için [Stringer](https://golang.org/pkg/fmt/#Stringer)'ı implemente edelim.
 
 ```go
 type Stringer interface {
@@ -235,7 +235,7 @@ type Stringer interface {
 }
 ```
 
-This interface is defined in the `fmt` package and lets you define how your type is printed when used with the `%s` format string in prints.
+Stringer interfaceı, `fmt` paketinde tanımlanmıştır ve string olarak çıktı alırken `%s` gibi bir formatlayıcı ile nasıl yazdıralacağını tanımlamamıza olanak sağlar.
 
 ```go
 func (b Bitcoin) String() string {
@@ -243,9 +243,9 @@ func (b Bitcoin) String() string {
 }
 ```
 
-As you can see, the syntax for creating a method on a type declaration is the same as it is on a struct.
+Gördüğünüz gibi, tipler için metot oluşturma sözdizimi, structlarda olduğu gibidir.
 
-Next we need to update our test format strings so they will use `String()` instead.
+Şimdiyse, testleri güncelleyerek bu oluşturduğumuz formatlı olarak string dönüşü yapan `String()` metotunu kullanmasını sağlayacağız.
 
 ```go
     if got != want {
@@ -253,17 +253,17 @@ Next we need to update our test format strings so they will use `String()` inste
     }
 ```
 
-To see this in action, deliberately break the test so we can see it
+Testlerin çalışmasını kasıtlı olarak bozarak, yeni çıktıyı görelim
 
 `wallet_test.go:18: got 10 BTC want 20 BTC`
 
-This makes it clearer what's going on in our test.
+Bu testlerimizde ve değiştirdiğimiz kodlar ile neler olduğunu daha anlaşılır olacak.
 
-The next requirement is for a `Withdraw` function.
+Sonraki yapacağımız geliştirme, `Withdraw` için olacak.
 
-## Write the test first
+## İlk olarak test yaz
 
-Pretty much the opposite of `Deposit()`
+`Withdraw` tam olarak `Deposit`'ın tam tersi olacak
 
 ```go
 func TestWallet(t *testing.T) {
@@ -298,11 +298,11 @@ func TestWallet(t *testing.T) {
 }
 ```
 
-## Try to run the test
+## Testi çalıştırmayı dene
 
 `./wallet_test.go:26:9: wallet.Withdraw undefined (type Wallet has no field or method Withdraw)`
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) {
@@ -312,7 +312,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) {
 
 `wallet_test.go:33: got 20 BTC want 10 BTC`
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) {
@@ -322,7 +322,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) {
 
 ## Refactor
 
-There's some duplication in our tests, lets refactor that out.
+Test kodlarımızda, tekrar eden kodlar var. Testlerimizi refactor edelim
 
 ```go
 func TestWallet(t *testing.T) {
@@ -351,15 +351,15 @@ func TestWallet(t *testing.T) {
 }
 ```
 
-What should happen if you try to `Withdraw` more than is left in the account? For now, our requirement is to assume there is not an overdraft facility.
+Hesapta kalan paradan daha fazlasını `Withdraw` etmeye çalışırsanız ne olacak? Şimdiki ihtiyacımız, kredili bir mevduat hesabının olmadığını varsaymak olacak
 
-How do we signal a problem when using `Withdraw`?
+`Withdraw` metotunu kullanırken geriye nasıl bir problem olduğunu bildiririz?
 
-In Go, if you want to indicate an error it is idiomatic for your function to return an `err` for the caller to check and act on.
+Go'da, bir hata oluştuğunu belirtmek istiyorsanız "idiomatic" bir seçeneğiniz var. Sizin yazdığınız fonksiyonunu çağırıldığı yere bir `err` döndürmesini ve onu kontrol ederek harekete geçmesini sağlayabilirsiniz.
 
-Let's try this out in a test.
+Bunu bir test ile yapmayı deneyelim,
 
-## Write the test first
+## İlk önce testi yaz
 
 ```go
 t.Run("Withdraw insufficient funds", func(t *testing.T) {
@@ -375,21 +375,21 @@ t.Run("Withdraw insufficient funds", func(t *testing.T) {
 })
 ```
 
-We want `Withdraw` to return an error _if_ you try to take out more than you have and the balance should stay the same.
+Hesap sahibinin, sahip olduğundan daha fazla parayı çekmeye çalıştığında bunu yapamamasını ve bir hata dönmesini istiyoruz.
 
 We then check an error has returned by failing the test if it is `nil`.
 
-`nil` is synonymous with `null` from other programming languages. Errors can be `nil` because the return type of `Withdraw` will be `error`, which is an interface. If you see a function that takes arguments or returns values that are interfaces, they can be nillable.
+`nil`, diğer programlama dillerinde olan `null` ile eşanlamlıdır. `Withdraw`'ın dönüşü `nil` olabilir çünkü return type olarak `error` kullanılacak ve bu bir interfacedır. Interface dönen veya parametre olarak alan fonksiyonlar görürseniz, bilinki bunların aldığı veya döndüğü değerler `nil` olabilir.
 
-Like `null` if you try to access a value that is `nil` it will throw a **runtime panic**. This is bad! You should make sure that you check for nils.
+`null`'da olduğu gibi, `nil` bir değere ulaşmaya çalışırsanız **runtime panic** hatası fırlatılacaktır. Bunun için, bu gibi değerlere ulaşmaya çalışmadan önce `nil` olup, olmadığını kontrol etmelisiniz.
 
-## Try and run the test
+## Dene ve testi çalıştır
 
 `./wallet_test.go:31:25: wallet.Withdraw(Bitcoin(100)) used as value`
 
 The wording is perhaps a little unclear, but our previous intent with `Withdraw` was just to call it, it will never return a value. To make this compile we will need to change it so it has a return type.
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) error {
@@ -400,7 +400,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 
 Again, it is very important to just write enough code to satisfy the compiler. We correct our `Withdraw` method to return `error` and for now we have to return _something_ so let's just return `nil`.
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) error {
