@@ -4,7 +4,7 @@
 
 Varsayalım ki uzunluğu ve yüksekliği verilen bir dörtgenin çevresini hesaplayan geometri koduna ihtiyacımız var. Dönüş tipi `float64`, 123.45 gibi, küsüratlı sayı (floating-point) olan `Perimeter(width float64, height float64)` isminde fonksiyon yazarız.
 
-TDD aşamasına artık oldukça aşinasınızdır.
+TDD aşamalarına artık oldukça aşinasınızdır.
 
 ## İlk olarak test yaz
 
@@ -25,7 +25,7 @@ Yeni string formatını farkettiniz mi? `f` tanımı `float64` içindir ve `.2` 
 
 `./shapes_test.go:6:9: undefined: Perimeter`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 ```go
 func Perimeter(width float64, height float64) float64 {
@@ -43,11 +43,11 @@ func Perimeter(width float64, height float64) float64 {
 }
 ```
 
-Şimdiye kadar çok kolaydı. Şimdi `Area(width, height float64)` isminde dörtgenin alanını dönen fonksiyon yazalım.
+Şimdiye kadar çok kolaydı. Şimdi `Area(width, height float64)` isminde dörtgenin alanını dönen fonksiyonu yazalım.
 
 TDD aşamalarını takip ederek kendiniz denemeye çalışın.
 
-En sonunda testleriniz bunu gibi olacaktır.
+En sonunda testleriniz bunun gibi olacaktır.
 
 ```go
 func TestPerimeter(t *testing.T) {
@@ -69,7 +69,7 @@ func TestArea(t *testing.T) {
 }
 ```
 
-Kodumuz da buna benzeyecektir
+Kodumuzda buna benzeyecektir
 
 ```go
 func Perimeter(width float64, height float64) float64 {
@@ -85,9 +85,9 @@ func Area(width float64, height float64) float64 {
 
 Kodumuz işini yapıyor ancak dikdörtgenler hakkında açık bir şey içermiyor. Dikkatsiz bir geliştirici, yanlış cevap elde edeceğini fark etmeden bu fonksiyonlara bir üçgenin genişliğini ve yüksekliğini vermeye çalışabilir.
 
-Fonksiyonlara `RectangleArea` gibi daha spesifik isimler verebilir. Daha iyi bir çözüm ise bu konsepti bizim için kapsayan kendi _tipimiz_ olan `Rectangle` tanımlamaktır.
+Fonksiyonlara `RectangleArea` gibi daha spesifik isimler verebilir. Daha iyi bir çözüm ise bu konsepti bizim için kapsayan kendi _tipimiz_ olan `Rectangle`'ı tanımlamaktır.
 
-**Struct** kullanarak basitçe kendi tipimizi oluşturabiliriz. Verilerimizi depoladığımız fieldların kolksiyonuna [Struct](https://golang.org/ref/spec#Struct_types) denir.
+**Struct** kullanarak basitçe kendi tipimizi oluşturabiliriz. Verilerimizi depoladığımız fieldların koleksiyonuna [Struct](https://golang.org/ref/spec#Struct_types) denir.
 
 Aşağıdaki gibi bir struct tanımlayın
 
@@ -144,7 +144,7 @@ func Area(rectangle Rectangle) float64 {
 }
 ```
 
-Bir fonksiyona `Rectangle` vermenin amacımızı daha net ifade ettiğini kabul edeceğinizi umuyorum. Strcut kullanmanın avantajlarını ileride ele alacağız.
+Bir fonksiyona `Rectangle` vermenin amacımızı daha net ifade ettiğini kabul edeceğinizi umuyorum. Struct kullanmanın avantajlarını ileride ele alacağız.
 
 Sıradaki koşulumuz ise çemberler için `Area` fonksiyonu yazmak.
 
@@ -184,7 +184,7 @@ Görebileceğiniz gibi `f` iyi bir nedenle `g` ile yer değiştirdi.
 
 `./shapes_test.go:28:13: undefined: Circle`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 `Circle` tipini tanımlamamız gerekiyor.
 
@@ -216,7 +216,7 @@ Ancak Go'da yapamazsınız
 
 ### Metotlar nedir?
 
-Şimdiye kadar sadece _fonksiyonlar_ yazdık ancak metotları kullanıyorduk . `t.Errorf` çağırdığımızda aslında `t` \(`testing.T`\)'nin instancını `Errorf` metodunu çağırıyorduk.
+Şimdiye kadar sadece _fonksiyonlar_ yazdık ancak metotları kullanıyorduk . `t.Errorf` çağırdığımızda aslında `t` \(`testing.T`\)'nin instanceını `Errorf` metodunu çağırıyorduk.
 
 Metotlar, receiverı olan fonksiyonlardır.
 Metot tanımı, bir tanımlayıcıyı, metot adını bir metota bağlar ve metodu receiverın temel türüyle ilişkilendirir.
@@ -262,7 +262,7 @@ Eğer testleri çalıştırmayı denersek aşağıdakileri elde ederiz
 
 Derleyicinin burada ne kadar harika olduğunu tekrarlamak istiyorum. Aldığınız hata mesajlarını yavaş yavaş okumak için zaman ayırmanız o kadar önemlidir ki uzun vadede size yardımcı olacaktır.
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Tiplerimize biraz metot ekleyelim
 
@@ -307,7 +307,7 @@ func (r Rectangle) Area() float64  {
 }
 ```
 
-Eğer dörgen testlerini tekrardan çalıştırırsanız testi geçeceklerdi ancak çember hala başarısız olacaktır.
+Eğer dörtgen testlerini tekrardan çalıştırırsanız testi geçeceklerdi ancak çember hala başarısız olacaktır.
 
 To make circle's `Area` function pass we will borrow the `Pi` constant from the `math` package \(remember to import it\).
 
@@ -321,7 +321,7 @@ func (c Circle) Area() float64  {
 
 Testlerimizde bazı tekrarlar var.
 
-Yapmak istediğimiz, _şekillerin_ koleksiyonunu almak ,her birinin `Area()` metotlarını çağırmak ve sonuçlarını kontrol etmek.
+Yapmak istediğimiz, _şekillerin_ koleksiyonunu almak, her birinin `Area()` metotlarını çağırmak ve sonuçlarını kontrol etmek.
 
 `Rectangle` ve `Circle` parametre olarak gönderebileceğimiz `checkArea` fonksiyonu yazmak istiyoruz ama bu şekillerin dışında bir şey gönderdiğimizde derlenmemesini istiyoruz.
 
@@ -367,7 +367,7 @@ type Shape interface {
 
 `Rectangle` ve `Circle`'da olduğu gibi yeni bir `type` oluşturuyoruz ama bu sefer `struct` yerine `interface` kullanarak.
 
-Birkere bunu eklediğinizde, tesler geçecektir.
+Birkere bunu eklediğinizde, testler geçecektir.
 
 ### Bekle, ne?
 
@@ -375,12 +375,12 @@ Burdaki interfacelar çoğu programlama dillerinden farklılar. Normalde `My typ
 
 Ancak bizim durumumuzda
 
--   `Rectangle`, `Area` isminde `float64` dönen bir metoda sahip, `Shape` interfacini karşılıyor
--   `Circle`, `Area` isminde `float64` dönen bir metoda sahip, `Shape` interfacini karşılıyor
--   `string` böyle bir methoda sahip değil, bu yüzden interfaci karşılamıyor
+-   `Rectangle`, `Area` isminde `float64` dönen bir metoda sahip, `Shape` interfaceini karşılıyor
+-   `Circle`, `Area` isminde `float64` dönen bir metoda sahip, `Shape` interfaceini karşılıyor
+-   `string` böyle bir methoda sahip değil, bu yüzden interfacei karşılamıyor
 -   vb.
 
-Go'da **interface çözünürlüğü örtüktür**. Eğer paramtere olarak gönderdiğiniz değer interface ile eşleşirse derlenir.
+Go'da **interface tanımlama belirtmeleri kararlıdır**. Parametre olarak gönderdiğiniz değerler interface'ın istediği ise derlenir.
 
 ### Decoupling
 
@@ -415,20 +415,20 @@ func TestArea(t *testing.T) {
 }
 ```
 
-Buradaki tek yeni söz dizimi "anonymous structtır", `areaTests`. `shape` ve `want` fieldlarına sahip `[]struct` ile struct slice'ı tanımlıyoruz. Daha sonra sliceları durumlar ile dolduruyoruz.
+Buradaki tek yeni sözdizimi "anonymous structtır", `areaTests`. `shape` ve `want` fieldlarına sahip `[]struct` ile struct slice'ı tanımlıyoruz. Daha sonra sliceları durumlar ile dolduruyoruz.
 
-Daha sonra, testlerimizi çalıştırmak için struct fieldları kullanarak, diğer dilimlerde yaptığımız gibi bunları iterate ediyoruz.
+Daha sonra, testlerimizi çalıştırmak için struct fieldları kullanarak, diğer slicelarda yaptığımız gibi bunları iterate ediyoruz.
 
 Bir geliştiricinin yeni bir shape tanıtmasının, `Area` uygulamasını ve ardından onu test senaryolarına eklemesinin ne kadar kolay olacağını görebilirsiniz. Ek olarak, `Area` ile ilgili bir hata bulunursa, düzeltmeden önce alıştırma yapmak için yeni bir test senaryosu eklemek çok kolaydır.
 
 Table driven testler alet çantanızda harika bir araç olabilir ancak testlerde ekstra gürültüye ihtiyacınız var.
-Bir interfacin çeşitli uygulamalarını test etmek istediğinizde veya bir fonksiyona iletilen verilerin test edilmesi gereken birçok farklı gereksinimi varsa, bunlar çok uygundur.
+Bir interfacein çeşitli implemente etme yollarını test etmek istediğinizde veya bir fonksiyona iletilen verilerin test edilmesi gereken birçok farklı gereksinimi varsa, bunlar çok uygundur.
 
-Tüm bunları başka bir şekil ekleyerek ve test ederek gösterelim; bir üçgene.
+Tüm bunları, bir üçgene başka bir şekil ekleyerek ve test ederek gösterelim.
 
 ## İlk olarak test yaz
 
-Yeni şeklimiz için test eklemek çok kolay. Sadece listemize `{Triangle{12, 6}, 36.0},` ekle.
+Yeni şeklimiz için test eklemek çok kolay. Sadece listemize `{Triangle{12, 6}, 36.0},`'ı ekleyin.
 
 ```go
 func TestArea(t *testing.T) {
@@ -448,7 +448,6 @@ func TestArea(t *testing.T) {
             t.Errorf("got %g want %g", got, tt.want)
         }
     }
-
 }
 ```
 
@@ -456,7 +455,7 @@ func TestArea(t *testing.T) {
 
 Testi çalıştırmayı denemeye devam etmeyi ve derleyicinin bir çözüme rehberlik etmesine izin vermeyi hatırla.
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 `./shapes_test.go:25:4: undefined: Triangle`
 
@@ -512,7 +511,7 @@ Bunu taradığınızda
 
 Testlerinizin kolayca anlaşılmasını amaçlamalısınız, burada tüm sayıların neyi temsil ettiği hemen belli olmuyor.
 
-Şimdiye kadar size yalnızca `MyStruct{val1, val2}` structunun örneklerini oluşturmak için sözdizimi gösterildi, ancak isteğe bağlı olarak fieldları adlandırabilirsiniz.
+Şimdiye kadar size yalnızca `MyStruct{val1, val2}` structının örneklerini oluşturmak için sözdizimi gösterildi, ancak isteğe bağlı olarak fieldları adlandırabilirsiniz.
 
 Şimdi nasıl gözüktüğüne bakalım
 
@@ -530,7 +529,7 @@ Testlerinizin kolayca anlaşılmasını amaçlamalısınız, burada tüm sayıla
 
 Şimdi testlerimiz - daha doğrusu test senaryolarının listesi - şekiller ve alanları hakkında doğruluk iddiasında bulunuyor.
 
-## Test çıktılarınızı yardımcı hale getirin
+## Test çıktılarınızın sorunu bulmakta yardımcı olduğundan emin olun
 
 `Triangle` implemente ettiğimizde testimiz başarısız olmuştu hatırladınız mı? Hata mesajı olarak `shapes_test.go:31: got 0.00 want 36.00` yazdırmıştı.
 
@@ -539,7 +538,7 @@ Peki ya tablodaki 20 vakadan birinde sistemde bir bug olursa?
 Hangi durumun hatalı olduğunu geliştirici nasıl bilecek?
 Geliştirici için harika bir deneyim değil, hangi durumun başarısız olduğunu bulmak için manuel olarak hepsine bakmak zorundalar.
 
-Hata mesajımızın formatını değiştiriyoruz `%#v got %g want %g`. `%#v` formatı structın fieldlarındaki veriler ile birlikte yazdıırı bu sayede gelşitirici test edilen properyleri bir bakışta görebilir.
+Hata mesajımızın formatını değiştiriyoruz `%#v got %g want %g`. `%#v` formatı structın fieldlarındaki veriler ile birlikte yazdırır bu sayede geliştirici test edilen propertyleri bir bakışta görebilir.
 
 Testlerimizin okunabilirliğini daha da arttırmak için `want` fieldını daha açıklayıcı olan `hasArea` olarak değiştirebiliriz.
 
@@ -586,15 +585,17 @@ func TestArea(t *testing.T) {
 
 ## Özetlersek
 
-Bu daha çok TDD uygulamasıydı, temel matematik problemlerine yönelik çözümlerimizi yineliyor ve testlerimizle motive edilen yeni dil özelliklerini öğreniyordu.
+Bu daha gerçekci, iyi bir TDD pratiğiydi. Temel matematik problemlerine yönelik bildiklerimizi tekrarlamamıza ve testlerimiz ile öğrenme sürecini daha başarılı kıldığımız yeni dilin özelliklerini kullanmamıza yardımcı oldu.
 
 -   Struct tanımlayarak ilgili verileri bir araya getirmenize ve kodunuzun amacını daha net hale getirmenize olanak tanıyan kendi veri türlerinizi oluşturma
--   Interface tanımlayarak farklı tiplerle fonksiyonların kullanma \([parametric polymorphism](https://en.wikipedia.org/wiki/Parametric_polymorphism)\)
+-   Interface tanımlayarak, farklı türler tarafından kullanılabilecek fonksiyonları tanımlamak \([parametric polymorphism](https://en.wikipedia.org/wiki/Parametric_polymorphism)\)
 -   Metotlar ekleyerek veri tiplerine fonksiyonalite ekleme ve interfaceleri implemente etme
--   Table driven testler ile assertionları daha temiz yapma ve test takımlarını genişletme ve bakımını kolaylaştırma
+-   Table driven testler ile assertionları daha anlaşılır hale getirme, testleri genişletme ve bakımını kolaylaştırma
 
 Bu önemli bir bölümdü çünkü artık kendi türlerimizi tanımlamaya başlıyoruz. Go gibi statik olarak yazılan dillerde, kendi türlerinizi tasarlayabilmek, anlaşılması, birleştirilmesi ve test edilmesi kolay yazılımlar oluşturmak için çok önemlidir.
 
-Interfaceler, sistemin karmaşıklığını gizlemek için harika bir araç. Bizim durumumuzda, test yardımcı _kodumuz_, iddia ettiği shapi tam olarak bilmek zorunda değildi, sadece alanı için nasıl "soracağını" bilmek zorundaydı.
+Interfaceler, sistemin karmaşıklığını gizlemek için harika bir araç. Bizim durumumuzda, test yardımcı _kodumuz_, iddia ettiği shapein ne olduğunu tam olarak bilmek zorunda değildi, sadece onun alanını nasıl "isteyeceğini" bilmek zorundaydı.
 
-Go'ya daha aşina oldukça, arayüzlerin ve standart kütüphanenin gerçek gücünü görmeye başlayacaksınız. _Her yerde_ kullanılan, standart kütüphanede tanımlı interfaceleri öğreneceksiniz ve bunların kendi türlerinize karşı uygulamalarını öğreneceksiniz,çok sayıda harika işlevi çok hızlı bir şekilde yeniden kullanabileceksiniz.
+Go'ya daha da aşina oldukça, interfacelerin ve standart kütüphanenin([go std](https://pkg.go.dev/std)) gerçek gücünü görmeye başlayacaksınız. _Her yerde_ kullanılan, standart kütüphanede tanımlı interfaceleri öğreneceksiniz ve bunların kendi türlerinize karşı uygulamalarını öğreneceksiniz, çok sayıda harika işlevi çok hızlı bir şekilde yeniden kullanabileceksiniz.
+
+Bu sayfa [@bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.

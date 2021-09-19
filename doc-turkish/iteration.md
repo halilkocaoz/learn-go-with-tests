@@ -29,7 +29,7 @@ func TestRepeat(t *testing.T) {
 
 `./repeat_test.go:6:14: undefined: Repeat`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 _Disiplini koruyun!_ Testin düzgün bir şekilde başarısız olması için şu anda yeni bir şey bilmenize gerek yok.
 

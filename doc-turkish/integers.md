@@ -35,7 +35,7 @@ Derleme hatasını incele
 
 `./adder_test.go:6:9: undefined: Add`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Derleyici hata vermeyecek kadar kod yaz. Testlerimizin doğru nedenle başarısız olup olmadığını kontrol etmek istediğimizi unutma.
 
