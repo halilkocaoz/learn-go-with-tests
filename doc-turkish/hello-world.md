@@ -199,7 +199,7 @@ func Hello(name string) string {
 }
 ```
 
-Testleri tekrar çalıştırdığınızda, geçmiş olmaları gerekir. Normalde Test Driven Development döngüsünün bir parçası olarak şimdi _refactor_ yapmalıyız.
+Testleri tekrar çalıştırdığınızda, geçmiş olmaları gerekir. Normalde Test Driven Development aşamalarının bir parçası olarak şimdi _refactor_ yapmalıyız.
 
 ### Source control ile ilgili bir not
 
@@ -322,7 +322,7 @@ Testlerimizi çalıştırırsak, yeni eklediğimiz gereksinimi karşıladığın
 
 ### Disiplin
 
-TDD disiplini ile ilgili döngüyü tekrar gözden geçirelim,
+TDD disiplini ile ilgili aşamaları tekrar gözden geçirelim,
 
 * Bir test yazın
 * Yazdığımız test ile birlikte kodumuzun compile edilmesini sağlayacak duruma getirin
@@ -330,7 +330,7 @@ TDD disiplini ile ilgili döngüyü tekrar gözden geçirelim,
 * Testi geçecek kadar kod yazın
 * Refactor edin
 
-İlk bakışta bu sıkıcı görünebilir, fakat bu döngüye bağlı kalmak önemlidir.
+İlk bakışta bu sıkıcı görünebilir, fakat bu TDD aşamalarına bağlı kalmak önemlidir.
 
 Bu yaptığımız sadece ihtiyacınız olan testlere sahip olmanızı sağlamakla kalmaz, aynı zamanda testlerin verdiği güven ile refactorler yaparak çok daha iyi yazılım tasarımlarına sahip olmanızı sağlar.
 

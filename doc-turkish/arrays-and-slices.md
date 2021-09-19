@@ -46,7 +46,7 @@ Burada arraylerde de iyi çalışan `%v` fotmatlayıcısını değerleri "varsay
 
 `go test` komutunu çalıştırdığınızda derleyici `./sum_test.go:10:15: undefined: Sum` hatasını verecek.
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 `sum.go` içerisine
 
@@ -145,7 +145,7 @@ Bu derlenmeyecektir
 
 `./sum_test.go:22:13: cannot use numbers (type []int) as type [5]int in argument to Sum`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Bizimde yapabileceğimiz, buradaki problem
 
@@ -255,7 +255,7 @@ func TestSumAll(t *testing.T) {
 
 `./sum_test.go:23:9: undefined: SumAll`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Bizim testimize göre `SumAll` fonksiyonunu tanımlamalıyız.
 
@@ -372,7 +372,7 @@ func TestSumAllTails(t *testing.T) {
 
 `./sum_test.go:26:9: undefined: SumAllTails`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Fonksiyonu`SumAllTails` olarak yeniden isimlendir ve testi tekrar çalıştır
 
@@ -512,7 +512,7 @@ Test yazmaktan başka Go ile deneme yapmanın bir başka kullanışlı yolu da G
 Array'in dilimlenmesi ve slice'ın değiştirilmesinin orjinal diziye nasıl etkilediğinin [örneği](https://play.golang.org/p/bTrRmYfNYCp); "Kopya" slice orjinal arraye etki etmeyecektir.
 Neden büyük bir slice'ı dilimledikten sonra slice'ın kopyasını almak neden iyi bir fikirdir [başka bir örnek](https://play.golang.org/p/Poth8JS28sc).
 
-Bu sayfa [bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.
+Bu sayfa [@bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.
 
 [for]: ../iteration.md#
 [blog-slice]: https://blog.golang.org/go-slices-usage-and-internals
