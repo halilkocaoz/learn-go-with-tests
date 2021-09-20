@@ -675,3 +675,5 @@ func assertError(t testing.TB, got error, want error) {
 * Arayüzleri implemente etmenize izin verir
 
 Go dili ile yazılımlar üretirken hataları ve pointerları bolca kullanacaksınız, bu duruma dair bir önyargınızın, çekincenizin olmaması lazım. Go derleyicisi, size genellikle yardımcı olur, bir hata yaptığınızda acele etmeden hata mesajını okuyun, hata mesajları sizi çözüme götürecektir.
+
+Bu sayfa [@halilkocaoz](https://github.com/halilkocaoz) tarafından çevrildi.
