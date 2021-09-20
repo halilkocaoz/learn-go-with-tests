@@ -381,13 +381,13 @@ We then check an error has returned by failing the test if it is `nil`.
 
 `nil`, diğer programlama dillerinde olan `null` ile eşanlamlıdır. `Withdraw`'ın dönüşü `nil` olabilir çünkü return type olarak `error` kullanılacak ve bu bir interfacedır. Interface dönen veya parametre olarak alan fonksiyonlar görürseniz, bilinki bunların aldığı veya döndüğü değerler `nil` olabilir.
 
-`null`'da olduğu gibi, `nil` bir değere ulaşmaya çalışırsanız **runtime panic** hatası fırlatılacaktır. Bunun için, bu gibi değerlere ulaşmaya çalışmadan önce `nil` olup, olmadığını kontrol etmelisiniz.
+`null`'da olduğu gibi, `nil` bir değere ulaşmaya çalışırsanız **runtime panic** hatası fırlatılacaktır. Bunun için, `nil` olabilecek değerlere ulaşmaya çalışmadan önce `nil` olup, olmadığını kontrol etmelisiniz.
 
 ## Dene ve testi çalıştır
 
 `./wallet_test.go:31:25: wallet.Withdraw(Bitcoin(100)) used as value`
 
-The wording is perhaps a little unclear, but our previous intent with `Withdraw` was just to call it, it will never return a value. To make this compile we will need to change it so it has a return type.
+Hata ifadesi biraz anlaşılmaz fakat amacımız sadece `Withdraw`'ı çağırmaktı, şuan herhangi bir değer döndürmüyor. Değer döndürmesini sağlamak için metotu dönüş tipine sahip olacak şekilde değiştirmeliyiz.
 
 ## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
@@ -398,7 +398,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 }
 ```
 
-Again, it is very important to just write enough code to satisfy the compiler. We correct our `Withdraw` method to return `error` and for now we have to return _something_ so let's just return `nil`.
+Tekrardan compile etmesini sağlayacak kadar kod yazmalıyız, `Withdraw` metotunu bir `error` döndüreceği şekile getirdik. Şimdilik sadece `nil` dönmesini sağlıyoruz.
 
 ## Testi geçecek kadar kod yaz
 
@@ -414,13 +414,14 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 }
 ```
 
-Remember to import `errors` into your code.
+`errors` paketini kodunuza import etmeyi unutmayın.
 
-`errors.New` creates a new `error` with a message of your choosing.
+
+`errors.New`, bizim oluşturduğumuz bir mesaj ile `error` oluşturuyor.
 
 ## Refactor
 
-Let's make a quick test helper for our error check to improve the test's readability
+Testin okunabilirliğini arttırmak için, önceden yaptığımız gibi assert ile bir helper oluşturalım.
 
 ```go
 assertError := func(t testing.TB, err error) {
@@ -430,8 +431,6 @@ assertError := func(t testing.TB, err error) {
     }
 }
 ```
-
-And in our test
 
 ```go
 t.Run("Withdraw insufficient funds", func(t *testing.T) {
@@ -444,13 +443,13 @@ t.Run("Withdraw insufficient funds", func(t *testing.T) {
 })
 ```
 
-Hopefully when returning an error of "oh no" you were thinking that we _might_ iterate on that because it doesn't seem that useful to return.
+Umarım, "oh no" hata mesajını tekrardan düzenleyeceğimizi düşünüyorsunuzdur çünkü bu hata mesajını dönmenin pek bir faydası olmaz, boş bir hata mesajı dönmekten pek bir farkı yok.
 
-Assuming that the error ultimately gets returned to the user, let's update our test to assert on some kind of error message rather than just the existence of an error.
+Hatanın kullanıcıya döndüğünü varsayarak, testlerimizi bir hatanın varlığından ziyade hatanın mesajı üzerinden iddia oluşturacak şekilde güncelleyelim.
 
-## Write the test first
+## İlk önce testi yaz
 
-Update our helper for a `string` to compare against.
+`string` ile karşılaştırmak yapmak için test helperimizi güncelleyelim
 
 ```go
 assertError := func(t testing.TB, got error, want string) {
@@ -465,7 +464,7 @@ assertError := func(t testing.TB, got error, want string) {
 }
 ```
 
-And then update the caller
+Çağırma yöntemimizi değiştirelim,
 
 ```go
 t.Run("Withdraw insufficient funds", func(t *testing.T) {
@@ -478,13 +477,13 @@ t.Run("Withdraw insufficient funds", func(t *testing.T) {
 })
 ```
 
-We've introduced `t.Fatal` which will stop the test if it is called. This is because we don't want to make any more assertions on the error returned if there isn't one around. Without this the test would carry on to the next step and panic because of a nil pointer.
+`t.Fatal` çağrıldığı zaman testlerimiz duracak, bunu yapmamızın sebebi hata almamız gereken yerde hata almadık fakat burada kesinlikle hata almamız gerekiyordu ve verdiğimiz hata mesajı ile neden durulduğunundan bahsettik. Bu olmazsa, gelen değer `nil` olduğu için panic atacaktı ve yine duracaktı fakat panic attığı zaman hatanın ne olduğunu anlamak için kafa patlatmamız gerekirdi. `nil` yüzünden panic almamak için önceden mudahale edip `didn't get an error but wanted one` cümlesi ile sorunun ne olduğunu bildirdik.
 
-## Try to run the test
+## Testi çalıştırmayı dene
 
 `wallet_test.go:61: got err 'oh no' want 'cannot withdraw, insufficient funds'`
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) error {
@@ -500,11 +499,11 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 
 ## Refactor
 
-We have duplication of the error message in both the test code and the `Withdraw` code.
+`Withdraw` ve bunun için yazılmış test kodlarından hata mesajlarının kopyası var.
 
-It would be really annoying for the test to fail if someone wanted to re-word the error and it's just too much detail for our test. We don't _really_ care what the exact wording is, just that some kind of meaningful error around withdrawing is returned given a certain condition.
+Birisi hata mesajını tekrardan düzenlemek isterse, testler üzerinde de gidip bunu değiştirmesi çok can sıkıcı olabilir. Hata mesajının tam olarak neyi ifade ettiği umurumuzda değil, sadece belilir koşullarda para çekme işlemi yapıldığında bir hata mesajı alacağız.
 
-In Go, errors are values, so we can refactor it out into a variable and have a single source of truth for it.
+Go'da errorlar birer değerdir. Yani bunları bir değişkene atayıp tek bir kaynaktan edinmeyi sağlayabiliriz.
 
 ```go
 var ErrInsufficientFunds = errors.New("cannot withdraw, insufficient funds")
@@ -520,11 +519,11 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 }
 ```
 
-The `var` keyword allows us to define values global to the package.
+`var` keywordu, global olarak paket içinde bir değişken tanımlamamıza izin veriyor.
 
-This is a positive change in itself because now our `Withdraw` function looks very clear.
+Bu şekilde bir değişiklik ile `Withdraw` metotumuz çok daha anlaşılır görünüyor.
 
-Next we can refactor our test code to use this value instead of specific strings.
+Ardından, test kodlarımızda belirli string tanımlamaları yerine, yeni yaptığımız hata tanımlamasını kullanabiliriz ve bunun dışında helperlar ile ilgili bir refactorde uygulayalım.
 
 ```go
 func TestWallet(t *testing.T) {
@@ -571,29 +570,29 @@ func assertError(t testing.TB, got, want error) {
 }
 ```
 
-And now the test is easier to follow too.
+Test kodlarını takip etmek ve anlamak çok daha kolay oldu.
 
-I have moved the helpers out of the main test function just so when someone opens up a file they can start reading our assertions first, rather than some helpers.
+Helperları ana test fonksiyonunun dışına çıkardık, böylece biri bu dosyayı açtığında yardımcıları görmek yerine testlerin geçmesi için iddia ettiklerimizi görecek.
 
-Another useful property of tests is that they help us understand the _real_ usage of our code so we can make sympathetic code. We can see here that a developer can simply call our code and do an equals check to `ErrInsufficientFunds` and act accordingly.
+Test yazmanın faydaları arasında kodumuzun gerçek kullanımının nasıl olduğunu başka geliştiricilerinde anlamasına yardımcı olması vardır.
 
-### Unchecked errors
+### Kontrol edilmemiş hatalar
 
-Whilst the Go compiler helps you a lot, sometimes there are things you can still miss and error handling can sometimes be tricky.
+Go derleyicisi size çok fazla yardımcı olmasına rağmen gözden kaçırabileceğiniz şeyler olur ve işlenecek hataları bulmak, görmek bazen zor olabilir.
 
-There is one scenario we have not tested. To find it, run the following in a terminal to install `errcheck`, one of many linters available for Go.
+Test etmediğimiz bir senaryo daha var, bunu bulmak için Go'da mevcut birçok linterdan biri olan `errcheck`'i kurabilirsiniz. `errcheck`'ı edinmek için terminalde şunu çalıştırın:
 
 `go get -u github.com/kisielk/errcheck`
 
-Then, inside the directory with your code run `errcheck .`
+`errcheck` paketini edindikten sonra, kontrol etmek istediğiniz dizine gidin ve terminalde `errcheck .` komutunu çalıştırın.
 
-You should get something like
+Şu şekilde bir şey göreceksin:
 
 `wallet_test.go:17:18: wallet.Withdraw(Bitcoin(10))`
 
-What this is telling us is that we have not checked the error being returned on that line of code. That line of code on my computer corresponds to our normal withdraw scenario because we have not checked that if the `Withdraw` is successful that an error is _not_ returned.
+Gördüğünüz şeyin bize söylediği, `wallet_test.go` dosyasında belirtilen satırdaki error checki yapmadığımız. Bu senaryo içinde err check'in yapılmasını sağlayabiliriz.
 
-Here is the final test code that accounts for this.
+Test kodlarımızın en son hali şu şekilde olacak:
 
 ```go
 func TestWallet(t *testing.T) {
@@ -650,29 +649,29 @@ func assertError(t testing.TB, got error, want error) {
 }
 ```
 
-## Wrapping up
+## Özetlersek
 
-### Pointers
+### Pointerlar
 
-* Go copies values when you pass them to functions/methods, so if you're writing a function that needs to mutate state you'll need it to take a pointer to the thing you want to change.
-* The fact that Go takes a copy of values is useful a lot of the time but sometimes you won't want your system to make a copy of something, in which case you need to pass a reference. Examples include referencing very large data structures or things where only one instance is necessary \(like database connection pools\).
+* Go metotlara veya fonksiyonlara ilettiğiniz değerlerin bir kopyasını(`pass by value`) gönderir. Bu nedenle, bir değerin gerçek durumunun değiştirilmesi gerektiği durumalarda pointer kullanmalısınız.
+* Go'nun değerlerin kopyasını göndermesi bir çok durumda yararlıdır fakat bazı durumlarda sisteminizin bir verinin kopyası üzerinde çalışmasını veya gerçek veriler dışında bir kopya oluşturması istemezsiniz, bu durumlarda o değeri referans edecek bir pointer kullanmalısınız. Örnek olarak, çok büyük veri yapıları ile çalışırken veya yalnızca bir verinin sadece bir örneği olması gerektiği durumlar mesela: veritabanı bağlantıları.
 
 ### nil
 
-* Pointers can be nil
-* When a function returns a pointer to something, you need to make sure you check if it's nil or you might raise a runtime exception - the compiler won't help you here.
-* Useful for when you want to describe a value that could be missing
+* Pointerlar nil olabilir
+* Bir fonksiyon bir şeye point eden bir değer döndürdüğü zaman, nil olup olmadığını kontrol ettiğinizden emin olmalısınız veya **runtime panic** oluşturursunuz ve derleyici size burada yardımcı olamaz.
+* Unutulacak bir değeri tanımlamak istediğiniz zaman biçilmiş bir kaftandır.
 
-### Errors
+### Errorlar
 
-* Errors are the way to signify failure when calling a function/method.
-* By listening to our tests we concluded that checking for a string in an error would result in a flaky test. So we refactored our implementation to use a meaningful value instead and this resulted in easier to test code and concluded this would be easier for users of our API too.
-* This is not the end of the story with error handling, you can do more sophisticated things but this is just an intro. Later sections will cover more strategies.
+* Hatalar bir fonksiyonun veya metot çağırırken, çağrıldığı yerde olan kod bloklarında bir hatanın olduğunu belirtmek için kullanılır.
+* Test kodlarımızı gözlemleyerek, bir `string` üzerinden hata kontrolu yapmamız tuhaf bir şey olacağını varsaydık. Bu nedenle, hata döndürme implementasyonumuzda daha anlamlı bir şekilde hata dönmesini sağladık ve bu kodun daha da kolay test edilebilmesini sağladı. Ayrıca bu yaptığımız, bizim kodumuz bir API'ya olarak kullanacak başka geliştiriciler için de daha kolay anlaşılabilir olacağına karar verdik.
+* Bu hata işleme ile ilgili hikayenin sadece başlangıcıydı. Daha karmaşık şeylerde yapabiliriz. Sonraki bölümlerde hata yakalama ile ilgili daha fazla strateji ele alınacak.
 * [Don’t just check errors, handle them gracefully](https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully)
 
-### Create new types from existing ones
+### Mevcüt olan tiplerden, yenisini türetmek
 
-* Useful for adding more domain specific meaning to values
-* Can let you implement interfaces
+* Değerler için çalışılan alana özgü daha anlaşılır bir anlam yüklendirebileceğiniz durumlarda kullanışlıdır.
+* Arayüzleri implemente etmenize izin verir
 
-Pointers and errors are a big part of writing Go that you need to get comfortable with. Thankfully the compiler will _usually_ help you out if you do something wrong, just take your time and read the error.
+Go dili ile yazılımlar üretirken hataları ve pointerları bolca kullanacaksınız, bu duruma dair bir önyargınızın, çekincenizin olmaması lazım. Go derleyicisi, size genellikle yardımcı olur, bir hata yaptığınızda acele etmeden hata mesajını okuyun, hata mesajları sizi çözüme götürecektir.
