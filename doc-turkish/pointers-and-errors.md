@@ -35,7 +35,7 @@ Bir önceki [örnekte](./structs-methods-and-interfaces.md), structın bileşenl
 
 `./wallet_test.go:7:12: undefined: Wallet`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 Derleyici(compiler), `Wallet`'ı bilmiyor. Öyleyse tanımlayalım.
 
@@ -168,7 +168,7 @@ func (w *Wallet) Balance() int {
 
 Testleri tekrardan çalıştırın, geçmiş olmaları gerekir.
 
-Testlerin neden geçtiğini merak ediyor olabilirsiniz. Metotdaki işaretcinin refaransını şu şekile getirmedik:
+Testlerin neden geçtiğini merak ediyor olabilirsiniz. Metotdaki pointerin refaransını şu şekile getirmedik:
 
 ```go
 func (w *Wallet) Balance() int {
@@ -176,7 +176,7 @@ func (w *Wallet) Balance() int {
 }
 ```
 
-ve doğrudan nesneye adres etti. Doğrusu yukarıdaki `(*w)` şeklinde olan kullanım kesinlikle geçerlidir. Yine de, Go'nun yapımcıları bu sözdizimini gereksiz buldular, bu sebeple açık bir referanslama olmadan `w.balance` şeklinde kullanıma izin verdiler. Yapılara yönelik bu point etme şeklinin kendine has ismi bile var: **_struct pointers_**. - [automatically dereferenced](https://golang.org/ref/spec#Method_values)
+ve doğrudan nesneye adres etti. Doğrusu yukarıdaki `(*w)` şeklinde olan kullanım kesinlikle geçerlidir. Yine de, Go'nun yapımcıları bu sözdizimini gereksiz buldular, bu sebeple açık bir referanslama olmadan `w.balance` şeklinde kullanıma izin verdiler. Structlara yönelik bu point etme şeklinin kendine has ismi bile var: **_struct pointers_**. - [automatically dereferenced](https://golang.org/ref/spec#Method_values)
 
 Technically you do not need to change `Balance` to use a pointer receiver as taking a copy of the balance is fine. However, by convention you should keep your method receiver types the same for consistency.
 
@@ -184,7 +184,7 @@ Technically you do not need to change `Balance` to use a pointer receiver as tak
 
 Bitcoin için bir cüzdan yapacağımızı söyledik fakat bitcoin'e dair herhangi bir şeyden bahsetmedik. Şimdilik sadece `int` tipini kullandık, çünkü `int` birşeyleri saymak için iyidir.
 
-Bunun için sıfırdan bir `struct` oluşturmak biraz abartılı olabilir, `int` yeterlidir fakat bu durum için açıklayıcı bir veri tipi değil.
+Bunun için sıfırdan bir `struct` oluşturmak biraz abartılı olabilir, `int` yeterlidir, fakat bu durumu açıklamak için, yeterli bir veri tipi değildir.
 
 Go mevcut olan bir veri tipinden başka bir veri tipi oluşturmanıza olanak sağlar,
 
@@ -225,7 +225,7 @@ func TestWallet(t *testing.T) {
 
 `Bitcoin` oluşturmak için `Bitcoin(999)` sözdizimini kullanabilirsin.
 
-Bunu yaparak, yeni bir tür oluşturuyoruz ve bu tipe özel _methodlar_ tanımlayabiliriz. Tipe özel methodlar oluşturmamız, alanlara özgü başı işlevler eklemek istediğimizde çok yararlı olabilir.
+Bunu yaparak, yeni bir tür oluşturuyoruz ve bu tipe özel _methodlar_ tanımlayabiliriz. Tipe özel methodlar oluşturmamız, alanlara özgü bazı işlevler eklemek istediğimiz zaman çok yararlı olabilir.
 
 Bitcoin için [Stringer](https://golang.org/pkg/fmt/#Stringer)'ı implemente edelim.
 
@@ -257,13 +257,13 @@ Testlerin çalışmasını kasıtlı olarak bozarak, yeni çıktıyı görelim
 
 `wallet_test.go:18: got 10 BTC want 20 BTC`
 
-Bu testlerimizde ve değiştirdiğimiz kodlar ile neler olduğunu daha anlaşılır olacak.
+Bu testlerimizde ve değiştirdiğimiz kodlar ile neler olduğunu daha anlaşılır olmasını sağlayacak.
 
 Sonraki yapacağımız geliştirme, `Withdraw` için olacak.
 
 ## İlk olarak test yaz
 
-`Withdraw` tam olarak `Deposit`'ın tam tersi olacak
+`Withdraw` tam olarak `Deposit`'ın tersi olacak
 
 ```go
 func TestWallet(t *testing.T) {
@@ -302,7 +302,7 @@ func TestWallet(t *testing.T) {
 
 `./wallet_test.go:26:9: wallet.Withdraw undefined (type Wallet has no field or method Withdraw)`
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) {
@@ -353,9 +353,9 @@ func TestWallet(t *testing.T) {
 
 Hesapta kalan paradan daha fazlasını `Withdraw` etmeye çalışırsanız ne olacak? Şimdiki ihtiyacımız, kredili bir mevduat hesabının olmadığını varsaymak olacak
 
-`Withdraw` metotunu kullanırken geriye nasıl bir problem olduğunu bildiririz?
+`Withdraw` metotunu kullanırken, bir hata oluşursa bunu çağrıldığı yere nasıl bildirebiliriz?
 
-Go'da, bir hata oluştuğunu belirtmek istiyorsanız "idiomatic" bir seçeneğiniz var. Sizin yazdığınız fonksiyonunu çağırıldığı yere bir `err` döndürmesini ve onu kontrol ederek harekete geçmesini sağlayabilirsiniz.
+Go'da, bir hata oluştuğunu belirtmek istiyorsanız "idiomatic" bir seçeneğiniz var. Sizin yazdığınız fonksiyonunu çağırıldığı yere bir `error` döndürmesini ve onu kontrol ederek harekete geçmesini sağlayabilirsiniz.
 
 Bunu bir test ile yapmayı deneyelim,
 
@@ -389,7 +389,7 @@ We then check an error has returned by failing the test if it is `nil`.
 
 Hata ifadesi biraz anlaşılmaz fakat amacımız sadece `Withdraw`'ı çağırmaktı, şuan herhangi bir değer döndürmüyor. Değer döndürmesini sağlamak için metotu dönüş tipine sahip olacak şekilde değiştirmeliyiz.
 
-## Testin çalışması için için minimum kodu yaz ve başarısız test çıktılarını kontrol et
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
 ```go
 func (w *Wallet) Withdraw(amount Bitcoin) error {
@@ -449,7 +449,7 @@ Hatanın kullanıcıya döndüğünü varsayarak, testlerimizi bir hatanın varl
 
 ## İlk önce testi yaz
 
-`string` ile karşılaştırmak yapmak için test helperimizi güncelleyelim
+`string` ile karşılaştırma yapmak için test helperimizi güncelleyelim
 
 ```go
 assertError := func(t testing.TB, got error, want string) {
@@ -501,7 +501,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 
 `Withdraw` ve bunun için yazılmış test kodlarından hata mesajlarının kopyası var.
 
-Birisi hata mesajını tekrardan düzenlemek isterse, testler üzerinde de gidip bunu değiştirmesi çok can sıkıcı olabilir. Hata mesajının tam olarak neyi ifade ettiği umurumuzda değil, sadece belilir koşullarda para çekme işlemi yapıldığında bir hata mesajı alacağız.
+Birisi hata mesajını tekrardan düzenlemek isterse, testler üzerinde de gidip bunu değiştirmesi çok can sıkıcı olabilir. Hata mesajının tam olarak neyi ifade ettiği umurumuzda değil, sadece belirli koşullarda para çekme işlemi yapıldığında bir hata mesajı alacağız.
 
 Go'da errorlar birer değerdir. Yani bunları bir değişkene atayıp tek bir kaynaktan edinmeyi sağlayabiliriz.
 
@@ -519,7 +519,7 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 }
 ```
 
-`var` keywordu, global olarak paket içinde bir değişken tanımlamamıza izin veriyor.
+`var` keywordu ile global olarak paket içinde bir değişken tanımlıyoruz, bildiğiniz üzere bu değişkenin adı büyük harfle başladığı için aslında paket dışından da ulaşılabilir.
 
 Bu şekilde bir değişiklik ile `Withdraw` metotumuz çok daha anlaşılır görünüyor.
 
@@ -572,7 +572,7 @@ func assertError(t testing.TB, got, want error) {
 
 Test kodlarını takip etmek ve anlamak çok daha kolay oldu.
 
-Helperları ana test fonksiyonunun dışına çıkardık, böylece biri bu dosyayı açtığında yardımcıları görmek yerine testlerin geçmesi için iddia ettiklerimizi görecek.
+Helperları ana test fonksiyonunun dışına çıkardık, böylece biri bu dosyayı açtığında yardımcıları görmek yerine testler için iddia ettiklerimizi görecek.
 
 Test yazmanın faydaları arasında kodumuzun gerçek kullanımının nasıl olduğunu başka geliştiricilerinde anlamasına yardımcı olması vardır.
 
@@ -659,8 +659,8 @@ func assertError(t testing.TB, got error, want error) {
 ### nil
 
 * Pointerlar nil olabilir
-* Bir fonksiyon bir şeye point eden bir değer döndürdüğü zaman, nil olup olmadığını kontrol ettiğinizden emin olmalısınız veya **runtime panic** oluşturursunuz ve derleyici size burada yardımcı olamaz.
-* Unutulacak bir değeri tanımlamak istediğiniz zaman biçilmiş bir kaftandır.
+* Bir fonksiyon bir şeye point eden bir değer döndürdüğü zaman, nil olup olmadığını kontrol ettiğinizden emin olmalısınız. Etmezseniz, **runtime panic** oluşturursunuz ve derleyici size burada yardımcı olamaz.
+* Unutulabilecek bir değeri tanımlamak istediğiniz zaman biçilmiş bir kaftandır.
 
 ### Errorlar
 
