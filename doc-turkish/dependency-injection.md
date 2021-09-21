@@ -1,19 +1,19 @@
 # Dependency Injection
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/di)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/di)**
 
-It is assumed that you have read the structs section before as some understanding of interfaces will be needed for this.
+Bunun için interfaceler hakkında biraz bilgi sahibi olmanız gerekeceğinden, structler bölümünü daha önce okuduğunuz varsayılmaktadır.
 
-There are _a lot_ of misunderstandings around dependency injection around the programming community. Hopefully, this guide will show you how
+Programlama topluluklarında dependency injection konusunda _birçok_ yanlış anlama var. Umarım, bu kılavuz size nasıl yapılacağını gösterecektir.
 
-* You don't need a framework
-* It does not overcomplicate your design
-* It facilitates testing
-* It allows you to write great, general-purpose functions.
+* Framework'e ihtiyacınız yok
+* Tasarımınızı karmaşıklaştırmaz
+* Testi kolaylaştırır
+* Kullanışlı, harika fonksiyonlar yazmanıza izin verir.
 
-We want to write a function that greets someone, just like we did in the hello-world chapter but this time we are going to be testing the _actual printing_.
+hello-world bölümünde yaptığımız gibi, birini selamlayan bir fonksiyon yazmak istiyoruz ama bu sefer varolan çıktıyı _(actual printing)_ test edeceğiz.
 
-Just to recap, here is what that function could look like
+Özetlemek gerekirse, fonksiyon bu şekilde gözüküyor
 
 ```go
 func Greet(name string) {
@@ -21,26 +21,26 @@ func Greet(name string) {
 }
 ```
 
-But how can we test this? Calling `fmt.Printf` prints to stdout, which is pretty hard for us to capture using the testing framework.
+Fakat bunu nasıl test edeceğiz? `fmt.Printf` çıktılarını stdout'a çağırmak, test frameworkü kullanarak yapmamız çok zor.
 
-What we need to do is to be able to **inject** \(which is just a fancy word for pass in\) the dependency of printing.
+Yapmamız gereken, yazdırmanın bağımlılığını **inject etmektir** \(bu sadece içeri girmek için süslü bir kelime)\.
 
-**Our function doesn't need to care **_**where**_** or **_**how**_** the printing happens, so we should accept an **_**interface**_** rather than a concrete type.**
+**Yazdırma işleminin **_**nerede**_** veya **_**nasıl**_** olduğuna fonksiyonumuz önemsememeli, Bu yüzden concrete tip yerine **_**interface**_** kabul etmeliyiz.**
 
-If we do that, we can then change the implementation to print to something we control so that we can test it. In "real life" you would inject in something that writes to stdout.
+Bunu yaparsak, uygulamayı kontrol ettiğimiz bir şeye yazdıracak şekilde değiştirebiliriz, böylece test edebiliriz."Gerçek hayatta" stdout'a yazan bir şey inject edersiniz.
 
-If you look at the source code of [`fmt.Printf`](https://pkg.go.dev/fmt#Printf) you can see a way for us to hook in
+Eğer [`fmt.Printf`](https://pkg.go.dev/fmt#Printf) kaynak koduna bakarsanız bağlanabileceğimiz bir yol görebilirsiniz
 
 ```go
-// It returns the number of bytes written and any write error encountered.
+// yazılan byteların sayısını ve gerçekleşmiş write error hatasını döner.
 func Printf(format string, a ...interface{}) (n int, err error) {
 	return Fprintf(os.Stdout, format, a...)
 }
 ```
 
-Interesting! Under the hood `Printf` just calls `Fprintf` passing in `os.Stdout`.
+İlginç! `Printf` altında sadece `Fprintf` çağırıyor ve `os.Stdout`'u parametre olarak gönderiyor.
 
-What exactly _is_ an `os.Stdout`? What does `Fprintf` expect to get passed to it for the 1st argument?
+ Tam olarak `os.Stdout` nedir? `Fprintf`, 1. argüman için kendisine ne iletilmesini bekliyor?
 
 ```go
 func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error) {
@@ -52,7 +52,7 @@ func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error) {
 }
 ```
 
-An `io.Writer`
+Bir `io.Writer`
 
 ```go
 type Writer interface {
@@ -60,13 +60,13 @@ type Writer interface {
 }
 ```
 
-From this we can infer that `os.Stdout` implements `io.Writer`; `Printf` passes `os.Stdout` to `Fprintf` which expects an `io.Writer`.
+Buradan `os.Stdout`'un `io.Writer` implemente ettiğini sonucunu çıkarabiliriz; `Printf`, `os.Stdout`'u `io.Writer` bekleyen `Fprintf`'e gönderir.
 
-As you write more Go code you will find this interface popping up a lot because it's a great general purpose interface for "put this data somewhere".
+Daha fazla Go kodu yazdıkça, bu arayüzün çok fazla ortaya çıktığını göreceksiniz çünkü "bu verileri bir yere koymak" için harika, kullanışlı bir interface.
 
-So we know under the covers we're ultimately using `Writer` to send our greeting somewhere. Let's use this existing abstraction to make our code testable and more reusable.
+Dolayısıyla, greetingi örtülü bir şekilde bir yere göndermek için nihayetinde `Writer`'ı kullandığımızı biliyoruz. Kodumuzu test edilebilir ve daha fazla yeniden kullanılabilir hale getirmek için bu mevcut soyutlamayı kullanalım.
 
-## Write the test first
+## İlk olarak test yaz
 
 ```go
 func TestGreet(t *testing.T) {
@@ -82,13 +82,13 @@ func TestGreet(t *testing.T) {
 }
 ```
 
-The `Buffer` type from the `bytes` package implements the `Writer` interface, because it has the method `Write(p []byte) (n int, err error)`.
+`bytes` paketindeki `Buffer` tipi,`Writer` interfaceini implemente eder, çünkü `Write(p []byte) (n int, err error)` metoduna sahip.
 
-So we'll use it in our test to send in as our `Writer` and then we can check what was written to it after we invoke `Greet`
+Onu `Writer` olarak göndermek için testimizde kullanacağız `Greet`'i çağırdıktan sonra ona ne yazıldığını kontrol edebiliriz.
 
-## Try and run the test
+## Dene ve testi çalıştır
 
-The test will not compile
+Test derlenmeyecektir
 
 ```text
 ./di_test.go:10:7: too many arguments in call to Greet
@@ -96,9 +96,9 @@ The test will not compile
     want (string)
 ```
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-_Listen to the compiler_ and fix the problem.
+_Derleyiciyi dinle_ ve problemi düzelt.
 
 ```go
 func Greet(writer *bytes.Buffer, name string) {
@@ -108,11 +108,11 @@ func Greet(writer *bytes.Buffer, name string) {
 
 `Hello, Chris di_test.go:16: got '' want 'Hello, Chris'`
 
-The test fails. Notice that the name is getting printed out, but it's going to stdout.
+Test başarısız oluyor. Adın yazdırıldığına dikkat edin, ancak stdout'a gidecek.
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
-Use the writer to send the greeting to the buffer in our test. Remember `fmt.Fprintf` is like `fmt.Printf` but instead takes a `Writer` to send the string to, whereas `fmt.Printf` defaults to stdout.
+Testimizde, greetingi buffera göndermek için writerı kullan. `fmt.Fprintf`'in `fmt.Printf` gibi olduğunu hatırla ancak string göndermek için `Writer`'ı alır, oysa `fmt.Printf` varsayılan olarak stdouttur.
 
 ```go
 func Greet(writer *bytes.Buffer, name string) {
@@ -120,13 +120,13 @@ func Greet(writer *bytes.Buffer, name string) {
 }
 ```
 
-The test now passes.
+Şimdi testten geçiyor.
 
 ## Refactor
 
-Earlier the compiler told us to pass in a pointer to a `bytes.Buffer`. This is technically correct but not very useful.
+Daha önce derleyici bize 'bytes.Buffer' için pointer göndermemizi söyledi. Bu teknik olarak doğru ama çok kullanışlı değil.
 
-To demonstrate this, try wiring up the `Greet` function into a Go application where we want it to print to stdout.
+Bunu göstermek için, `Greet` fonksiyonunu stdout'a yazdırmasını istediğimiz bir Go uygulamasına bağlamayı deneyin.
 
 ```go
 func main() {
@@ -136,9 +136,9 @@ func main() {
 
 `./di.go:14:7: cannot use os.Stdout (type *os.File) as type *bytes.Buffer in argument to Greet`
 
-As discussed earlier `fmt.Fprintf` allows you to pass in an `io.Writer` which we know both `os.Stdout` and `bytes.Buffer` implement.
+Daha önce tartışıldığı gibi, `fmt.Fprintf`, hem `os.Stdout` hem de `bytes.Buffer` implementationını bildiğimiz bir `io.Writer` göndermenize izin verir.
 
-If we change our code to use the more general purpose interface we can now use it in both tests and in our application.
+Eğer kodumuzu daha kullanışlı bir interface çevirirsek onu hem testlerde hem de uygulamada kullanabilirizi..
 
 ```go
 package main
@@ -158,13 +158,13 @@ func main() {
 }
 ```
 
-## More on io.Writer
+## io.Writer hakkında daha fazla
 
-What other places can we write data to using `io.Writer`? Just how general purpose is our `Greet` function?
+`io.Writer` kullanarak başka hangi yerlere veri yazabiliriz? ``Greet`` fonksiyonumuz ne kadar kullanışlı?
 
-### The Internet
+### İnternet
 
-Run the following
+Aşağıdakileri çalıştırın
 
 ```go
 package main
@@ -189,32 +189,34 @@ func main() {
 }
 ```
 
-Run the program and go to [http://localhost:5000](http://localhost:5000). You'll see your greeting function being used.
+Programı çalıştırın ve [http://localhost:5000](http://localhost:5000) adresine gidin. Greeting fonksiyonunun kullanıldığını göreceksiniz.
 
-HTTP servers will be covered in a later chapter so don't worry too much about the details.
+HTTP serverlar  sonraki konularda bahsedilecek o yüzden detaylar hakkında çok fazla endişe etmeyin.
 
-When you write an HTTP handler, you are given an `http.ResponseWriter` and the `http.Request` that was used to make the request. When you implement your server you _write_ your response using the writer.
+HTTP handler yazdığınızda, size `http.ResponseWriter` istek (request) yapmak için kullanılan `http.Request` verilir. Sunucuyu implemente ettiğinizde, writer kullanarak cevabınızı _yazarsınız_.
 
-You can probably guess that `http.ResponseWriter` also implements `io.Writer` so this is why we could re-use our `Greet` function inside our handler.
+`http.ResponseWriter`'ın `io.Writer`'ı implemente ettiğini tahmin ediyorsunuzdur, bu sayede handlerımızda `Greet` fonksiyonumuzu kullanabiliriz.
 
-## Wrapping up
+## Özetlersek
 
-Our first round of code was not easy to test because it wrote data to somewhere we couldn't control.
+Kodumuzun ilk halini test etmek kolay değildi çünkü kontrol edemediğimiz bir yere veri yazıyordu.
 
-_Motivated by our tests_ we refactored the code so we could control _where_ the data was written by **injecting a dependency** which allowed us to:
+_Testlerimizden motive olarak_ kodu refactor ettik, böylece verilerin **bir bağımlılık inject ederek** _nerede_ yazıldığını kontrol edebildik, bu da bize şunları yapmamızı sağladı:
 
-* **Test our code** If you can't test a function _easily_, it's usually because of dependencies hard-wired into a function _or_ global state. If you have a global database connection pool for instance that is used by some kind of service layer, it is likely going to be difficult to test and they will be slow to run. DI will motivate you to inject in a database dependency \(via an interface\) which you can then mock out with something you can control in your tests.
-* **Separate our concerns**, decoupling _where the data goes_ from _how to generate it_. If you ever feel like a method/function has too many responsibilities \(generating data _and_ writing to a db? handling HTTP requests _and_ doing domain level logic?\) DI is probably going to be the tool you need.
-* **Allow our code to be re-used in different contexts** The first "new" context our code can be used in is inside tests. But further on if someone wants to try something new with your function they can inject their own dependencies.
+* **Kodu test etme* Eğer bir fonksiyonu _kolayca_ test edemiyorsanız, bunun nedeni genellikle fonksiyona veya global bir duruma bağımlılıklarıdır. Örneğin, bir tür hizmet katmanı tarafından kullanılan global bir veritabanı bağlantı havuzunuz varsa, test edilmesi muhtemelen zor olacak ve çalıştırması yavaş olacaktır. DI sizi, testlerinizi kontrol edebileceğiniz, mocklayabileceğiniz veritabanı bağımlılığı \(bir interface araclığı ile)\ inject etmeye motive eder.
+* **Separate our concerns (Bağlantıların ayırma)**, _verilerin nasıl oluştuğu ve nereden nereye gittiği_ ayrılması.Bir fonksiyonun/metodun çok fazla sorumluluğu olduğunu düşünüyorsanız \(veri oluşturma  _ve_ db'ye yazma? HTTP isteklerini handle etme _ve_ domain seviyesinde mantık?\) DI ihtiyaç duyacağınız araçtır.
+* **Kodumuzun farklı contextlerde yeniden kullanılması** Kodumuzun kullanabileceği ilk "yeni" context, testlerin içindedir. Biri sizin fonksiyonlarınıza yeni bir şey denemek isterse, kendi bağımlılıklarını inject edebilir.
 
-### What about mocking? I hear you need that for DI and also it's evil
+### Mocking'e ne dersin? DI için buna ihtiyacın olduğunu ve aynı zamanda bunun kötü olduğunu duydum
 
-Mocking will be covered in detail later \(and it's not evil\). You use mocking to replace real things you inject with a pretend version that you can control and inspect in your tests. In our case though, the standard library had something ready for us to use.
+Mocking detaylıca ileride ele alınacaktır \(ayrıca kötü değil\). Inject ettiğiniz gerçek şeyleri, testlerinizde kontrol edebileceğiniz ve inceleyebileceğiniz taklit bir sürümle değiştirmek için mockingi kullanırsınız. Bizim durumumuzda, standart kütüphanenin bizim için kullanıma hazır bir şeyi vardı.
 
-### The Go standard library is really good, take time to study it
+### Go standard kütüphanesi gerçekten faydalı, üzerinde çalışmak için zaman ayır
 
-By having some familiarity with the `io.Writer` interface we are able to use `bytes.Buffer` in our test as our `Writer` and then we can use other `Writer`s from the standard library to use our function in a command line app or in web server.
+`io.Writer` interfaceine aşina oldukça, testimizde `bytes.Buffer`'ı `Writer` olarak kullanabileceğiz ve fonksiyonumuzu komut satırı uygulamasında veya web sunucusunda kullanmak için standart kütüphaneden diğer `Writer`ları kullanabiliriz.
 
-The more familiar you are with the standard library the more you'll see these general purpose interfaces which you can then re-use in your own code to make your software reusable in a number of contexts.
+Standart kitaplığa ne kadar aşina olursanız, yazılımınızı çeşitli contextlerinde yeniden kullanılabilir hale getirmek için kendi kodunuzda yeniden kullanabileceğiniz bu kullanışlı interfaceleri o kadar çok görürsünüz.
 
-This example is heavily influenced by a chapter in [The Go Programming language](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440), so if you enjoyed this, go buy it!
+Bu örnek, [The Go Programming language](https://www.amazon.co.uk/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440) kitabından oldukça etkilenmiştir, eğer beğendiyseniz satın alın!
+
+Bu sayfa [@bariscanyilmaz](https://github.com/bariscanyilmaz) tarafından çevrildi.
