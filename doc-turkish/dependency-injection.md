@@ -4,12 +4,12 @@
 
 Bunun için interfaceler hakkında biraz bilgi sahibi olmanız gerekeceğinden, structler bölümünü daha önce okuduğunuz varsayılmaktadır.
 
-Programlama topluluklarında dipendency injection konusunda _birçok_ yanlış anlama var. Umarım, bu kılavuz size nasıl yapılacağını gösterecektir.
+Programlama topluluklarında dependency injection konusunda _birçok_ yanlış anlama var. Umarım, bu kılavuz size nasıl yapılacağını gösterecektir.
 
 * Framework'e ihtiyacınız yok
-* Tasarımınızı fazla karmaşıklaştırmaz
+* Tasarımınızı karmaşıklaştırmaz
 * Testi kolaylaştırır
-* Kullanışlı,harika fonksiyonlar yazmanıza izin verir.
+* Kullanışlı, harika fonksiyonlar yazmanıza izin verir.
 
 hello-world bölümünde yaptığımız gibi, birini selamlayan bir fonksiyon yazmak istiyoruz ama bu sefer varolan çıktıyı _(actual printing)_ test edeceğiz.
 
@@ -60,11 +60,11 @@ type Writer interface {
 }
 ```
 
-Buradan `os.Stdout`'un `io.Writer` implemente ettiğini sonucunu çıkarabiliriz; `Printf`, `os.Stdout`'u `io.Writer` bekleyen `Fprintf`'e gönderiri.
+Buradan `os.Stdout`'un `io.Writer` implemente ettiğini sonucunu çıkarabiliriz; `Printf`, `os.Stdout`'u `io.Writer` bekleyen `Fprintf`'e gönderir.
 
 Daha fazla Go kodu yazdıkça, bu arayüzün çok fazla ortaya çıktığını göreceksiniz çünkü "bu verileri bir yere koymak" için harika, kullanışlı bir interface.
 
-Dolayısıyla, örtülerin altında, greetingi bir yere göndermek için nihayetinde `Writer`'ı kullandığımızı biliyoruz. Kodumuzu test edilebilir ve daha fazla yeniden kullanılabilir hale getirmek için bu mevcut soyutlamayı kullanalım.
+Dolayısıyla, greetingi örtülü bir şekilde bir yere göndermek için nihayetinde `Writer`'ı kullandığımızı biliyoruz. Kodumuzu test edilebilir ve daha fazla yeniden kullanılabilir hale getirmek için bu mevcut soyutlamayı kullanalım.
 
 ## İlk olarak test yaz
 
@@ -112,7 +112,7 @@ Test başarısız oluyor. Adın yazdırıldığına dikkat edin, ancak stdout'a 
 
 ## Testi geçecek kadar kod yaz
 
-Testimizde, greetingi buffera göndermek için writerı kullan. `fmt.Fprintf`'in `fmt.Printf` gibi olduğunu hatırla ancak string göndermek için `Writer`'ı alır,oysa `fmt.Printf` varsayılan olarak stdouttur.
+Testimizde, greetingi buffera göndermek için writerı kullan. `fmt.Fprintf`'in `fmt.Printf` gibi olduğunu hatırla ancak string göndermek için `Writer`'ı alır, oysa `fmt.Printf` varsayılan olarak stdouttur.
 
 ```go
 func Greet(writer *bytes.Buffer, name string) {
@@ -164,7 +164,7 @@ func main() {
 
 ### İnternet
 
-aşağıdakileri çalıştırın
+Aşağıdakileri çalıştırın
 
 ```go
 package main
@@ -189,27 +189,27 @@ func main() {
 }
 ```
 
-Programı çalıştırın ve [http://localhost:5000](http://localhost:5000) adresine gidin. Greeting funksiyonunuzun kullanıldığını göreceksiniz.
+Programı çalıştırın ve [http://localhost:5000](http://localhost:5000) adresine gidin. Greeting fonksiyonunun kullanıldığını göreceksiniz.
 
-HTTP serverler  sonraki konularda bahsedilecek o yüzden detaylar hakkında çok fazla endişe etmeyin.
+HTTP serverlar  sonraki konularda bahsedilecek o yüzden detaylar hakkında çok fazla endişe etmeyin.
 
-HTTP handler yazdığınızda, size `http.ResponseWriter` istek (reques) yapmak için kullanılan `http.Request` verilir. Sunucuyu implemente ettiğinizde, writer kullanarak cevabınızı _yazarsınız_.
+HTTP handler yazdığınızda, size `http.ResponseWriter` istek (request) yapmak için kullanılan `http.Request` verilir. Sunucuyu implemente ettiğinizde, writer kullanarak cevabınızı _yazarsınız_.
 
-`http.ResponseWriter`'ın `io.Writer`'ı implemente ettiğini tahmin ediyorsunuzdur bu sayede handlerımızda `Greet` fonksiyonumuzu kullanabiliriz.
+`http.ResponseWriter`'ın `io.Writer`'ı implemente ettiğini tahmin ediyorsunuzdur, bu sayede handlerımızda `Greet` fonksiyonumuzu kullanabiliriz.
 
 ## Özetlersek
 
 Kodumuzun ilk halini test etmek kolay değildi çünkü kontrol edemediğimiz bir yere veri yazıyordu.
 
-_Testlerimizden motive olarak_ kodu refactor ettik, böylece verilerin **bir bağımlılık inject ederek** _nerede_ yazıldığını  kontrol edebildik, bu da bize şunları yapmamızı sağladı:
+_Testlerimizden motive olarak_ kodu refactor ettik, böylece verilerin **bir bağımlılık inject ederek** _nerede_ yazıldığını kontrol edebildik, bu da bize şunları yapmamızı sağladı:
 
-* **Kodu test etme* Eğer bir fonksiyonu _kolayca_ test edemiyorsanız, bunun nedeni genellikle fonksiyona veya global bir druma bağımlılıklarıdır. Örneğin, bir tür hizmet katmanı tarafından kullanılan global bir veritabanı bağlantı havuzunuz varsa, test edilmesi muhtemelen zor olacak ve çalıştırması yavaş olacaktır. DI sizi, testlerinzide kontrol edebileceğiniz, mocklayabileceğiniz veritabanı bağımlılığı \(bir interface araclığı ile)\ inject etmeye motive eder.
+* **Kodu test etme* Eğer bir fonksiyonu _kolayca_ test edemiyorsanız, bunun nedeni genellikle fonksiyona veya global bir duruma bağımlılıklarıdır. Örneğin, bir tür hizmet katmanı tarafından kullanılan global bir veritabanı bağlantı havuzunuz varsa, test edilmesi muhtemelen zor olacak ve çalıştırması yavaş olacaktır. DI sizi, testlerinizi kontrol edebileceğiniz, mocklayabileceğiniz veritabanı bağımlılığı \(bir interface araclığı ile)\ inject etmeye motive eder.
 * **Separate our concerns (Bağlantıların ayırma)**, _verilerin nasıl oluştuğu ve nereden nereye gittiği_ ayrılması.Bir fonksiyonun/metodun çok fazla sorumluluğu olduğunu düşünüyorsanız \(veri oluşturma  _ve_ db'ye yazma? HTTP isteklerini handle etme _ve_ domain seviyesinde mantık?\) DI ihtiyaç duyacağınız araçtır.
 * **Kodumuzun farklı contextlerde yeniden kullanılması** Kodumuzun kullanabileceği ilk "yeni" context, testlerin içindedir. Biri sizin fonksiyonlarınıza yeni bir şey denemek isterse, kendi bağımlılıklarını inject edebilir.
 
-### Mocking'e ne dersin? DI için ihtiyacın olduğunu duydum aynı zamanda kötü
+### Mocking'e ne dersin? DI için buna ihtiyacın olduğunu ve aynı zamanda bunun kötü olduğunu duydum
 
-Mocking detaylıca ileride ele alınacaktır \(ayrıca kötü değil\).Inject ettiğiniz gerçek şeyleri, testlerinizde kontrol edebileceğiniz ve inceleyebileceğiniz taklit bir sürümle değiştirmek için mockingi kullanırsınız. Bizim durumumuzda, standart kütüphanenin bizim için kullanıma hazır bir şeyi vardı.
+Mocking detaylıca ileride ele alınacaktır \(ayrıca kötü değil\). Inject ettiğiniz gerçek şeyleri, testlerinizde kontrol edebileceğiniz ve inceleyebileceğiniz taklit bir sürümle değiştirmek için mockingi kullanırsınız. Bizim durumumuzda, standart kütüphanenin bizim için kullanıma hazır bir şeyi vardı.
 
 ### Go standard kütüphanesi gerçekten faydalı, üzerinde çalışmak için zaman ayır
 
