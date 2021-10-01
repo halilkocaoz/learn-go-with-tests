@@ -1,9 +1,8 @@
-# Mocking
+# Mocklama
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/mocking)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/mocking)**
 
-You have been asked to write a program which counts down from 3, printing each number on a new line (with a 1 second pause) and when it reaches zero it will print "Go!" and exit.
-
+3'ten geriye sayan bir program yazmanız istendi, her bir numarayı yeni bir satırda (1 saniye aralıklarla) yazdıracak ve sıfır olduğunda "Go!" yazacak.
 ```
 3
 2
@@ -11,7 +10,7 @@ You have been asked to write a program which counts down from 3, printing each n
 Go!
 ```
 
-We'll tackle this by writing a function called `Countdown` which we will then put inside a `main` program so it looks something like this:
+Bunu çözmek için `CountDown` isminde fonksiyon yazacağız daha sonra `main` metodunun içine koyacağız. Sonra bunun gibi gözükecek:
 
 ```go
 package main
@@ -21,21 +20,21 @@ func main() {
 }
 ```
 
-While this is a pretty trivial program, to test it fully we will need as always to take an _iterative_, _test-driven_ approach.
+Bu oldukça önemsiz bir program olsa da, tamamen test etmek için her zaman olduğu gibi _yinelemeli (iterative)_, _test odaklı (test driven)_ bir yaklaşım benimsememiz gerekecek.
 
-What do I mean by iterative? We make sure we take the smallest steps we can to have _useful software_.
+Yinelemeli derken neyi kastettim? _Kullanışlı yazılıma_ sahip olmak için en küçük adımları attığımızdan emin oluruz.
 
-We don't want to spend a long time with code that will theoretically work after some hacking because that's often how developers fall down rabbit holes. **It's an important skill to be able to slice up requirements as small as you can so you can have _working software_.**
+Bazı hacking tekniklerinden sonra teorik olarak çalışacak bir kodla uzun zaman harcamak istemiyoruz çünkü geliştiriciler genellikle bu şekilde tavşan deliklerine düşüyorlar. **_Çalışan bir yazılıma_ sahip olabilmeniz için gereksinimleri olabildiğince küçük parçalara ayırabilmek önemli bir beceridir.**
 
-Here's how we can divide our work up and iterate on it:
+Çalışmamızı şu şekilde bölebilir ve üzerinde yineleyebiliriz:
 
-- Print 3
-- Print 3, 2, 1 and Go!
-- Wait a second between each line
+- 3'ü Yazdır
+- 3, 2, 1 ve Go! Yazdır
+- Her satır arasında 1 saniye bekle
 
-## Write the test first
+## İlk olarak test yaz
 
-Our software needs to print to stdout and we saw how we could use DI to facilitate testing this in the DI section.
+Yazılımımızın stdout'a yazdırması gerekiyor ve bunu DI bölümünde test etmeyi kolaylaştırmak için DI'yi nasıl kullanabileceğimizi gördük.
 
 ```go
 func TestCountdown(t *testing.T) {
@@ -52,26 +51,26 @@ func TestCountdown(t *testing.T) {
 }
 ```
 
-If anything like `buffer` is unfamiliar to you, re-read [the previous section](dependency-injection.md).
+`buffer` gibi şeyler tanıdık değilse, bir önceki bölümü tekrar okuyun [the previous section](dependency-injection.md).
 
-We know we want our `Countdown` function to write data somewhere and `io.Writer` is the de-facto way of capturing that as an interface in Go.
+`Countdown` fonksiyonumuzun bir yere veri yazmasını istediğimizi biliyoruz ve `io.Writer`  Go'da bu yolu fiilen interface olarak yapmakta.
 
-- In `main` we will send to `os.Stdout` so our users see the countdown printed to the terminal.
-- In test we will send to `bytes.Buffer` so our tests can capture what data is being generated.
+- `main` içerisinde  `os.Stdout`'u göndereceğeğiz bu sayde kullanıcılarımız gerisayımın çıktılarını terminalde görebilecek.
+- Test içerisinde `bytes.Buffer` göndereceğiz bu sayede testimiz üretilmiş veriyi yakalayabilecek.
 
-## Try and run the test
+## Dene ve testi çalıştır
 
 `./countdown_test.go:11:2: undefined: Countdown`
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-Define `Countdown`
+`Countdown`'ı tanımla
 
 ```go
 func Countdown() {}
 ```
 
-Try again
+Tekrar dene
 
 ```go
 ./countdown_test.go:11:11: too many arguments in call to Countdown
@@ -87,9 +86,9 @@ func Countdown(out *bytes.Buffer) {}
 
 `countdown_test.go:17: got '' want '3'`
 
-Perfect!
+Harika!
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
 ```go
 func Countdown(out *bytes.Buffer) {
@@ -97,11 +96,11 @@ func Countdown(out *bytes.Buffer) {
 }
 ```
 
-We're using `fmt.Fprint` which takes an `io.Writer` (like `*bytes.Buffer`) and sends a `string` to it. The test should pass.
+(`*bytes.Buffer` gibi olan) `io.Writer`'ı parametre alan `fmt.Fprint` kullanıyoruz ve ona `string` gönderiyoruz. Şimdi test geçmeli
 
 ## Refactor
 
-We know that while `*bytes.Buffer` works, it would be better to use a general purpose interface instead.
+`*bytes.Buffer` çalışırken bunun yerine genel amaçlı bir interface kullanmanın daha iyi olacağını biliyoruz.
 
 ```go
 func Countdown(out io.Writer) {
@@ -109,9 +108,9 @@ func Countdown(out io.Writer) {
 }
 ```
 
-Re-run the tests and they should be passing.
+Testleri tekrar çalıştırın ve şimdi geçiyor olmalılar.
 
-To complete matters, let's now wire up our function into a `main` so we have some working software to reassure ourselves we're making progress.
+Konuları tamamlamak için, fonksiyonumuzu `main`'e bağlayalım, böylece ilerleme kaydettiğimizden emin olmak için çalışan bazı yazılımlarımız olur.
 
 ```go
 package main
@@ -131,15 +130,15 @@ func main() {
 }
 ```
 
-Try and run the program and be amazed at your handywork.
+Programı deneyin ve çalıştırın ve el emeğinize hayran kalın.
 
-Yes this seems trivial but this approach is what I would recommend for any project. **Take a thin slice of functionality and make it work end-to-end, backed by tests.**
+Evet, bu önemsiz görünüyor ama bu yaklaşım, herhangi bir proje için tavsiye edeceğim şeydir. **İnce bir işlevsellik alın ve testlerle desteklenen uçtan uca çalışmasını sağlayın.**
 
-Next we can make it print 2,1 and then "Go!".
+Daha sonra 2,1 ve "Go!" yazdırabilecek.
 
-## Write the test first
+## İlk olarak test yaz
 
-By investing in getting the overall plumbing working right, we can iterate on our solution safely and easily. We will no longer need to stop and re-run the program to be confident of it working as all the logic is tested.
+Genel tesisatın doğru çalışmasına yatırım yaparak, çözümümüzü güvenli ve kolay bir şekilde yineleyebiliriz. Tüm logic test edildiğinden, çalıştığından emin olmak için programı durdurup yeniden çalıştırmamız gerekmeyecek..
 
 ```go
 func TestCountdown(t *testing.T) {
@@ -149,9 +148,9 @@ func TestCountdown(t *testing.T) {
 
     got := buffer.String()
     want := `3
-2
-1
-Go!`
+             2
+             1
+             Go!`
 
     if got != want {
         t.Errorf("got %q want %q", got, want)
@@ -159,9 +158,9 @@ Go!`
 }
 ```
 
-The backtick syntax is another way of creating a `string` but lets you put things like newlines which is perfect for our test.
+backtick syntax `string` oluşturmak için başba bir yoldur ancak testimiz için mükemmel olan yeni satırlar gibi şeyleri koymanıza izin verir. 
 
-## Try and run the test
+## Dene ve testi çalıştır
 
 ```
 countdown_test.go:21: got '3' want '3
@@ -169,7 +168,7 @@ countdown_test.go:21: got '3' want '3
         1
         Go!'
 ```
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
 ```go
 func Countdown(out io.Writer) {
@@ -180,11 +179,11 @@ func Countdown(out io.Writer) {
 }
 ```
 
-Use a `for` loop counting backwards with `i--` and use `fmt.Fprintln` to print to `out` with our number followed by a newline character. Finally use `fmt.Fprint` to send "Go!" aftward.
+`i--` ile geriye doğru sayan bir `for` döngüsü kullan ve `fmt.Println` kullanarak numaramızın ardından bir satır sonu karakteri ile `out` çıktısını alın. Sonunda "Go!" göndermek için `fmt.Fprint`'i kullan.
 
 ## Refactor
 
-There's not much to refactor other than refactoring some magic values into named constants.
+Bazı sihirli değerleri adlandırılmış sabitlere yeniden düzenlemekten başka yeniden düzenleme yapacak pek bir şey yok.
 
 ```go
 const finalWord = "Go!"
@@ -198,9 +197,9 @@ func Countdown(out io.Writer) {
 }
 ```
 
-If you run the program now, you should get the desired output but we don't have it as a dramatic countdown with the 1 second pauses.
+Eğer programı çalıştırırsanız, istediğiniz çıktıyı almalısınız ancak 1 saniyelik duraklamalı dramatik geri sayımımız yok.
 
-Go lets you achieve this with `time.Sleep`. Try adding it in to our code.
+Go bunu `time.Sleep` ile başarmamızı sağlar. Koda eklemeyi dene.
 
 ```go
 func Countdown(out io.Writer) {
@@ -214,24 +213,24 @@ func Countdown(out io.Writer) {
 }
 ```
 
-If you run the program it works as we want it to.
+Eğer programı çalıştırırsan istediğimiz gibi çalışacaktır.
 
-## Mocking
+## Mocklama
 
-The tests still pass and the software works as intended but we have some problems:
-- Our tests take 4 seconds to run.
-    - Every forward thinking post about software development emphasises the importance of quick feedback loops.
-    - **Slow tests ruin developer productivity**.
-    - Imagine if the requirements get more sophisticated warranting more tests. Are we happy with 4s added to the test run for every new test of `Countdown`?
-- We have not tested an important property of our function.
+Testler hala geçiyor ve yazılım beklenildiği gibi çalışıyor ancak bazı problemlerimiz var:
+- Testimizin çalışması 4 saniye sürüyor.
+    - Yazılım geliştirme hakkındaki her ileri görüşlü yazı, hızlı geri bildirim döngülerinin önemini vurgular.
+    - **Yavaş tesler geliştiricinin üretkenliğini mahveder**.
+    - Daha fazla test için gereksinimlerin daha karmaşık hale geldiğini hayal edin. Her yeni `Countdown` testi için test çalışmasına eklenen 4s'den memnun muyuz?
+- Fonksiyonumuzun önemli bir özelliğini test etmedik.
 
-We have a dependency on `Sleep`ing which we need to extract so we can then control it in our tests.
+`Sleep`'e bağımlılığımız var ve bunu testlerimizde kontrol edebilmemiz için çıkarmamız gerekli.
 
-If we can _mock_ `time.Sleep` we can use _dependency injection_ to use it instead of a "real" `time.Sleep` and then we can **spy on the calls** to make assertions on them.
+Eğer `time.Sleep`'i _mocklayabilirsek_,  "gerçek" `time.Sleep` yerine  _dependency injection_ kullanabiliriz ve onlar hakkında iddialarda bulunmak için **çağrıları gözetleyebilir**.
 
-## Write the test first
+## İlk olarak test yaz
 
-Let's define our dependency as an interface. This lets us then use a _real_ Sleeper in `main` and a _spy sleeper_ in our tests. By using an interface our `Countdown` function is oblivious to this and adds some flexibility for the caller.
+Bağımlılığımız interface olarak tanımlayalım. Bu, daha sonra testlerimizde `main`'de _gerçek_ Sleeper ve testlerimizde _spy_ sleeper kullanmamızı sağlar. Interface kullanarak ``Countdown` fonksiyonumuz habersiz olur ve çağrıyı yapan için biraz esneklik ekler.
 
 ```go
 type Sleeper interface {
@@ -239,9 +238,9 @@ type Sleeper interface {
 }
 ```
 
-I made a design decision that our `Countdown` function would not be responsible for how long the sleep is. This simplifies our code a little for now at least and means a user of our function can configure that sleepiness however they like.
+`Countdown` fonksiyonu uyku süresinden sorumlu olmayacak bir tasarıma karar verdim. Bu, kodumuzun en azından şimdilik biraz basitleştirir ve fonksiyonumuzun bir kullanıcısının bu uykuyu istedikleri gibi yapılandırılabileceği anlamına gelir.
 
-Now we need to make a _mock_ of it for our tests to use.
+Şimdi testlerimizin kullanması için _mock_ yapmalıyız
 
 ```go
 type SpySleeper struct {
@@ -253,9 +252,9 @@ func (s *SpySleeper) Sleep() {
 }
 ```
 
-_Spies_ are a kind of _mock_ which can record how a dependency is used. They can record the arguments sent in, how many times it has been called, etc. In our case, we're keeping track of how many times `Sleep()` is called so we can check it in our test.
+_Spylar_, bağımlılıkların nasıl kullanıldığını kaydedebilen bir tür _mockturlar_. Gönderilen argümanı kaç kez çağırıldıkları vb. kaydedebilirler.  Bizim durumumuzda, `Sleep()`'in kaç kez çağırıldığını kaydediyoruz bu sayede testimizde kontrol edebiliyoruz.
 
-Update the tests to inject a dependency on our Spy and assert that the sleep has been called 4 times.
+Spy'ımıza bağımlılık inject etmek için testleri güncelle ve sleepin 4 kez çağırıldığını doğrula.
 
 ```go
 func TestCountdown(t *testing.T) {
@@ -280,7 +279,7 @@ Go!`
 }
 ```
 
-## Try and run the test
+## Dene ve testi çalıştır
 
 ```
 too many arguments in call to Countdown
@@ -288,9 +287,9 @@ too many arguments in call to Countdown
     want (io.Writer)
 ```
 
-## Write the minimal amount of code for the test to run and check the failing test output
+## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
-We need to update `Countdown` to accept our `Sleeper`
+`Sleeper`'ı kabul etmesi için `Countdown`'u güncellemeliyiz
 
 ```go
 func Countdown(out io.Writer, sleeper Sleeper) {
@@ -304,7 +303,7 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 }
 ```
 
-If you try again, your `main` will no longer compile for the same reason
+Eğer tekrar denerseniz, `main` fonksiyonunuz tekrar aynı sebeplerden derlenmeyecektir
 
 ```
 ./main.go:26:11: not enough arguments in call to Countdown
@@ -312,7 +311,7 @@ If you try again, your `main` will no longer compile for the same reason
     want (io.Writer, Sleeper)
 ```
 
-Let's create a _real_ sleeper which implements the interface we need
+Hadi ihtiyacımız olan interfacei implemente eden _gerçek_ sleeperı oluşturalım
 
 ```go
 type DefaultSleeper struct {}
@@ -322,7 +321,7 @@ func (d *DefaultSleeper) Sleep() {
 }
 ```
 
-We can then use it in our real application like so
+Daha sonra gerçek uygulamamızda şöyle kullanabiliriz 
 
 ```go
 func main() {
@@ -331,9 +330,9 @@ func main() {
 }
 ```
 
-## Write enough code to make it pass
+## Testi geçecek kadar kod yaz
 
-The test is now compiling but not passing because we're still calling the `time.Sleep` rather than the injected in dependency. Let's fix that.
+Test derleniyor ancak geçmiyor çünkü inject edilmiş bağımlılık yerine hala `time.Sleep`'i çağırıyoruz. Hadi bunu düzeltelim.
 
 ```go
 func Countdown(out io.Writer, sleeper Sleeper) {
@@ -347,25 +346,25 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 }
 ```
 
-The test should pass and no longer take 4 seconds.
+Şimdi test geçmeli ve 4 saniye sürmemeli
 
-### Still some problems
+### Hala problemler var
 
-There's still another important property we haven't tested.
+Hala test etmediğimiz önemli bir özellik var.
 
-`Countdown` should sleep before each print, e.g:
+`Countdown` her çıktıdan önce uyumalı, örn:
 
-- `Sleep`
-- `Print N`
-- `Sleep`
-- `Print N-1`
-- `Sleep`
-- `Print Go!`
-- etc
+- `Uyu`
+- `N'i yazdır`
+- `Uyu`
+- `N-1'i yazdır`
+- `Uyu`
+- `Go!'yu yazdır`
+- vb
 
-Our latest change only asserts that it has slept 4 times, but those sleeps could occur out of sequence.
+Son değişikliğimiz sadece 4 kez uyuduğunu iddia ediyor ancak bu uyumalar sıra dışı gerçekleşebilir.
 
-When writing tests if you're not confident that your tests are giving you sufficient confidence, just break it! (make sure you have committed your changes to source control first though). Change the code to the following
+Testleri yazarken, testlerinizin size yeterli güven verdiğinden emin değilseniz, testlerinizi bozun! (öncelikle değişikliklerinizi kaynak denetimine adadığınızdan emin olun). Kodu aşağıdaki şekilde değiştirin
 
 ```go
 func Countdown(out io.Writer, sleeper Sleeper) {
@@ -382,11 +381,11 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 }
 ```
 
-If you run your tests they should still be passing even though the implementation is wrong.
+Testleri çalıştırırsanız, implementasyon yanlış olsa da geçecektir.
 
-Let's use spying again with a new test to check the order of operations is correct.
+İşlem sırasının doğru olup olmadığını kontrol etmek için yeni bir testle spyı tekrar kullanalım.
 
-We have two different dependencies and we want to record all of their operations into one list. So we'll create _one spy for them both_.
+İki farklı bağımlılığımız var ve tüm işlemlerini tek bir listeye kaydetmek istiyoruz. Böylece _ikisi için de bir spy_ yaratacağız.
 
 ```go
 type SpyCountdownOperations struct {
@@ -406,9 +405,9 @@ const write = "write"
 const sleep = "sleep"
 ```
 
-Our `SpyCountdownOperations` implements both `io.Writer` and `Sleeper`, recording every call into one slice. In this test we're only concerned about the order of operations, so just recording them as list of named operations is sufficient.
+`SpyCountdownOperations`,her çağrıyı bir slicea kaydederek `io.Writer` ve `Sleeper`'ı implemente eder. Bu testte sadece operasyonların sırası bizi alakadar etmekte bu yüzden sadece operasyonların ismini kadetmek yeterli.
 
-We can now add a sub-test into our test suite which verifies our sleeps and prints operate in the order we hope
+Test suitemize uyuma ve yazma operasyonlarımızın umduğumuz gibi doğur sırada gerçeklestiğini doğrulaması için alt test ekleyebiliriz
 
 ```go
 t.Run("sleep before every print", func(t *testing.T) {
@@ -432,9 +431,9 @@ t.Run("sleep before every print", func(t *testing.T) {
 })
 ```
 
-This test should now fail. Revert `Countdown` back to how it was to fix the test.
+Bu test başrısız olmalı. Testi düzeltmek için `Countdown`'ı eski haline getirelim.
 
-We now have two tests spying on the `Sleeper` so we can now refactor our test so one is testing what is being printed and the other one is ensuring we're sleeping in between the prints. Finally we can delete our first spy as it's not used anymore.
+`Sleeper` üzerinde spylık yapan iki testimiz var, testimizi yeniden düzenleyebiliriz böylece biri yazılanları test eder diğeri de yazılanlar arasında uyuduğumuzdan emin olur. Sonunda, ilk spyımuzu kullanılmadığı için silebiliriz.
 
 ```go
 func TestCountdown(t *testing.T) {
@@ -476,15 +475,15 @@ Go!`
 }
 ```
 
-We now have our function and its 2 important properties properly tested.
+Artık fonksiyonumuz ve iki önemli özelliği düzgünce test edildi.
 
-## Extending Sleeper to be configurable
+## Sleeper'ı düzenlenebilir hale getirme
 
-A nice feature would be for the `Sleeper` to be configurable. This means that we can adjust the sleep time in our main program.
+`Sleeper`'ın düzenlenebilir olması harika bir özellik olurdu. Bunun anlamı ana programımız içerisinden uyuma zamanını ayarlayabiliriz.
 
-### Write the test first
+### İlk olarak test yaz
 
-Let's first create a new type for `ConfigurableSleeper` that accepts what we need for configuration and testing.
+Ayarlama ve test için ne gerekiyorsa kabul eden `ConfigurableSleeper` tipini oluşturalım.
 
 ```go
 type ConfigurableSleeper struct {
@@ -493,7 +492,7 @@ type ConfigurableSleeper struct {
 }
 ```
 
-We are using `duration` to configure the time slept and `sleep` as a way to pass in a sleep function. The signature of `sleep` is the same as for `time.Sleep` allowing us to use `time.Sleep` in our real implementation and the following spy in our tests:
+ Uyuma süresini ayarlamak ve sleep fonksiyonuna parametre göndermek için `duration`'ı kullanıyoruz. `sleep`'in metod imzası (signature) `time.Sleep` ile aynı olması bize `time.Sleep`'i gerçek uygulamada kullanmamızı, `sleep`'i ise testlerimizde kullanmamızı sağlıyor:
 
 ```go
 type SpyTime struct {
@@ -505,7 +504,7 @@ func (s *SpyTime) Sleep(duration time.Duration) {
 }
 ```
 
-With our spy in place, we can create a new test for the configurable sleeper.
+Spyımız yerindeyken, ayarlanablir sleeper için yeni test oluşturabiliriz.
 
 ```go
 func TestConfigurableSleeper(t *testing.T) {
@@ -521,31 +520,31 @@ func TestConfigurableSleeper(t *testing.T) {
 }
 ```
 
-There should be nothing new in this test and it is setup very similar to the previous mock tests.
+Testte yeni bir şey olmamalı ve önceki mock testler ile kurulumu çok benzer olmalı.
 
-### Try and run the test
+### Dene ve testi çalıştır
 ```
 sleeper.Sleep undefined (type ConfigurableSleeper has no field or method Sleep, but does have sleep)
 
 ```
 
-You should see a very clear error message indicating that we do not have a `Sleep` method created on our `ConfigurableSleeper`.
+`ConfigurableSleeper`'ımızda `Sleep` metodunun olmadığını ima eden çok anlaşılabilir bir hata mesajı görmelisiniz.
 
-### Write the minimal amount of code for the test to run and check failing test output
+### Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 ```go
 func (c *ConfigurableSleeper) Sleep() {
 }
 ```
 
-With our new `Sleep` function implemented we have a failing test.
+`Sleep` fonksiyonumuzu implemente ettikten sonra başarısı olan bir testimiz var.
 
 ```
 countdown_test.go:56: should have slept for 5s but slept for 0s
 ```
 
-### Write enough code to make it pass
+### Testi geçeek kadar kod yaz
 
-All we need to do now is implement the `Sleep` function for `ConfigurableSleeper`.
+Tek yapmamız gereken `ConfigurableSleeper` için `Sleep` fonksiyonunuzu implemente etmek.
 
 ```go
 func (c *ConfigurableSleeper) Sleep() {
@@ -553,11 +552,11 @@ func (c *ConfigurableSleeper) Sleep() {
 }
 ```
 
-With this change all of the tests should be passing again and you might wonder why all the hassle as the main program didn't change at all. Hopefully it becomes clear after the following section.
+Bu değişiklikle birlikte tüm testler tekrar geçmeli ve tüm bu rahatsızlığa rağmen main program neden hiç değişmediğini merak edebilirsiniz. Umarım sonraki bölümden sonra netleşir.
 
-### Cleanup and refactor
+### Temizleme ve refactor
 
-The last thing we need to do is to actually use our `ConfigurableSleeper` in the main function.
+Yapmamız gereken son şey main fonksyionda `ConfigurableSleeper`'ı kullanmak.
 
 ```go
 func main() {
@@ -566,80 +565,80 @@ func main() {
 }
 ```
 
-If we run the tests and the program manually, we can see that all the behavior remains the same.
+Eğer testi ve uygulamayu çalıştırırsak tüm davranışların aynı kaldığını görebiliriz. 
 
-Since we are using the `ConfigurableSleeper`, it is now safe to delete the `DefaultSleeper` implementation. Wrapping up our program and having a more [generic](https://stackoverflow.com/questions/19291776/whats-the-difference-between-abstraction-and-generalization) Sleeper with arbitrary long countdowns.
+`ConfigurableSleeper`'ı kullandığımız için `DefaultSleeper`'ı silmek artık güvenli. Programımızı tamamlıyoruz ve daha [kapsamlı (generic)](https://stackoverflow.com/questions/19291776/whats-the-difference-between-abstraction-and-generalization) ve keyfi uzunlukta gerisayımları olan Sleeperımız oluyor.
 
-## But isn't mocking evil?
+## Mocklama şeytani değilmiydi ?
 
-You may have heard mocking is evil. Just like anything in software development it can be used for evil, just like [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+Mocklamanın şeytani olduğunu duymuşsundur. Yazılım geliştirmede herhangi bir şey gibi, kötülük için kullanılabilir, [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) gibi.
 
-People normally get in to a bad state when they don't _listen to their tests_ and are _not respecting the refactoring stage_.
+İnsanlar normalde _testlerini dinlemediklerinde_ ve _refactoring aşamasına uymadıklarında_ kötü bir duruma girerler.
 
-If your mocking code is becoming complicated or you are having to mock out lots of things to test something, you should _listen_ to that bad feeling and think about your code. Usually it is a sign of
+Eğer mocking kodunuz karmaşıklaşıyor veya bir şeyi test etmek için çok fazla mockunuz varsa, bu kötü duyguyu _dinlemeli_ ve kodunuzu düşünmelisiniz. Genelde bir işarettir
 
-- The thing you are testing is having to do too many things (because it has too many dependencies to mock)
-  - Break the module apart so it does less
-- Its dependencies are too fine-grained
-  - Think about how you can consolidate some of these dependencies into one meaningful module
-- Your test is too concerned with implementation details
-  - Favour testing expected behaviour rather than the implementation
+- Test ettiğiniz şey çok fazla şey yapıyorsa(çünkü mocklamak için çok fazla bağımlılığı var)
+  - Modülü parçalara ayırın, böylece daha az iş yapar
+- Bağımlılıkları çok ince taneli
+  - Bu bağımlılıklardan bazılarını tek bir anlamlı modülde nasıl birleştirebileceğinizi düşünün.
+- Testiniz implementasyon detayları ile fazla fazla ilgili
+  - Uygulamadan ziyade beklenen davranışı test etmeyi tercih edin
 
-Normally a lot of mocking points to _bad abstraction_ in your code.
+Normade, çok mocklama koduzunda _kötü soyutlamaya_ bir işarettir.
 
-**What people see here is a weakness in TDD but it is actually a strength**, more often than not poor test code is a result of bad design or put more nicely, well-designed code is easy to test.
+**İnsanların TDD'yi zayıflık olarak gördüğü şey aslında güçtür**, çoğu zaman zayıf test kodu kötü tasarımın sonucudur veya daha güzel bir şekilde ifade edilirse, iyi tasarlanmış kod kolay test edilir.
 
-### But mocks and tests are still making my life hard!
+### Ama mocklar ve testler hala hayatımı zorlaştırıyor! 
 
-Ever run into this situation?
+Hiç bu durumla karşılaştın mı?
 
-- You want to do some refactoring
-- To do this you end up changing lots of tests
-- You question TDD and make a post on Medium titled "Mocking considered harmful"
+- Refactoring yapmak istemek 
+- Bunu yapmak için bir çok testi değiştirmek 
+- TDD'yi sorgularsınız ve Medium'da `Mocklama zararlı olarak kabul edilir` diye paylaşım yaparsınız
 
-This is usually a sign of you testing too much _implementation detail_. Try to make it so your tests are testing _useful behaviour_ unless the implementation is really important to how the system runs.
+Bu genelde çok fazla _implementasyon detayını_ test ettiğinize dair bir işarettir. Sistemin nasıl çalıştığı implementasyon için gerçekten önemli olana kadar testlerinizin _kullanışlı davranışları_ test etmeye çalışın.
 
-It is sometimes hard to know _what level_ to test exactly but here are some thought processes and rules I try to follow:
+Tam olarak hangi seviyenin test edileceğini bilmek bazen zordur, ancak burada uymaya çalıştığım bazı düşünce süreçleri ve kurallar vardır:
 
-- **The definition of refactoring is that the code changes but the behaviour stays the same**. If you have decided to do some refactoring in theory you should be able to make the commit without any test changes. So when writing a test ask yourself
-  - Am I testing the behaviour I want, or the implementation details?
-  - If I were to refactor this code, would I have to make lots of changes to the tests?
-- Although Go lets you test private functions, I would avoid it as private functions are implementation detail to support public behaviour. Test the public behaviour. Sandi Metz describes private functions as being "less stable" and you don't want to couple your tests to them.
-- I feel like if a test is working with **more than 3 mocks then it is a red flag** - time for a rethink on the design
-- Use spies with caution. Spies let you see the insides of the algorithm you are writing which can be very useful but that means a tighter coupling between your test code and the implementation. **Be sure you actually care about these details if you're going to spy on them**
+- **Refactoringin tanımı, kodun değişmesi ancak davranışın aynı kalmasıdır**. Teoride bazı yeniden düzenleme yapmaya karar verdiyseniz, herhangi bir test değişikliği yapmadan taahhütte bulunabilmelisiniz. Bu yüzden bir test yazarken kendinize sorun
+  - İstediğim davranışı mı test ediyorum yoksa implementasyon detaylarını mı?
+  - Bu kodu refactor etseydim, testlerde çok fazla değişiklik yapmak gerekir miydi?
+- Go, private fonksiyonları test etmenize izin verse de, private fonksiyonlar, genel davranışı desteklemek için implentasyon ayrıntısı olduğu için bundan kaçınırdım. Açık davranışları test et. Sandi Metz, private fonksiyonları "daha az kararlı" olarak tanımlar ve testlerinizi bunlarla birleştirmek istemezsiniz.
+- Eğer bir test **3'ten fazla mock ile çalışıyorsa** tasarım hakkında yeniden düşünmek için kırmızı bayraktır diye hissediyorum. 
+- Spyları dikkatli kullanın. Spylar, yazdığınız algoritmanın içini görmenizi sağlar ve bu çok faydalı olabilir, ancak bu, test kodunuz ile implementasyon arasında daha sıkı bir bağlantı anlamına gelir. **Onları gözetleyecekseniz, bu ayrıntıları gerçekten önemsediğinizden emin olun**
 
-#### Can't I just use a mocking framework?
+#### Mocklama için framework kullanamaz mıyım ?
 
-Mocking requires no magic and is relatively simple; using a framework can make mocking seem more complicated than it is. We don't use automocking in this chapter so that we get:
+Mocklama sihir gerektirmez ve nispeten basittir; Framework kullanmak, mocklamayı olduğunda daha karmaşık yapabilir. Bu bölümde otomatik mocklama kullanmayacağız, böylece:
 
-- a better understanding of how to mock
-- practise implementing interfaces
+- mock nasıl çalışır daha iyi anlarız
+- interface implemente etme pratiği yaparız
 
-In collaborative projects there is value in auto-generating mocks. In a team, a mock generation tool codifies consistency around the test doubles. This will avoid inconsistently written test doubles which can translate to inconsistently written tests.
+İşbirlikçi (Collobrative) projelerde, otomatik oluşturulan mockların değeri vardır. Bir takımda, mocklama aracı test doubleları arasında tutarlılığı kodlar. Bu, tutarsız yazılmış testlere dönüşebilecek tutarsız yazılmış test kopyalarını önleyecektir..
 
-You should only use a mock generator that generates test doubles against an interface. Any tool that overly dictates how tests are written, or that use lots of 'magic', can get in the sea.
+Yalnızca bir interface karşı test doubleları oluşturan bir mock oluşturucu kullanmalısınız. Testlerin nasıl yazıldığını aşırı derecede belirleyen veya çok fazla 'sihir' kullanan herhangi bir araç denize girebilir.
 
-## Wrapping up
+## Özetlersek
 
-### More on TDD approach
+### TDD yaklaşımı hakkında daha fazla bilgi
 
-- When faced with less trivial examples, break the problem down into "thin vertical slices". Try to get to a point where you have _working software backed by tests_ as soon as you can, to avoid getting in rabbit holes and taking a "big bang" approach.
-- Once you have some working software it should be easier to _iterate with small steps_ until you arrive at the software you need.
+- Daha az önemsiz örneklerle karşılaştığınızda, sorunu "ince dikey dilimlere" bölün. Tavşan deliklerine girmekten ve "büyük patlama" yaklaşımı benimsemekten kaçınmak için, mümkün olan en kısa sürede _testlerle desteklenen çalışan bir yazılıma_ sahip olduğunuz bir noktaya gelmeye çalışın.
+- Çalışan bir yazılımınız olduğunda, ihtiyacınız olan yazılıma ulaşana kadar _küçük adımlarla yinelemeniz_ daha kolay olacaktır.
 
-> "When to use iterative development? You should use iterative development only on projects that you want to succeed."
+> "Yinelemeli geliştirmeyi ne zaman kullanmalıyız? Yinelemeli geliştirmeyi sadece başarılı olmasını istediğiniz projelerde kullanmalısınız."
 
 Martin Fowler.
 
-### Mocking
+### Mocklama
 
-- **Without mocking important areas of your code will be untested**. In our case we would not be able to test that our code paused between each print but there are countless other examples. Calling a service that _can_ fail? Wanting to test your system in a particular state? It is very hard to test these scenarios without mocking.
-- Without mocks you may have to set up databases and other third parties things just to test simple business rules. You're likely to have slow tests, resulting in **slow feedback loops**.
-- By having to spin up a database or a webservice to test something you're likely to have **fragile tests** due to the unreliability of such services.
+- **Kodunuzun önemli bir kısmı mocklama olmadan test edilemeyecektir**. Bizim durumumuzda, kodumuzun her yazdırma arasında durakladığını test edemeyiz, ancak sayısız başka örnek var. Başarısız _olabilecek_ bir servicei çağırmak mı istiyorsunuz? Sisteminizi belirli bir durumda test etmek mi istiyorsunuz? Mocklama olmadan bu senaryoları test etmek oldukça zor.
+- Mocklar olmadan, sadece basit iş kurallarını test etmek için veritabanları ve diğer üçüncü taraf şeyleri kurmanız gerekebilir. Muhtemelen yavaş testler yapacaksınız ve bu da **yavaş geri bildirim döngülerine** yol açacaktır.
+- Bir şeyi test etmek için bir veritabanını veya bir web servisini döndürmek zorunda kalırsanız, bu tür servislerin güvenilmezliği nedeniyle **hassas testler** yapmanız olasıdır.
 
-Once a developer learns about mocking it becomes very easy to over-test every single facet of a system in terms of the _way it works_ rather than _what it does_. Always be mindful about **the value of your tests** and what impact they would have in future refactoring.
+Bir geliştirici mocklamayı öğrendiğinde, bir sistemin her bir yönünü, _ne yaptığından_ ziyade, _nasıl çalıştığı_ açısından aşırı test etmek çok kolay hale gelir. **Testlerinizin değeri** ve gelecekteki yeniden düzenlemede ne gibi etkileri olacağı konusunda daima dikkatli olun.
 
-In this post about mocking we have only covered **Spies** which are a kind of mock. The "proper" term for mocks though are "test doubles"
+Mocklama ile ilgili bu yazıda yalnızca bir tür mock olan **Spyları** ele aldık. Mocklar için "uygun" terim, "test double" olsa da
 
-[> Test Double is a generic term for any case where you replace a production object for testing purposes.](https://martinfowler.com/bliki/TestDouble.html)
+[> Test Double, test amacıyla bir üretim nesnesini değiştirdiğiniz her durum için genel bir terimdir.](https://martinfowler.com/bliki/TestDouble.html)
 
-Under test doubles, there are various types like stubs, spies and indeed mocks! Check out [Martin Fowler's post](https://martinfowler.com/bliki/TestDouble.html) for more detail.
+Test doubleları altında, stublar, spylar ve gerçekten de mocklar gibi çeşitli türler var! Daha fazla ayrıntı için [Martin Fowler'ın gönderisine](https://martinfowler.com/bliki/TestDouble.html) göz atın.
