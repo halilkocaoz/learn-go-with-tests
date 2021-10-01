@@ -2,7 +2,7 @@
 
 **[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/maps)**
 
-[Arrayler & slicelar](arrays-and-slices.md) bölümünde, değerleri nasıl saklayacağımızı gördünüz. Şimd, `key` ile değerleri nasıl sakladığımıza ve hızlıca bakabildiğimiz inceleyeceğiz.
+[Arrayler & slicelar](arrays-and-slices.md) bölümünde, değerleri nasıl saklayacağımızı gördünüz. Şimdi, `key` ile değerleri nasıl sakladığımıza ve hızlıca bakabildiğimizi inceleyeceğiz.
 
 Mapler, öğeleri sözlüğe benzer şekilde saklamanızı sağlar. `key`'i kelime, `value`'yu tanım olarak düşünebilirsiniz. Mapleri öğrenmenin kendi sözlüğümüz oluşturmaktan daha iyi yolu nedir?
 
@@ -31,7 +31,7 @@ func TestSearch(t *testing.T) {
 
 Map tanımlamak  array tanımlamaya benziyor. Aradaki fark, `map` keywordu ile başlıyor ve iki tip gereklidir. İlki key tipi, `[]` içerisine yazılır. İkincisi value tipi,`[]`'in sağına yazılır.
 
-Key özeldir. Sadece kıyaslanabilir (comparable) tip olabilir. Eğer iki keyin eşitliği söyleyemezsek doğru değerin aldığımızdan emin olamayız.  Kıyaslanabilir (Comparable)  tipler [dil özellikleri (language spec)](https://golang.org/ref/spec#Comparison_operators) bölümünde detaylıca açıklanmıltır.
+Key özeldir. Sadece kıyaslanabilir (comparable) tip olabilir. Eğer iki keyin eşitliğini söyleyemezsek doğru değeri aldığımızdan emin olamayız.  Kıyaslanabilir (Comparable)  tipler [dil özellikleri (language spec)](https://golang.org/ref/spec#Comparison_operators) bölümünde detaylıca açıklanmıştır.
 
 Value tipi herhangi bir tip olabilir.  Başka bir map bile olabilir.
 
@@ -39,7 +39,7 @@ Bu testteki her şey tanıdık gelmeli.
 
 ## Testi çalıştırmayı dene
 
-`go test` komutnu çalıştırdığımızda derleyici `./dictionary_test.go:8:9: undefined: Search` hatası ile başarısız olacaktır.
+`go test` komutunu çalıştırdığımızda derleyici `./dictionary_test.go:8:9: undefined: Search` hatası ile başarısız olacaktır.
 
 ## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
@@ -53,7 +53,7 @@ func Search(dictionary map[string]string, word string) string {
 }
 ```
 
-Şimdi tesrin *temiz bir hata mesajı* verecektir 
+Şimdi testiniz *temiz bir hata mesajı* verecektir 
 
 `dictionary_test.go:12: got '' want 'this is just a test' given, 'test'`.
 
@@ -90,9 +90,9 @@ func assertStrings(t testing.TB, got, want string) {
 
 İmplementasyonu daha genel yapmak için `assertStrings` yardımcısını oluşturdum.
 
-### Özel tip ile kullnma
+### Özel tip ile kullanma
 
-Map etrafında yeni bir tür oluşturarak ve `Seach`'ü metod halien getirerek sözlüğümüzn kullanımını iyileştirebiliriz.
+Map etrafında yeni bir tür oluşturarak ve `Search`'ü metod haline getirerek sözlüğümüzün kullanımını iyileştirebiliriz.
 
 `dictionary_test.go` içerisinde:
 
@@ -107,7 +107,7 @@ func TestSearch(t *testing.T) {
 }
 ```
 
-Daha tanımlamadığımız, `Dictionary` tipini kullanmaya başladık. Sonra `Dictionary` insanceında `Search`'ü çağırdık.
+Daha tanımlamadığımız, `Dictionary` tipini kullanmaya başladık. Sonra `Dictionary` instanceında `Search`'ü çağırdık.
 
 `assertStrings` değiştirmemize gerek yok.
 
@@ -190,7 +190,7 @@ func (d Dictionary) Search(word string) (string, error) {
 }
 ```
 
-Bunu geçebilmek için mapin ilginç bir özelliğini kullanıyoruz. İki değer dönebilir. İkinci değer boolean yani  key'in başarılı bir şekilde döndüüğünü belirtir.
+Bunu geçebilmek için mapin ilginç bir özelliğini kullanıyoruz. İki değer dönebilir. İkinci değer boolean yani  key'in başarılı bir şekilde döndüğünü belirtir.
 
 Bu özellik tanımı olmayan ve sözlükte olmayan kelimelerin farkını ayırt etmemizi sağlar.
 
@@ -209,7 +209,7 @@ func (d Dictionary) Search(word string) (string, error) {
 }
 ```
 
-`Search` fonksiyonundaki sihirli hatayı değişkene atayarak kurtulabilirizi. Daha iyi bir testimizin olmasını sağlayacak.
+`Search` fonksiyonundaki sihirli hatayı değişkene atayarak kurtulabiliriz. Daha iyi bir testimizin olmasını sağlayacak.
 
 ```go
 t.Run("unknown word", func(t *testing.T) {
@@ -250,7 +250,7 @@ func TestAdd(t *testing.T) {
 }
 ```
 
-Bu testte, sözlüğün geçerliğiliğini kolaylaştırmak için `Seach` fonksiyonunun kullanışlı hale getiriyoruz.
+Bu testte, sözlüğün geçerliliğini kolaylaştırmak için `Search` fonksiyonunun kullanışlı hale getiriyoruz.
 
 ## Testin çalışması için minimum kodu yaz ve başarısız test çıktılarını kontrol et
 
@@ -279,7 +279,7 @@ Map'e ekleme yapmak array'a oldukça benzer. Sadece keyi belirlemeniz ve değeri
 
 ### Pointerlar, kopyalar, et al
 
-Maplerin ilginç bir özelliği de adresslerini göndermeden düzenleme yapabilmeniz(örn `&myMap`)
+Maplerin ilginç bir özelliği de adreslerini göndermeden düzenleme yapabilmeniz(örn `&myMap`)
 
 Bu onları "reference tip" gibi _hissettiriyor_ [ancak Dave Cheney anlattığı gibi](https://dave.cheney.net/2017/04/30/if-a-map-isnt-a-reference-variable-what-is-it) değiller.
 
@@ -295,7 +295,7 @@ Bu nedenle, asla boş bir map oluşturmayın:
 var m map[string]string
 ```
 
-Bunun yerine, yukarıda yaptığımız gibi boş bir map oluşturabilirsinzi veya map oluşturmak için `make` keywordünü oluşturabilirsiniz:
+Bunun yerine, yukarıda yaptığımız gibi boş bir map oluşturabilirsiniz veya map oluşturmak için `make` keywordünü oluşturabilirsiniz:
 
 ```go
 var dictionary = map[string]string{}
@@ -585,7 +585,7 @@ Bu fonksiyon, `dictionary`i güncelleme ve hata döndürme dışında `Add` ile 
 
 ### Update için yeni bir hata tanımlamayla ilgili not
 
-`ErrNotFound` tekrar kullanabilirdik and yenir bir hata eklemezdil. Ancak, bir güncelleme başarısız olduğunda kesin bir hataya sahip olmak genellikle daha iyidir.
+`ErrNotFound`'u tekrar kullanabilirdik ve yenrine bir hata eklemezdik. Ancak, bir güncelleme başarısız olduğunda kesin bir hataya sahip olmak genellikle daha iyidir.
 
 Spesifik hatalar ne olup bittiği hakkında daha fazla bilgi verir. Web uygulamasında bir örnek:
 
@@ -609,7 +609,7 @@ func TestDelete(t *testing.T) {
 }
 ```
 
-Testimiz `Dictionary` ve bir kelime oluşturu daha sonra silindiğini kontrol eder.
+Testimiz `Dictionary` ve bir kelime oluşturur daha sonra silindiğini kontrol eder.
 
 ## Testi çalıştırmayı dene
 
@@ -641,13 +641,13 @@ func (d Dictionary) Delete(word string) {
 }
 ```
 
-Go built-in olarak mapler üzerinde çalışan `delete` fonksiyonuna sahip. İki argüman alor. İlki map ve ikincisi kaldırılacak olan key.
+Go built-in olarak mapler üzerinde çalışan `delete` fonksiyonuna sahip. İki argüman alır. İlki map ve ikincisi kaldırılacak olan key.
 
 `delete` fonksiyonu bir şey döndürmez ve `Delete` metodunu aynı düşünceye dayandırdık. Olmayan bir değeri silmenin bir etkisi olmadığından, `Update` ve `Add` gibi API'yı hatalar ile karmaşıklaştırmamıza gerek yok.
 
 ## Özetlersek
 
-Bu bölümde çok konudan bahsettik. Sözlüğümüz tam bir CRUD (Create, Read, Update ve Delete) API oluşturduk.  
+Bu bölümde çok konudan bahsettik. Sözlüğümüze tam bir CRUD (Create, Read, Update ve Delete) API'yı oluşturduk.  
 Süreç boyunca öğrendiklerimiz:
 
 * Map oluşturma
