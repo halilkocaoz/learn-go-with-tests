@@ -24,7 +24,7 @@ Bu oldukça önemsiz bir program olsa da, tamamen test etmek için her zaman old
 
 Yinelemeli derken neyi kastettim? _Kullanışlı yazılıma_ sahip olmak için en küçük adımları attığımızdan emin oluruz.
 
-Bazı hackink tekniklerinden sonra teorik olarak çalışacak bir kodla uzun zaman harcamak istemiyoruz çünkü geliştiriciler genellikle bu şekilde tavşan deliklerine düşüyorlar. **_Çalışan bir yazılıma_ sahip olabilmeniz için gereksinimleri olabildiğince küçük parçalara ayırabilmek önemli bir beceridir.**
+Bazı hacking tekniklerinden sonra teorik olarak çalışacak bir kodla uzun zaman harcamak istemiyoruz çünkü geliştiriciler genellikle bu şekilde tavşan deliklerine düşüyorlar. **_Çalışan bir yazılıma_ sahip olabilmeniz için gereksinimleri olabildiğince küçük parçalara ayırabilmek önemli bir beceridir.**
 
 Çalışmamızı şu şekilde bölebilir ve üzerinde yineleyebiliriz:
 
@@ -53,7 +53,7 @@ func TestCountdown(t *testing.T) {
 
 `buffer` gibi şeyler tanıdık değilse, bir önceki bölümü tekrar okuyun [the previous section](dependency-injection.md).
 
-`Countdown` fonksiyonumuzun bir yere veri yazmasını istediğimizi biliyoruz ve `io.Writer`  Go'da bu yolu fiilen iterface olarak yapmakta.
+`Countdown` fonksiyonumuzun bir yere veri yazmasını istediğimizi biliyoruz ve `io.Writer`  Go'da bu yolu fiilen interface olarak yapmakta.
 
 - `main` içerisinde  `os.Stdout`'u göndereceğeğiz bu sayde kullanıcılarımız gerisayımın çıktılarını terminalde görebilecek.
 - Test içerisinde `bytes.Buffer` göndereceğiz bu sayede testimiz üretilmiş veriyi yakalayabilecek.
@@ -179,7 +179,7 @@ func Countdown(out io.Writer) {
 }
 ```
 
-`i--` ile geriye doğru sayan bir `for` döngüsü kullan ve ``fmt.Println` kullanarak numaramızın ardından bir satır sonu karakteri ile `out` çıktısını alın. Sonunda "Go!" göndermek için `fmt.Fprint`'i kullan.
+`i--` ile geriye doğru sayan bir `for` döngüsü kullan ve `fmt.Println` kullanarak numaramızın ardından bir satır sonu karakteri ile `out` çıktısını alın. Sonunda "Go!" göndermek için `fmt.Fprint`'i kullan.
 
 ## Refactor
 
@@ -197,7 +197,7 @@ func Countdown(out io.Writer) {
 }
 ```
 
-Eğer programı çalıştırırsanız, istediğiniz çıktıyı almalısınızz ancak 1 saniyelik duraklamalı dramatik geri sayımımız yok.
+Eğer programı çalıştırırsanız, istediğiniz çıktıyı almalısınız ancak 1 saniyelik duraklamalı dramatik geri sayımımız yok.
 
 Go bunu `time.Sleep` ile başarmamızı sağlar. Koda eklemeyi dene.
 
@@ -230,7 +230,7 @@ Eğer `time.Sleep`'i _mocklayabilirsek_,  "gerçek" `time.Sleep` yerine  _depend
 
 ## İlk olarak test yaz
 
-Bağımlılığımız interface olarak tanımlayalım. Bu, daha sonra testlerimizde `main`'de _gerçek_ Sleeper ve testlerimizde _spy_ sleeper kullanmamızı sağlar. Interface kullanarak ``Countdown` fonksiyunuz habersiz olur ve çağırıyı yapan için biraz esneklik.
+Bağımlılığımız interface olarak tanımlayalım. Bu, daha sonra testlerimizde `main`'de _gerçek_ Sleeper ve testlerimizde _spy_ sleeper kullanmamızı sağlar. Interface kullanarak ``Countdown` fonksiyonumuz habersiz olur ve çağrıyı yapan için biraz esneklik ekler.
 
 ```go
 type Sleeper interface {
@@ -238,7 +238,7 @@ type Sleeper interface {
 }
 ```
 
-`Countdown` fonksiyonu uyku süresinden sorumlu olmayacak şekilde bir tasarım karar verdim. Bu, kodumuzun en azından şimdilik biraz basitleştirir ve fonksiyonumuzun bir kullanıcısının bu uykuyu istedikleri gibi yapılandırılabileceği anlamına gelir.
+`Countdown` fonksiyonu uyku süresinden sorumlu olmayacak bir tasarıma karar verdim. Bu, kodumuzun en azından şimdilik biraz basitleştirir ve fonksiyonumuzun bir kullanıcısının bu uykuyu istedikleri gibi yapılandırılabileceği anlamına gelir.
 
 Şimdi testlerimizin kullanması için _mock_ yapmalıyız
 
@@ -332,7 +332,7 @@ func main() {
 
 ## Testi geçecek kadar kod yaz
 
-Test derleniyor ancak geçmiyor çünkü innject edilmiş bağımlılık yerine hala `time.Sleep`'i çağırıyoruz. Hadi bunu düzeltelim.
+Test derleniyor ancak geçmiyor çünkü inject edilmiş bağımlılık yerine hala `time.Sleep`'i çağırıyoruz. Hadi bunu düzeltelim.
 
 ```go
 func Countdown(out io.Writer, sleeper Sleeper) {
@@ -407,7 +407,7 @@ const sleep = "sleep"
 
 `SpyCountdownOperations`,her çağrıyı bir slicea kaydederek `io.Writer` ve `Sleeper`'ı implemente eder. Bu testte sadece operasyonların sırası bizi alakadar etmekte bu yüzden sadece operasyonların ismini kadetmek yeterli.
 
-Test suitemizi uyuma ve yazma operasyonlarımızın umduğumuz gibi doğur sırada gerçeklestiğini doğrulaması için alt test ekleyebiliriz
+Test suitemize uyuma ve yazma operasyonlarımızın umduğumuz gibi doğur sırada gerçeklestiğini doğrulaması için alt test ekleyebiliriz
 
 ```go
 t.Run("sleep before every print", func(t *testing.T) {
@@ -492,7 +492,7 @@ type ConfigurableSleeper struct {
 }
 ```
 
- Uyuma süresini ayarlamak ve sleep fonksiyonuna paramtetre göndermek için `duration`'ı kullanıyoruz. `sleep`'in metod imzası (signature) `time.Sleep` ile aynı olması bize `time.Sleep`'i gerçek uygulamada kullanmamızı, `sleep`'i ise testlerimizde kullanmamızı sağlıyor:
+ Uyuma süresini ayarlamak ve sleep fonksiyonuna parametre göndermek için `duration`'ı kullanıyoruz. `sleep`'in metod imzası (signature) `time.Sleep` ile aynı olması bize `time.Sleep`'i gerçek uygulamada kullanmamızı, `sleep`'i ise testlerimizde kullanmamızı sağlıyor:
 
 ```go
 type SpyTime struct {
@@ -520,7 +520,7 @@ func TestConfigurableSleeper(t *testing.T) {
 }
 ```
 
-Testte yeni bir şey olamamlı ve önceki mock testler ile kurulumu çok benzer olmalı.
+Testte yeni bir şey olmamalı ve önceki mock testler ile kurulumu çok benzer olmalı.
 
 ### Dene ve testi çalıştır
 ```
@@ -586,7 +586,7 @@ Eğer mocking kodunuz karmaşıklaşıyor veya bir şeyi test etmek için çok f
 
 Normade, çok mocklama koduzunda _kötü soyutlamaya_ bir işarettir.
 
-**İnsanların TDD zayıflık olarak gördüğü ama aslında bir güçtür**, çoğu zaman zayıf test kodu kötü tasarımın sonucudur veya daha güzel bir şekilde ifade edilirse, iyi tasarlanmış kod kolay test edilir.
+**İnsanların TDD'yi zayıflık olarak gördüğü şey aslında güçtür**, çoğu zaman zayıf test kodu kötü tasarımın sonucudur veya daha güzel bir şekilde ifade edilirse, iyi tasarlanmış kod kolay test edilir.
 
 ### Ama mocklar ve testler hala hayatımı zorlaştırıyor! 
 
@@ -625,13 +625,13 @@ Yalnızca bir interface karşı test doubleları oluşturan bir mock oluşturucu
 - Daha az önemsiz örneklerle karşılaştığınızda, sorunu "ince dikey dilimlere" bölün. Tavşan deliklerine girmekten ve "büyük patlama" yaklaşımı benimsemekten kaçınmak için, mümkün olan en kısa sürede _testlerle desteklenen çalışan bir yazılıma_ sahip olduğunuz bir noktaya gelmeye çalışın.
 - Çalışan bir yazılımınız olduğunda, ihtiyacınız olan yazılıma ulaşana kadar _küçük adımlarla yinelemeniz_ daha kolay olacaktır.
 
-> "Yinelemeli geliştirmeyi ne zaman kullanmalıyız? Yinelemli geliştirmeyi sadece başarılı olmasını istediğiniz projelerde kullanmalısınız."
+> "Yinelemeli geliştirmeyi ne zaman kullanmalıyız? Yinelemeli geliştirmeyi sadece başarılı olmasını istediğiniz projelerde kullanmalısınız."
 
 Martin Fowler.
 
 ### Mocklama
 
-- **Kodunuzun önemli bir kısmı mocklama olmadan test edilemeyecektir**. Bizim durumumuzda, kodumuzun her yazdırma arasında durakladığını test edemeyiz, ancak sayısız başka örnek var. Başarısız _olabilecek_ bir servicei çağırmak mı istiyorsunuz? Sisteminizi belirli bir durumda test etmek mi istiyorsunuz? Moclama olmadn bu senaryoları test etmek oldukça zor.
+- **Kodunuzun önemli bir kısmı mocklama olmadan test edilemeyecektir**. Bizim durumumuzda, kodumuzun her yazdırma arasında durakladığını test edemeyiz, ancak sayısız başka örnek var. Başarısız _olabilecek_ bir servicei çağırmak mı istiyorsunuz? Sisteminizi belirli bir durumda test etmek mi istiyorsunuz? Mocklama olmadan bu senaryoları test etmek oldukça zor.
 - Mocklar olmadan, sadece basit iş kurallarını test etmek için veritabanları ve diğer üçüncü taraf şeyleri kurmanız gerekebilir. Muhtemelen yavaş testler yapacaksınız ve bu da **yavaş geri bildirim döngülerine** yol açacaktır.
 - Bir şeyi test etmek için bir veritabanını veya bir web servisini döndürmek zorunda kalırsanız, bu tür servislerin güvenilmezliği nedeniyle **hassas testler** yapmanız olasıdır.
 
