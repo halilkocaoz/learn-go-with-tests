@@ -134,7 +134,7 @@ bilgisayarımıza beklerken sıradaki isteği atmasını söyleyeceğiz.
 
 Normalde Go'da `doSomething()` fonksiyonunu çağırdığımızda dönüş yapması için bekleriz
 (dönecek bir değeri olmasa bile yine de bitmesi için bekleriz). 
-Bu işleme *blocking* işlemi diyoruz -Bitemsi için bizi bekletiyor. An operation
+Bu işleme *blocking* işlemi diyoruz - Bitmesi için bizi bekletiyor.
 Go'da blocklamayan operasyon, *goroutine* olarak isimlendirilen ayrı bir *process*'te çalışır.
 Process'i, Go kod sayfasının yukarıdan aşağıya okunmasi gibi düşünün, fonksiyonun ne yaptığını 
 okumak için her bir fonksiyonun 'içine' gitmek gibi düşünün. Ayrı bir process başladığında,
@@ -195,7 +195,7 @@ ne olacağını tahmin etmek zor. Endişe etmeyin - Bu nedenle test yazıyoruz,
 
 ### ... ve, geri döndük.
 
-Orijinal testler tarafından yakalandık `CheckWebsites` şimdi boş bir harita döndürüyor.
+Orijinal testler tarafından yakalandık `CheckWebsites` şimdi boş bir harita döndürüyor. Ne yanlış gitmiş olabilir?
 
 `for` loopumuz başladığında, goroutinelerin hiçibiri sonuçlarını `results` map'e ekleyecek kadar zaman bulamıyor; 
 `WebsiteChecker` fonksiyonu onlar için çok hızlı, hala boş map dönüyor.
@@ -300,13 +300,13 @@ created by github.com/gypsydave5/learn-go-with-tests/concurrency/v3.WebsiteCheck
 ```
 
 Bu uzun ve korkutucu, ama yapmamız gereken tek şey nefes almak ve stacktrace'i okumak:`fatal error: concurrent map writes`.
-Bazeb, testlerimizi çalıştırdığımızda, goroutinelerin ikisi results map'e gerçkten de aynı anda yazar.
+Bazen, testlerimizi çalıştırdığımızda, goroutinelerin ikisi results map'e gerçkten de aynı anda yazar.
 Go'da mapler, aynı anda birden fazla şeyin kendilerine yazmaya çalışmasını sevmez, sonuç olarak `fatal error`.
 
 Buna _race condition_ denir, yazılımın çıktısının zamanlamaya 
 ve kontorlümüzün olmadığı ardışık olayların bağlı olduğu buglardır.
 Hangi goroutine'in results map'e ne zaman yazacağımızı kontrol edemediğimiz için,
-aynı anda map'e yazan iki goroutine'e karşı savunmasızızı.
+aynı anda map'e yazan iki goroutine'e karşı savunmasızız.
 
 Go, built in [_race detector_][godoc_race_detector]'ü ile race conditionları testpit etmemize yardımcı olur. 
 Bu özelliği etkinleştirmek için, testleri `race` flagi ile çalıştırın: `go test -race`
@@ -364,13 +364,13 @@ goroutine 7 ve 8'in başladığı kod satırı:
 
 `/Users/gypsydave5/go/src/github.com/gypsydave5/learn-go-with-tests/concurrency/v3/websiteChecker.go:11`
 
-Bilmeniz gereken her şey terminalinizte yazdırılır - tek yapmanız gereken 
+Bilmeniz gereken her şey terminalinizde yazdırılır - tek yapmanız gereken 
 onu okumak için sabırlı olmaktır.
 
 ### Channellar
 
 Bu data race'i _channelları_ kullanarak goroutienleri koordine ederek çözebiliriz.
-Channellar Go'da değer alan ve gönderen veri yapılarıdır. Bu operasyonar, detayları ile birlikte, 
+Channellar Go'da değer alan ve gönderen veri yapılarıdır. Bu operasyonlar, detayları ile birlikte, 
 farklı processler arasında haberleşemyi sağlar.
 
 Bu durumda, parent process ile, url ile `WebsiteChecker` fonksiyonunu çalıştırma işini yapan, 
