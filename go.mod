@@ -1,11 +1,15 @@
 module github.com/quii/learn-go-with-tests
 
-go 1.14
+go 1.18
 
 require (
-	github.com/client9/misspell v0.3.4 // indirect
-	github.com/gorilla/websocket v1.4.2
-	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
-	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
-	golang.org/x/tools v0.1.4 // indirect
+	github.com/alecthomas/assert/v2 v2.2.2
+	github.com/approvals/go-approval-tests v0.0.0-20211008131110-0c40b30e0000
+	github.com/gomarkdown/markdown v0.0.0-20211212230626-5af6ad2f47df
+	github.com/gorilla/websocket v1.5.0
+)
+
+require (
+	github.com/alecthomas/repr v0.2.0 // indirect
+	github.com/hexops/gotextdiff v1.0.3 // indirect
 )

@@ -73,10 +73,10 @@ working in the way you expect, but a test that tells you that the whole
 thing you're trying to achieve - the 'feature' - is complete.
 
 These tests are sometimes called 'acceptance tests', sometimes called
-'feature test'. The idea is that you write a really high level test to
+'feature tests'. The idea is that you write a really high level test to
 describe what you're trying to achieve - a user clicks a button on a website,
 and they see a complete list of the Pokémon they've caught, for instance.
-When we've written that test, we can then write test more tests - unit tests -
+When we've written that test, we can then write more tests - unit tests -
 that build towards a working system that will pass the acceptance test. So
 for our example these tests might be about rendering a webpage with a button,
 testing route handlers on a web server, performing database look ups, etc.
@@ -85,7 +85,7 @@ the original acceptance test pass.
 
 Something like this _classic_ picture by Nat Pryce and Steve Freeman
 
-![img.png](TDD-outside-in.jpg)
+![Outside-in feedback loops in TDD](TDD-outside-in.jpg)
 
 Anyway, let's try and write that acceptance test - the one that will let us
 know when we're done.
@@ -131,10 +131,9 @@ So my first test looks like this:
 package clockface_test
 
 import (
+    "projectpath/clockface"
 	"testing"
 	"time"
-
-	"github.com/gypsydave5/learn-go-with-tests/math/v1/clockface"
 )
 
 func TestSecondHandAtMidnight(t *testing.T) {
@@ -175,7 +174,7 @@ package clockface
 
 import "time"
 
-// A Point represents a two dimensional Cartesian coordinate
+// A Point represents a two-dimensional Cartesian coordinate
 type Point struct {
 	X float64
 	Y float64
@@ -195,7 +194,7 @@ and now we get:
     clockface_test.go:17: Got {0 0}, wanted {150 60}
 FAIL
 exit status 1
-FAIL	github.com/gypsydave5/learn-go-with-tests/math/v1/clockface	0.006s
+FAIL	learn-go-with-tests/math/clockface	0.006s
 ```
 
 ### Write enough code to make it pass
@@ -273,7 +272,7 @@ This is called the 'unit circle' because... well, the radius is 1 unit!
 
 The circumference of the circle is made of points on the grid - more
 coordinates. The x and y components of each of these coordinates form
-a triangle, the hypotenuse of which is always 1 - the radius of the circle
+a triangle, the hypotenuse of which is always 1 (i.e. the radius of the circle).
 
 ![picture of the unit circle with a point defined on the circumference](math/images/unit_circle_coords.png)
 
@@ -315,13 +314,20 @@ going on - so let's write a test! We don't need to solve the whole problem in
 one go - let's start off with working out the correct angle, in radians, for the
 second hand at a particular time.
 
-I'm going to write these tests _within_ the `clockface` package; they may never
-get exported, and they may get deleted (or moved) once I have a better grip on
-what's going on.
-
-I'm also going to _comment out_ the acceptance test that I was working on while
+I'm going to _comment out_ the acceptance test that I was working on while
 I'm working on these tests - I don't want to get distracted by that test while
 I'm getting this one to pass.
+
+### A recap on packages
+
+At the moment, our acceptance tests are in the `clockface_test` package. Our tests can 
+be outside of the `clockface` package - as long as their name ends with `_test.go` they 
+can be run.
+
+I'm going to write these radians tests _within_ the `clockface` package; they may never
+get exported, and they may get deleted (or moved) once I have a better grip on
+what's going on. I'll rename my acceptance test file to `clockface_acceptance_test.go`, 
+so that I can create a _new_ file called `clockface_test` to test seconds in radians.
 
 ```go
 package clockface
@@ -533,11 +539,11 @@ Try this
 
 ```go
 func main() {
-  fmt.Println(10.0/zero())
+	fmt.Println(10.0 / zero())
 }
 
 func zero() float64 {
-  return 0.0
+	return 0.0
 }
 ```
 
@@ -552,15 +558,15 @@ import (
 )
 
 func main() {
-  fmt.Println(secondsinradians())
+	fmt.Println(secondsinradians())
 }
 
 func zero() float64 {
-  return 0.0
+	return 0.0
 }
 
 func secondsinradians() float64 {
-    return (math.Pi / (30 / (float64(zero()))))
+	return (math.Pi / (30 / (float64(zero()))))
 }
 ```
 
@@ -577,7 +583,7 @@ for us to swallow.
 ### Write the test first
 
 ```go
-func TestSecondHandVector(t *testing.T) {
+func TestSecondHandPoint(t *testing.T) {
 	cases := []struct {
 		time  time.Time
 		point Point
@@ -670,7 +676,7 @@ We now want the equation that produces X and Y. Let's write it into seconds:
 
 ```go
 func secondHandPoint(t time.Time) Point {
-    angle := secondsInRadians(t)
+	angle := secondsInRadians(t)
 	x := math.Sin(angle)
 	y := math.Cos(angle)
 
@@ -693,7 +699,7 @@ say that they're roughly equal and get on with our lives.
 
 One option to increase the accuracy of these angles would be to use the rational
 type `Rat` from the `math/big` package. But given the objective is to draw an
-SVG and not land on the moon landings I think we can live with a bit of
+SVG and not land on the moon, I think we can live with a bit of
 fuzziness.
 
 ```go
@@ -780,7 +786,7 @@ clockface_acceptance_test.go:28: Got {150 60}, wanted {150 240}
 We need to do three things to convert our unit vector into a point on the SVG:
 
 1. Scale it to the length of the hand
-2. Flip it over the X axis because to account for the SVG having an origin in
+2. Flip it over the X axis to account for the SVG having an origin in
    the top left hand corner
 3. Translate it to the right position (so that it's coming from an origin of
    (150,150))
@@ -840,11 +846,11 @@ directory, called (confusingly), `clockface`. In there we'll put the `main`
 package that will create the binary that will build an SVG:
 
 ```
-├── clockface
-│   └── main.go
-├── clockface.go
-├── clockface_acceptance_test.go
-└── clockface_test.go
+|-- clockface
+|       |-- main.go
+|-- clockface.go
+|-- clockface_acceptance_test.go
+|-- clockface_test.go
 ```
 
 Inside `main.go`, you'll start with this code but change the import for the
@@ -859,7 +865,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/quii/learn-go-with-tests/math/clockface" // REPLACE THIS!
+	"learn-go-with-tests/math/clockface" // REPLACE THIS!
 )
 
 func main() {
@@ -967,7 +973,8 @@ to parse it.
 [`encoding/xml`][xml] is the Go package that can handle all things to do with
 simple XML parsing.
 
-The function [`xml.Unmarshall`](https://godoc.org/encoding/xml#Unmarshal) takes
+
+The function [`xml.Unmarshal`](https://pkg.go.dev/encoding/xml#Unmarshal) takes
 a `[]byte` of XML data, and a pointer to a struct for it to get unmarshalled in
 to.
 
@@ -976,7 +983,7 @@ working out what the correct names for all of the nodes and attributes, and how
 to write the correct structure but, happily, someone has written
 [`zek`](https://github.com/miku/zek) a program that will automate all of that
 hard work for us.  Even better, there's an online version at
-[https://www.onlinetool.io/xmltogo/](https://www.onlinetool.io/xmltogo/). Just
+[https://xml-to-go.github.io/](https://xml-to-go.github.io/). Just
 paste the SVG from the top of the file into one box and - bam - out pops:
 
 ```go
@@ -1008,7 +1015,7 @@ type Svg struct {
 
 We could make adjustments to this if we needed to (like changing the name of the
 struct to `SVG`) but it's definitely good enough to start us off. Paste the
-struct into the `clockface_test` file and let's write a test with it:
+struct into the `clockface_acceptance_test` file and let's write a test with it:
 
 ```go
 func TestSVGWriterAtMidnight(t *testing.T) {
@@ -1034,7 +1041,7 @@ func TestSVGWriterAtMidnight(t *testing.T) {
 ```
 
 We write the output of `clockface.SVGWriter` to a `bytes.Buffer`
-and then `Unmarshall` it into an `Svg`. We then look at each `Line` in the `Svg`
+and then `Unmarshal` it into an `Svg`. We then look at each `Line` in the `Svg`
 to see if any of them have the expected `X2` and `Y2` values. If we get a match
 we return early (passing the test); if not we fail with a (hopefully)
 informative message.
@@ -1044,7 +1051,7 @@ informative message.
 ./clockface_acceptance_test.go:41:2: undefined: clockface.SVGWriter
 ```
 
-Looks like we'd better write that `SVGWriter`...
+Looks like we'd better create `SVGWriter.go`...
 
 ```go
 package clockface
@@ -1108,7 +1115,7 @@ of precision we're expecting for the coordinates. Let's say three decimal
 places.
 
 ```go
-    fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
+	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#f00;stroke-width:3px;"/>`, p.X, p.Y)
 ```
 
 And after we update our expectations in the test
@@ -1134,7 +1141,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gypsydave5/learn-go-with-tests/math/v7b/clockface"
+	"learn-go-with-tests/math/clockface"
 )
 
 func main() {
@@ -1143,7 +1150,7 @@ func main() {
 }
 ```
 
-This is what [things should look like now](https://github.com/quii/learn-go-with-tests/blob/main/math/v7b/clockface).
+This is what [things should look like now](https://github.com/quii/learn-go-with-tests/tree/main/math/v7b/clockface).
 
 And we can write a test for another time following the same pattern, but not
 before...
@@ -1260,18 +1267,17 @@ func TestSVGWriterSecondHand(t *testing.T) {
 	}
 }
 
-
 func containsLine(l Line, ls []Line) bool {
-    for _, line := range ls {
-        if line == l {
-            return true
-        }
-    }
-    return false
+	for _, line := range ls {
+		if line == l {
+			return true
+		}
+	}
+	return false
 }
 ```
 
-Here's what [it looks like](https://github.com/quii/learn-go-with-tests/blob/main/math/v7c/clockface)
+Here's what [it looks like](https://github.com/quii/learn-go-with-tests/tree/main/math/v7c/clockface)
 
 Now _that's_ what I call an acceptance test!
 
@@ -1395,7 +1401,7 @@ How much is that tiny little bit? Well...
 
 ### Try to run the test
 
-```go
+```
 clockface_test.go:62: Wanted 0.012217304763960306 radians, but got 3.141592653589793
 ```
 
@@ -1428,12 +1434,12 @@ math.Pi / (30 / float64(t.Minute()))
 
 And...
 
-```go
+```
 PASS
 ok  	clockface	0.007s
 ```
 
-Nice and easy. This is what things [look like now](https://github.com/quii/learn-go-with-tests/blob/main/math/v8/clockface/clockface_acceptance_test.go)
+Nice and easy. This is what things [look like now](https://github.com/quii/learn-go-with-tests/tree/main/math/v8/clockface/clockface_acceptance_test.go)
 
 ### Repeat for new requirements
 
@@ -1831,7 +1837,7 @@ get the remainder of the current hour divided by 12.
 
 ```
 PASS
-ok  	github.com/gypsydave5/learn-go-with-tests/math/v10/clockface	0.008s
+ok  	learn-go-with-tests/math/clockface	0.008s
 ```
 ### Write the test first
 
@@ -2008,7 +2014,7 @@ The tests will soon tell me if I'm wrong.
 
 ```
 PASS
-ok  	github.com/gypsydave5/learn-go-with-tests/math/v11/clockface	0.009s
+ok  	learn-go-with-tests/math/clockface	0.009s
 ```
 <!--
 Here endeth v11
@@ -2202,4 +2208,4 @@ tests. It is an investment.
 [mathcos]: https://golang.org/pkg/math/#Cos
 [floatingpoint]: https://0.30000000000000004.com/
 [phlip]: http://wiki.c2.com/?PhlIp
-[xml]: https://godoc.org/encoding/xml
+[xml]: https://pkg.go.dev/encoding/xml

@@ -37,7 +37,9 @@ If you've got this far in the book this is hopefully feeling very boring and rou
 
 ## Try to run the test
 
-`./numeral_test.go:6:9: undefined: ConvertToRoman`
+```console
+./numeral_test.go:6:9: undefined: ConvertToRoman
+```
 
 Let the compiler guide the way
 
@@ -53,7 +55,7 @@ func ConvertToRoman(arabic int) string {
 
 It should run now
 
-```go
+```console
 === RUN   TestRomanNumerals
 --- FAIL: TestRomanNumerals (0.00s)
     numeral_test.go:10: got '', want 'I'
@@ -104,7 +106,7 @@ func TestRomanNumerals(t *testing.T) {
 
 ## Try to run the test
 
-```
+```console
 === RUN   TestRomanNumerals/2_gets_converted_to_II
     --- FAIL: TestRomanNumerals/2_gets_converted_to_II (0.00s)
         numeral_test.go:20: got 'I', want 'II'
@@ -159,13 +161,13 @@ Let's push on and go for 3
 
 Add the following to our cases
 
-```go
+```
 {"3 gets converted to III", 3, "III"},
 ```
 
 ## Try to run the test
 
-```
+```console
 === RUN   TestRomanNumerals/3_gets_converted_to_III
     --- FAIL: TestRomanNumerals/3_gets_converted_to_III (0.00s)
         numeral_test.go:20: got 'I', want 'III'
@@ -198,7 +200,7 @@ func ConvertToRoman(arabic int) string {
 
 	var result strings.Builder
 
-	for i:=0; i<arabic; i++ {
+	for i := 0; i < arabic; i++ {
 		result.WriteString("I")
 	}
 
@@ -220,19 +222,17 @@ Things start getting more complicated now. The Romans in their wisdom thought re
 
 Instead you take the next highest symbol and then "subtract" by putting a symbol to the left of it. Not all symbols can be used as subtractors; only I (1), X (10) and C (100).
 
-
-
 For example `5` in Roman Numerals is `V`. To create 4 you do not do `IIII`, instead you do `IV`.
 
 ## Write the test first
 
-```go
+```
 {"4 gets converted to IV (can't repeat more than 3 times)", 4, "IV"},
 ```
 
 ## Try to run the test
 
-```
+```console
 === RUN   TestRomanNumerals/4_gets_converted_to_IV_(cant_repeat_more_than_3_times)
     --- FAIL: TestRomanNumerals/4_gets_converted_to_IV_(cant_repeat_more_than_3_times) (0.00s)
         numeral_test.go:24: got 'IIII', want 'IV'
@@ -249,7 +249,7 @@ func ConvertToRoman(arabic int) string {
 
 	var result strings.Builder
 
-	for i:=0; i<arabic; i++ {
+	for i := 0; i < arabic; i++ {
 		result.WriteString("I")
 	}
 
@@ -284,13 +284,13 @@ Let's make 5 work
 
 ## Write the test first
 
-```go
+```
 {"5 gets converted to V", 5, "V"},
 ```
 
 ## Try to run the test
 
-```
+```console
 === RUN   TestRomanNumerals/5_gets_converted_to_V
     --- FAIL: TestRomanNumerals/5_gets_converted_to_V (0.00s)
         numeral_test.go:25: got 'IIV', want 'V'
@@ -348,7 +348,6 @@ func ConvertToRoman(arabic int) string {
 
 	return result.String()
 }
-
 ```
 
 - Given the signals I'm reading from our code, driven from our tests of some very basic scenarios I can see that to build a Roman Numeral I need to subtract from `arabic` as I apply symbols
@@ -360,12 +359,12 @@ I'm pretty sure this approach will be valid for 6 (VI), 7 (VII) and 8 (VIII) too
 
 ## Write the test first
 
-```go
-{"9 gets converted to IX", 9, "IX"}
+```
+{"9 gets converted to IX", 9, "IX"},
 ```
 ## Try to run the test
 
-```
+```console
 === RUN   TestRomanNumerals/9_gets_converted_to_IX
     --- FAIL: TestRomanNumerals/9_gets_converted_to_IX (0.00s)
         numeral_test.go:29: got 'VIV', want 'IX'
@@ -375,7 +374,7 @@ I'm pretty sure this approach will be valid for 6 (VI), 7 (VII) and 8 (VIII) too
 
 We should be able to adopt the same approach as before
 
-```go
+```
 case arabic > 8:
     result.WriteString("IX")
     arabic -= 9
@@ -389,7 +388,7 @@ I'll skip the code for this too, but add to your test cases a test for `10` whic
 
 Here are a few tests I added as I'm confident up to 39 our code should work
 
-```go
+```
 {"10 gets converted to X", 10, "X"},
 {"14 gets converted to XIV", 14, "XIV"},
 {"18 gets converted to XVIII", 18, "XVIII"},
@@ -411,7 +410,7 @@ type RomanNumeral struct {
 	Symbol string
 }
 
-var allRomanNumerals = []RomanNumeral {
+var allRomanNumerals = []RomanNumeral{
 	{10, "X"},
 	{9, "IX"},
 	{5, "V"},
@@ -440,7 +439,7 @@ Does this abstraction work for bigger numbers? Extend the test suite so it works
 
 Here are some test cases, try and make them pass.
 
-```go
+```
 {"40 gets converted to XL", 40, "XL"},
 {"47 gets converted to XLVII", 47, "XLVII"},
 {"49 gets converted to XLIX", 49, "XLIX"},
@@ -448,7 +447,6 @@ Here are some test cases, try and make them pass.
 ```
 
 Need help? You can see what symbols to add in [this gist](https://gist.github.com/pamelafox/6c7b948213ba55332d86efd0f0b037de).
-
 
 ## And the rest!
 
@@ -540,7 +538,6 @@ var allRomanNumerals = []RomanNumeral{
 
 We're not done yet. Next we're going to write a function that converts _from_ a Roman Numeral to an `int`
 
-
 ## Write the test first
 
 We can re-use our test cases here with a little refactoring
@@ -564,7 +561,7 @@ Notice I am using the slice functionality to just run one of the tests for now (
 
 ## Try to run the test
 
-```
+```console
 ./numeral_test.go:60:11: undefined: ConvertToArabic
 ```
 
@@ -580,7 +577,7 @@ func ConvertToArabic(roman string) int {
 
 The test should now run and fail
 
-```
+```console
 --- FAIL: TestConvertingToArabic (0.00s)
     --- FAIL: TestConvertingToArabic/'I'_gets_converted_to_1 (0.00s)
         numeral_test.go:62: got 0, want 1
@@ -640,6 +637,22 @@ func (r RomanNumerals) ValueOf(symbol string) int {
 	}
 
 	return 0
+}
+
+var allRomanNumerals = RomanNumerals{
+	{1000, "M"},
+	{900, "CM"},
+	{500, "D"},
+	{400, "CD"},
+	{100, "C"},
+	{90, "XC"},
+	{50, "L"},
+	{40, "XL"},
+	{10, "X"},
+	{9, "IX"},
+	{5, "V"},
+	{4, "IV"},
+	{1, "I"},
 }
 
 // later..
@@ -722,7 +735,7 @@ func couldBeSubtractive(index int, currentSymbol uint8, roman string) bool {
 
 Let's move on to `cases[:5]`
 
-```
+```console
 === RUN   TestConvertingToArabic/'V'_gets_converted_to_5
     --- FAIL: TestConvertingToArabic/'V'_gets_converted_to_5 (0.00s)
         numeral_test.go:62: got 1, want 5
@@ -753,7 +766,7 @@ func ConvertToArabic(roman string) int {
 				total++ // this is fishy...
 			}
 		} else {
-			total+=allRomanNumerals.ValueOf(string([]byte{symbol}))
+			total += allRomanNumerals.ValueOf(string([]byte{symbol}))
 		}
 	}
 	return total
@@ -794,7 +807,7 @@ func ConvertToArabic(roman string) int {
 				total++ // this is fishy...
 			}
 		} else {
-			total+=allRomanNumerals.ValueOf(symbol)
+			total += allRomanNumerals.ValueOf(symbol)
 		}
 	}
 	return total
@@ -805,7 +818,7 @@ It's still pretty nasty, but it's getting there.
 
 If you start moving our `cases[:xx]` number through you'll see that quite a few are passing now. Remove the slice operator entirely and see which ones fail, here's some examples from my suite
 
-```
+```console
 === RUN   TestConvertingToArabic/'XL'_gets_converted_to_40
     --- FAIL: TestConvertingToArabic/'XL'_gets_converted_to_40 (0.00s)
         numeral_test.go:62: got 60, want 40
@@ -821,7 +834,7 @@ I think all we're missing is an update to `couldBeSubtractive` so that it accoun
 
 ```go
 func couldBeSubtractive(index int, currentSymbol uint8, roman string) bool {
-	isSubtractiveSymbol := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol =='C'
+	isSubtractiveSymbol := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol == 'C'
 	return index+1 < len(roman) && isSubtractiveSymbol
 }
 ```
@@ -949,7 +962,7 @@ There have been a few rules in the domain of Roman Numerals that we have worked 
 - Only I (1), X (10) and C (100) can be "subtractors"
 - Taking the result of `ConvertToRoman(N)` and passing it to `ConvertToArabic` should return us `N`
 
-The tests we have written so far can be described as "example" based tests where we provide the tooling some examples around our code to verify.
+The tests we have written so far can be described as "example" based tests where we provide _examples_ for the tooling to verify.
 
 What if we could take these rules that we know about our domain and somehow exercise them against our code?
 
@@ -990,7 +1003,7 @@ This feels like a good test to build us confidence because it should break if th
 
  Our `assertion` function above takes a random number and runs our functions to test the property.
 
- ### Run our test
+### Run our test
 
  Try running it; your computer may hang for a while, so kill it when you're bored :)
 
@@ -998,19 +1011,19 @@ This feels like a good test to build us confidence because it should break if th
 
  ```go
 assertion := func(arabic int) bool {
-    if arabic <0 || arabic > 3999 {
-        log.Println(arabic)
-        return true
-    }
-    roman := ConvertToRoman(arabic)
-    fromRoman := ConvertToArabic(roman)
-    return fromRoman == arabic
+	if arabic < 0 || arabic > 3999 {
+		log.Println(arabic)
+		return true
+	}
+	roman := ConvertToRoman(arabic)
+	fromRoman := ConvertToArabic(roman)
+	return fromRoman == arabic
 }
 ```
 
 You should see something like this:
 
-```
+```console
 === RUN   TestPropertiesOfConversion
 2019/07/09 14:41:27 6849766357708982977
 2019/07/09 14:41:27 -7028152357875163913
@@ -1037,15 +1050,16 @@ Try updating the code to use `uint16` rather than `int`. I updated `assertion` i
 
 ```go
 assertion := func(arabic uint16) bool {
-    if arabic > 3999 {
-        return true
-    }
-    t.Log("testing", arabic)
-    roman := ConvertToRoman(arabic)
-    fromRoman := ConvertToArabic(roman)
-    return fromRoman == arabic
+	if arabic > 3999 {
+		return true
+	}
+	t.Log("testing", arabic)
+	roman := ConvertToRoman(arabic)
+	fromRoman := ConvertToArabic(roman)
+	return fromRoman == arabic
 }
 ```
+Notice that now we are logging the input using the `log` method from the testing framework. Make sure you run the `go test` command with the flag `-v` to print the additional output (`go test -v`).
 
 If you run the test they now actually run and you can see what is being tested. You can run multiple times to see our code stands up well to the various values! This gives me a lot of confidence that our code is working how we want.
 
@@ -1053,9 +1067,9 @@ The default number of runs `quick.Check` performs is 100 but you can change that
 
 ```go
 if err := quick.Check(assertion, &quick.Config{
-    MaxCount:1000,
+	MaxCount: 1000,
 }); err != nil {
-    t.Error("failed checks", err)
+	t.Error("failed checks", err)
 }
 ```
 
@@ -1103,14 +1117,18 @@ chapter so, in the interests of full disclosure, here's what he said.
 > for 'finger', as we usually have ten of them. In the Arabic (also called
 > Hindu-Arabic) number system there are ten of them. These Arabic digits are:
 >
->     0 1 2 3 4 5 6 7 8 9
+> ```console
+>   0 1 2 3 4 5 6 7 8 9
+> ```
 >
 > A _numeral_ is the representation of a number using a collection of digits.
 > An Arabic numeral is a number represented by Arabic digits in a base 10
 > positional number system. We say 'positional' because each digit has
 > a different value based upon its position in the numeral. So
 >
->     1337
+> ```console
+>   1337
+> ```
 >
 > The `1` has a value of one thousand because its the first digit in a four
 > digit numeral.
@@ -1123,11 +1141,13 @@ chapter so, in the interests of full disclosure, here's what he said.
 > all tied to its representation - we can see this if we ask ourselves what the
 > correct representation of this number is:
 >
->     255
->     11111111
->     two-hundred and fifty-five
->     FF
->     377
+> ```console
+> 255
+> 11111111
+> two-hundred and fifty-five
+> FF
+> 377
+> ```
 >
 > Yes, this is a trick question. They're all correct. They're the representation
 > of the same number in the decimal,  binary, English, hexadecimal and octal
@@ -1137,7 +1157,7 @@ chapter so, in the interests of full disclosure, here's what he said.
 > as a number - and we can see this when we look at integer literals in Go:
 >
 > ```go
->  0xFF == 255 // true
+> 	0xFF == 255 // true
 > ```
 >
 > And how we can print integers in a format string:
@@ -1156,13 +1176,13 @@ chapter so, in the interests of full disclosure, here's what he said.
 > sometimes `arabic` will be written as a decimal integer literal
 >
 > ```go
-> ConvertToRoman(255)
+>   ConvertToRoman(255)
 > ```
 >
 > But it could just as well be written
 >
 > ```go
-> ConvertToRoman(0xFF)
+>   ConvertToRoman(0xFF)
 > ```
 >
 > Really, we're not 'converting' from an Arabic numeral at all, we're 'printing'  -

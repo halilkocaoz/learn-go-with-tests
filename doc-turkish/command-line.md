@@ -46,17 +46,17 @@ If you have `tree` installed you should run it and your structure should look li
 
 ```
 .
-├── file_system_store.go
-├── file_system_store_test.go
-├── cmd
-│   └── webserver
-│       └── main.go
-├── league.go
-├── server.go
-├── server_integration_test.go
-├── server_test.go
-├── tape.go
-└── tape_test.go
+|-- file_system_store.go
+|-- file_system_store_test.go
+|-- cmd
+|   |-- webserver
+|       |-- main.go
+|-- league.go
+|-- server.go
+|-- server_integration_test.go
+|-- server_test.go
+|-- tape.go
+|-- tape_test.go
 ```
 
 We now effectively have a separation between our application and the library code but we now need to change some package names. Remember when you build a Go application its package _must_ be `main`.
@@ -95,7 +95,7 @@ func main() {
 
 	server := poker.NewPlayerServer(store)
 
-    log.Fatal(http.ListenAndServe(":5000", server))
+	log.Fatal(http.ListenAndServe(":5000", server))
 }
 ```
 
@@ -103,7 +103,7 @@ The full path may seem a bit jarring, but this is how you can import _any_ publi
 
 By separating our domain code into a separate package and committing it to a public repo like GitHub any Go developer can write their own code which imports that package the features we've written available. The first time you try and run it will complain it is not existing but all you need to do is run `go get`.
 
-In addition, users can view [the documentation at godoc.org](https://godoc.org/github.com/quii/learn-go-with-tests/command-line/v1).
+In addition, users can view [the documentation at pkg.go.dev](https://pkg.go.dev/github.com/quii/learn-go-with-tests/command-line/v1).
 
 ### Final checks
 

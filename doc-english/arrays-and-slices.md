@@ -46,7 +46,16 @@ Here, we are using the `%v` placeholder to print the "default" format, which wor
 
 ## Try to run the test
 
-By running `go test` the compiler will fail with `./sum_test.go:10:15: undefined: Sum`
+If you had initialized go mod with `go mod init main` you will be presented with an error
+`_testmain.go:13:2: cannot import "main"`. This is because according to common practice,
+package main will only contain integration of other packages and not unit-testable code and
+hence Go will not allow you to import a package with name `main`.
+
+To fix this, you can rename the main module in `go.mod` to any other name.
+
+Once the above error is fixed, if you run `go test` the compiler will fail with the familiar
+`./sum_test.go:10:15: undefined: Sum` error. Now we can proceed with writing the actual method
+to be tested.
 
 ## Write the minimal amount of code for the test to run and check the failing test output
 
@@ -280,8 +289,8 @@ We need to define `SumAll` according to what our test wants.
 Go can let you write [_variadic functions_](https://gobyexample.com/variadic-functions) that can take a variable number of arguments.
 
 ```go
-func SumAll(numbersToSum ...[]int) (sums []int) {
-	return
+func SumAll(numbersToSum ...[]int) []int {
+	return nil
 }
 ```
 
@@ -471,9 +480,10 @@ panic: runtime error: slice bounds out of range [recovered]
     panic: runtime error: slice bounds out of range
 ```
 
-Oh no! It's important to note the test _has compiled_, it is a runtime error.
-Compile time errors are our friend because they help us write software that
-works, runtime errors are our enemies because they affect our users.
+Oh no! It's important to note that while the test _has compiled_, it _has a runtime error_.  
+
+Compile time errors are our friend because they help us write software that works,  
+runtime errors are our enemies because they affect our users.
 
 ## Write enough code to make it pass
 
@@ -495,7 +505,7 @@ func SumAllTails(numbersToSum ...[]int) []int {
 
 ## Refactor
 
-Our tests have some repeated code around the assertions again, so let's extract those into a function
+Our tests have some repeated code around the assertions again, so let's extract those into a function.
 
 ```go
 func TestSumAllTails(t *testing.T) {
@@ -521,6 +531,12 @@ func TestSumAllTails(t *testing.T) {
 
 }
 ```
+
+We could've created a new function `checkSums` like we normally do, but in this case, we're showing a new technique, assigning a function to a variable. It might look strange but, it's no different to assigning a variable to a `string`, or an `int`, functions in effect are values too. 
+
+It's not shown here, but this technique can be useful when you want to bind a function to other local variables in "scope" (e.g between some `{}`). It also allows you to reduce the surface area of your API. 
+
+By defining this function inside the test, it cannot be used by other functions in this package. Hiding variables and functions that don't need to be exported is an important design consideration.
 
 A handy side-effect of this is this adds a little type-safety to our code. If
 a developer mistakenly adds a new test with `checkSums(t, got, "dave")` the compiler

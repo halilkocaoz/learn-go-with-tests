@@ -4,7 +4,7 @@
 
 You have been asked to make a function called `WebsiteRacer` which takes two URLs and "races" them by hitting them with an HTTP GET and returning the URL which returned first. If none of them return within 10 seconds then it should return an `error`.
 
-For this, we will be using
+For this, we will be using:
 
 - `net/http` to make the HTTP calls.
 - `net/http/httptest` to help us test them.
@@ -18,7 +18,7 @@ Let's start with something naive to get us going.
 ```go
 func TestRacer(t *testing.T) {
 	slowURL := "http://www.facebook.com"
-	fastURL := "http://www.quii.co.uk"
+	fastURL := "http://www.quii.dev"
 
 	want := fastURL
 	got := Racer(slowURL, fastURL)
@@ -29,7 +29,7 @@ func TestRacer(t *testing.T) {
 }
 ```
 
-We know this isn't perfect and has problems but it will get us going. It's important not to get too hung-up on getting things perfect first time.
+We know this isn't perfect and has problems, but it's a start. It's important not to get too hung-up on getting things perfect first time.
 
 ## Try to run the test
 
@@ -43,7 +43,7 @@ func Racer(a, b string) (winner string) {
 }
 ```
 
-`racer_test.go:25: got '', want 'http://www.quii.co.uk'`
+`racer_test.go:25: got '', want 'http://www.quii.dev'`
 
 ## Write enough code to make it pass
 
@@ -68,7 +68,7 @@ func Racer(a, b string) (winner string) {
 For each URL:
 
 1. We use `time.Now()` to record just before we try and get the `URL`.
-1. Then we use [`http.Get`](https://golang.org/pkg/net/http/#Client.Get) to try and get the contents of the `URL`. This function returns an [`http.Response`](https://golang.org/pkg/net/http/#Response) and an `error` but so far we are not interested in these values.
+1. Then we use [`http.Get`](https://golang.org/pkg/net/http/#Client.Get) to try and perform an HTTP `GET` request against the `URL`. This function returns an [`http.Response`](https://golang.org/pkg/net/http/#Response) and an `error` but so far we are not interested in these values.
 1. `time.Since` takes the start time and returns a `time.Duration` of the difference.
 
 Once we have done this we simply compare the durations to see which is the quickest.
@@ -85,7 +85,7 @@ In the mocking and dependency injection chapters, we covered how ideally we don'
 - Flaky
 - Can't test edge cases
 
-In the standard library, there is a package called [`net/http/httptest`](https://golang.org/pkg/net/http/httptest/) where you can easily create a mock HTTP server.
+In the standard library, there is a package called [`net/http/httptest`](https://golang.org/pkg/net/http/httptest/) which enables users to easily create a mock HTTP server.
 
 Let's change our tests to use mocks so we have reliable servers to test against that we can control.
 
@@ -189,7 +189,7 @@ We've refactored creating our fake servers into a function called `makeDelayedSe
 
 By prefixing a function call with `defer` it will now call that function _at the end of the containing function_.
 
-Sometimes you will need to cleanup resources, such as closing a file or in our case closing a server so that it does not continue to listen to a port.
+Sometimes you will need to clean up resources, such as closing a file or in our case closing a server so that it does not continue to listen to a port.
 
 You want this to execute at the end of the function, but keep the instruction near where you created the server for the benefit of future readers of the code.
 
@@ -242,11 +242,11 @@ For channels the zero value is `nil` and if you try and send to it with `<-` it 
 [You can see this in action in The Go Playground](https://play.golang.org/p/IIbeAox5jKA)
 #### `select`
 
-If you recall from the concurrency chapter, you can wait for values to be sent to a channel with `myVar := <-ch`. This is a _blocking_ call, as you're waiting for a value.
+You'll recall from the concurrency chapter that you can wait for values to be sent to a channel with `myVar := <-ch`. This is a _blocking_ call, as you're waiting for a value.
 
-What `select` lets you do is wait on _multiple_ channels. The first one to send a value "wins" and the code underneath the `case` is executed.
+`select` allows you to wait on _multiple_ channels. The first one to send a value "wins" and the code underneath the `case` is executed.
 
-We use `ping` in our `select` to set up two channels for each of our `URL`s. Whichever one writes to its channel first will have its code executed in the `select`, which results in its `URL` being returned (and being the winner).
+We use `ping` in our `select` to set up two channels, one for each of our `URL`s. Whichever one writes to its channel first will have its code executed in the `select`, which results in its `URL` being returned (and being the winner).
 
 After these changes, the intent behind our code is very clear and the implementation is actually simpler.
 
@@ -257,26 +257,52 @@ Our final requirement was to return an error if `Racer` takes longer than 10 sec
 ## Write the test first
 
 ```go
-t.Run("returns an error if a server doesn't respond within 10s", func(t *testing.T) {
-	serverA := makeDelayedServer(11 * time.Second)
-	serverB := makeDelayedServer(12 * time.Second)
+func TestRacer(t *testing.T) {
 
-	defer serverA.Close()
-	defer serverB.Close()
+	t.Run("compares speeds of servers, returning the url of the fastest one", func(t *testing.T) {
+		slowServer := makeDelayedServer(20 * time.Millisecond)
+		fastServer := makeDelayedServer(0 * time.Millisecond)
 
-	_, err := Racer(serverA.URL, serverB.URL)
+		defer slowServer.Close()
+		defer fastServer.Close()
 
-	if err == nil {
-		t.Error("expected an error but didn't get one")
-	}
-})
+		slowURL := slowServer.URL
+		fastURL := fastServer.URL
+
+		want := fastURL
+		got, _ := Racer(slowURL, fastURL)
+
+		if err != nil {
+			t.Fatalf("did not expect an error but got one %v", err)
+		}
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+
+	t.Run("returns an error if a server doesn't respond within 10s", func(t *testing.T) {
+		serverA := makeDelayedServer(11 * time.Second)
+		serverB := makeDelayedServer(12 * time.Second)
+
+		defer serverA.Close()
+		defer serverB.Close()
+
+		_, err := Racer(serverA.URL, serverB.URL)
+
+		if err == nil {
+			t.Error("expected an error but didn't get one")
+		}
+	})
 ```
 
 We've made our test servers take longer than 10s to return to exercise this scenario and we are expecting `Racer` to return two values now, the winning URL (which we ignore in this test with `_`) and an `error`.
 
+Note that we've also handled the error return in our original test, we're using	`_` for now to ensure the tests will run.
+
 ## Try to run the test
 
-`./racer_test.go:37:10: assignment mismatch: 2 variables but 1 values`
+`./racer_test.go:37:10: assignment mismatch: 2 variables but Racer returns 1 value`
 
 ## Write the minimal amount of code for the test to run and check the failing test output
 
@@ -422,4 +448,4 @@ I added one final check on the first test to verify we don't get an `error`.
 ### `httptest`
 
 - A convenient way of creating test servers so you can have reliable and controllable tests.
-- Using the same interfaces as the "real" `net/http` servers which is consistent and less for you to learn.
+- Uses the same interfaces as the "real" `net/http` servers which is consistent and less for you to learn.

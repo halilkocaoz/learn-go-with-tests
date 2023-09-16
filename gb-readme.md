@@ -1,6 +1,8 @@
 # Giriş
 
-![](.gitbook/assets/red-green-blue-gophers-smaller.png)
+<div style="text-align: center">
+  <img src="red-green-blue-gophers-smaller.png" />
+</div>
 
 [Denise tarafından çizildi](https://twitter.com/deniseyu21)
 
