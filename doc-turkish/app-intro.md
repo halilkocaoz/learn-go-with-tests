@@ -16,3 +16,5 @@ Bunun sonunda, Go' da adım adım bir uygulama yazmanın ve testlerle destekleme
 - [Komut satırı & proje yapısı](command-line.md) - Tek kod tabanından birden fazla uygulamayı destekleyeceğiz ve komut satırından girdi okuma işlemini ele alacağız.
 - [Time](time.md) - Aktiviteleri zamanlamak için `time` paketini kullanma.
 - [WebSockets](websockets.md) - WebScokets kullanan bir sunucu yazmayı ve test etmeyi öğren. 
+
+Bu sayfa [@rasimthegrey](https://github.com/rasimthegrey) tarafından çevrildi.
