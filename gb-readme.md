@@ -17,6 +17,7 @@
 ## Türkçe çeviriye katkı sağlayanlar
 
 * [@bariscanyilmaz](https://github.com/bariscanyilmaz)
+* [@rasimthegrey](https://github.com/rasimthegrey)
 * [@halilkocaoz](https://github.com/halilkocaoz)
 
 ## Go ile test-driven development öğrenin

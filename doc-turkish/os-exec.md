@@ -1,23 +1,23 @@
 # OS Exec
 
-**[You can find all the code here](https://github.com/quii/learn-go-with-tests/tree/main/q-and-a/os-exec)**
+**[Bu bölümün bütün kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/q-and-a/os-exec)**
 
-[keith6014](https://www.reddit.com/user/keith6014) asks on [reddit](https://www.reddit.com/r/golang/comments/aaz8ji/testdata_and_function_setup_help/)
+[keith6014](https://www.reddit.com/user/keith6014), [reddit](https://www.reddit.com/r/golang/comments/aaz8ji/testdata_and_function_setup_help/)'te soruyor
 
-> I am executing a command using os/exec.Command() which generated XML data. The command will be executed in a function called GetData().
+> `os/exec.Command()` kullanarak XML verisi üreten bir komut çalıştırıyorum. Bu komut, `GetData()` adlı bir fonksiyon içinde çalıştırılacak.
 
-> In order to test GetData(), I have some testdata which I created.
+> GetData()'yı test etmek için kendi oluşturduğum bir test verisine sahibim.
 
-> In my _test.go I have a TestGetData which calls GetData() but that will use os.exec, instead I would like for it to use my testdata.
+> _test.go dosyamda TestGetData adında bir testim var ve bu test, GetData() fonksiyonunu çağırıyor, ancak bu fonksiyon os.exec kullanıyor. Bunun yerine test verilerimi kullanmasını istiyorum.
 
-> What is a good way to achieve this? When calling GetData should I have a "test" flag mode so it will read a file ie GetData(mode string)?
+> Bunu başarmanın iyi bir yolu nedir? GetData'yı çağırırken bir "test" bayrak moduna sahip olmalı mıyım, böylece GetData(mode string) gibi bir dosyayı okuyacak mı?
 
-A few things
+Bir kaç şey;
 
-- When something is difficult to test, it's often due to the separation of concerns not being quite right
-- Don't add "test modes" into your code, instead use [Dependency Injection](/dependency-injection.md) so that you can model your dependencies and separate concerns.
+- Bir şeyin test edilmesi zor olduğunda, bu genellikle endişelerin ayrılmasının pek doğru olmamasından kaynaklanır.
+- Kodunuza "test modları" eklemeyin, yerine [Dependency Injection](/dependency-injection.md) kullanın, böylelikle endişeleri ayırabilir ve kendi bağımlılıklarınızı modelleyebilirsiniz.
 
-I have taken the liberty of guessing what the code might look like
+Kodun neye benzeyeceğini tahmin etmeye çalıştım:
 
 ```go
 type Payload struct {
@@ -40,12 +40,12 @@ func GetData() string {
 }
 ```
 
-- It uses `exec.Command` which allows you to execute an external command to the process
-- We capture the output in `cmd.StdoutPipe` which returns us a `io.ReadCloser` (this will become important)
-- The rest of the code is more or less copy and pasted from the [excellent documentation](https://golang.org/pkg/os/exec/#example_Cmd_StdoutPipe).
-    - We capture any output from stdout into an `io.ReadCloser` and then we `Start` the command and then wait for all the data to be read by calling `Wait`. In between those two calls we decode the data into our `Payload` struct.
+- Sürece harici bir komut yürütmenize izin veren `exec.Command`ı kullanır.
+- Çıktıyı `cmd.StdoutPipe`ta yakalıyoruz ve bu bıze bır `io.ReadCloser` döndürüyor (bu ileride önemli olacak).
+- Kodun az çok geri kalan kısmı [mükemmel dokümantasyondan](https://golang.org/pkg/os/exec/#example_Cmd_StdoutPipe) kopyalanıp yapıştırılmıştır.
+	- Stdout'tan herhangi bir çıktıyı `io.ReadCloser` içine alıyoruz ve komutu `başlatıyoruz`, ardından `Wait`i çağırarak tüm verilerin okunmasını bekliyoruz. Bu iki çağrı arasında verinin kodunu 'Payload' yapımızda çözüyoruz.
 
-Here is what is contained inside `msg.xml`
+İşte `msg.xml` içinde bulunanlar:
 
 ```xml
 <payload>
@@ -53,7 +53,7 @@ Here is what is contained inside `msg.xml`
 </payload>
 ```
 
-I wrote a simple test to show it in action
+Bunu uygulamalı olarak göstermek için basit bir test yazdım:
 
 ```go
 func TestGetData(t *testing.T) {
@@ -66,22 +66,22 @@ func TestGetData(t *testing.T) {
 }
 ```
 
-## Testable code
+## Test edilebilir kod
 
-Testable code is decoupled and single purpose. To me it feels like there are two main concerns for this code
+Test edilebilir kod ayrıştırılmış ve tek amaçlıdır. Bana, bu kod için iki ana endişe var gibi geliyor:
 
-1. Retrieving the raw XML data
-2. Decoding the XML data and applying our business logic (in this case `strings.ToUpper` on the `<message>`)
+1. Ham XML verilerini alma
+2. XML verilerinin kodunun çözülmesi ve iş mantığımızın uygulanması (bu senaryoda `<message>`daki `strings.ToUpper`)
 
-The first part is just copying the example from the standard lib.
+İlk kısım sadece standart kütüphanedeki örneği kopyalıyor.
 
-The second part is where we have our business logic and by looking at the code we can see where the "seam" in our logic starts; it's where we get our `io.ReadCloser`. We can use this existing abstraction to separate concerns and make our code testable.
+İkinci kısım iş mantığımızın oluştuğu yerdir ve koda bakarak mantığımızdaki "dikişin" nerede başladığını görebiliriz; `io.ReadCloser`ımızı aldığımız yer burasıdır. Bu mevcut soyutlamayı endişeleri ayırmak ve kodumuzu test edilebilir hale getirmek için kullanabiliriz.
 
-**The problem with GetData is the business logic is coupled with the means of getting the XML. To make our design better we need to decouple them**
+**GetData ile ilgili sorun, iş mantığının XML alma araçlarıyla bağlantılı olmasıdır. Tasarımımızı daha iyi hale getirmek için onları ayırmamız gerekiyor**
 
-Our `TestGetData` can act as our integration test between our two concerns so we'll keep hold of that to make sure it keeps working.
+`TestGetData`mız iki endişemiz arasındaki entegrasyon testimiz olarak hareket edebilir, bu yüzden çalışmaya devam ettiğinden emin olmak için onu elimizde tutacağız.
 
-Here is what the newly separated code looks like
+İşte yeni ayırılmış kod böyle gözüküyor:
 
 ```go
 type Payload struct {
@@ -115,7 +115,7 @@ func TestGetDataIntegration(t *testing.T) {
 }
 ```
 
-Now that `GetData` takes its input from just an `io.Reader` we have made it testable and it is no longer concerned how the data is retrieved; people can re-use the function with anything that returns an `io.Reader` (which is extremely common). For example we could start fetching the XML from a URL instead of the command line.
+Artık `GetData` girdisini yalnızca `io.Reader`dan aldığından onu test edilebilir hale getirdik ve artık verilerin nasıl alındığıyla ilgilenmiyoruz; insanlar bu işlevi `io.Reader` döndüren herhangi bir şeyle yeniden kullanabilirler (ki bu son derece yaygındır). Örneğin XML'i komut satırı yerine bir URL'den almaya başlayabiliriz.
 
 ```go
 func TestGetData(t *testing.T) {
@@ -134,6 +134,8 @@ func TestGetData(t *testing.T) {
 
 ```
 
-Here is an example of a unit test for `GetData`.
+İşte `GetData` için bir birim testi örneği.
 
-By separating the concerns and using existing abstractions within Go testing our important business logic is a breeze.
+Go testinde endişeleri ayırarak ve mevcut soyutlamaları kullanarak önemli iş mantığımızı kullanmak çocuk oyuncağıdır.
+
+Bu sayfa [@rasimthegrey](https://github.com/rasimthegrey) tarafından çevrildi.
