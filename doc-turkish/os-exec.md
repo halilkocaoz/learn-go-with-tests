@@ -115,7 +115,6 @@ func TestGetDataIntegration(t *testing.T) {
 }
 ```
 
-Now that `GetData` takes its input from just an `io.Reader` we have made it testable and it is no longer concerned how the data is retrieved; people can re-use the function with anything that returns an `io.Reader` (which is extremely common). For example we could start fetching the XML from a URL instead of the command line.
 Artık `GetData` girdisini yalnızca `io.Reader`dan aldığından onu test edilebilir hale getirdik ve artık verilerin nasıl alındığıyla ilgilenmiyoruz; insanlar bu işlevi `io.Reader` döndüren herhangi bir şeyle yeniden kullanabilirler (ki bu son derece yaygındır). Örneğin XML'i komut satırı yerine bir URL'den almaya başlayabiliriz.
 
 ```go
