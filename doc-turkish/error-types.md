@@ -1,14 +1,14 @@
-# Error types
+# Hata tipleri
 
-**[You can find all the code here](https://github.com/quii/learn-go-with-tests/tree/main/q-and-a/error-types)**
+**[Bu bölümün tüm kodlarını burada bulabilirsiniz](https://github.com/quii/learn-go-with-tests/tree/main/q-and-a/error-types)**
 
-**Creating your own types for errors can be an elegant way of tidying up your code, making your code easier to use and test.**
+**Kendi hata tiplerinizi oluşturmak kodunuzu düzenlemenin zarif bir yolunu oluşturabilir, kodunuzu kullanmayı ve test etmeyi daha kolay hale getirebilir.**
 
-Pedro on the Gopher Slack asks
+Gopher Slack'ten Pedro soruyor:
 
-> If I’m creating an error like `fmt.Errorf("%s must be foo, got %s", bar, baz)`, is there a way to test equality without comparing the string value?
+> Eğer `fmt.Errorf("%s must be foo, got %s", bar, baz)` gibi bir hata oluşturursam, string değerlerini karşılaştırmadan eşitliği test etmenin bir yolu var mı?
 
-Let's make up a function to help explore this idea.
+Bu fikri keşfetmeye yardımcı bir fonksiyon oluşturalım:
 
 ```go
 // DumbGetter will get the string body of url if it gets a 200
@@ -30,9 +30,9 @@ func DumbGetter(url string) (string, error) {
 }
 ```
 
-It's not uncommon to write a function that might fail for different reasons and we want to make sure we handle each scenario correctly.
+Farklı nedenlerle başarısız olabilecek bir fonksiyon yazmak nadir bir durum değildir ve her senaryoyu doğru şekilde ele aldığımızdan emin olmak istiyoruz.
 
-As Pedro says, we _could_ write a test for the status error like so.
+Pedro'nun dediği gibi, durum hatası için şu şekilde bir test yazabiliriz:
 
 ```go
 t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
@@ -57,29 +57,29 @@ t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
 })
 ```
 
-This test creates a server which always returns `StatusTeapot` and then we use its URL as the argument to `DumbGetter` so we can see it handles non `200` responses correctly.
+Bu test her zaman `StatusTeapot` döndüren bir sunucu oluşturur ve ardından `DumbGetter` URL'sini argüman olarak kullanırız. Böylece `200` olmayan yanıtları doğru şekilde işlediğini görebiliriz.
 
-## Problems with this way of testing
+## Bu test etme yönteminin sorunları
 
-This book tries to emphasise _listen to your tests_ and this test doesn't _feel_ good:
+Bu kitap, _testlerinizi dinleyin_'i vurgulamaya çalışıyor ve bu test iyi _hissettirmiyor_:
 
-- We're constructing the same string as production code does to test it
-- It's annoying to read and write
-- Is the exact error message string what we're _actually concerned with_ ?
+- Bunu test etmek için, üretim kodunun yaptığı gibi aynı string'i oluşturuyoruz.
+- Bu okumak ve yazmak için rahatsız edici.
+- Tam hata mesajı string'i, aslında _ilgilendiğimiz_ şey mi?
 
-What does this tell us? The ergonomics of our test would be reflected on another bit of code trying to use our code.
+Bu bize ne anlatıyor? Testimizin ergonomisi, kodumuzu kullanmaya çalışan başka bir kod parçasına yansıyacaktır.
 
-How does a user of our code react to the specific kind of errors we return? The best they can do is look at the error string which is extremely error prone and horrible to write.
+Kodumuzun kullanıcısı, döndürdüğümüz belirli hata türlerine nasıl tepki veriyor? Yapabilecekleri en iyi şey, son derece hataya meyilli ve yazması korkunç olan hata mesajına bakmak.
 
-## What we should do
+## Ne yapmalıyız
 
-With TDD we have the benefit of getting into the mindset of:
+TDD ile aşağıdaki düşünce yapısına girmenin faydasına sahip oluruz:
 
-> How would _I_ want to use this code?
+> _Ben_ bu kodu nasıl kullanmak isterdim?
 
-What we could do for `DumbGetter` is provide a way for users to use the type system to understand what kind of error has happened.
+`DumbGetter` için yapabileceğimiz şey, kullanıcıların tip sistemini kullanarak ne tür bir hata oluştuğunu anlamaları için bir yol sağlamaktır.
 
-What if `DumbGetter` could return us something like
+Peki `DumbGetter` bize, aşağıdakilere benzer bir şey döndürebilse:
 
 ```go
 type BadStatusError struct {
@@ -88,9 +88,9 @@ type BadStatusError struct {
 }
 ```
 
-Rather than a magical string, we have actual _data_ to work with.
+Büyülü bir string yerine, çalışmak için gerçek _verilere_ sahibiz.
 
-Let's change our existing test to reflect this need
+Mevcut testimizi bu ihtiyacı karşılayacak şekilde değiştirelim:
 
 ```go
 t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
@@ -120,7 +120,7 @@ t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
 })
 ```
 
-We'll have to make `BadStatusError` implement the error interface.
+`BadStatusError` hata arabirimi uygulayacak şekilde değiştirmemiz gerekecek:
 
 ```go
 func (b BadStatusError) Error() string {
@@ -128,11 +128,11 @@ func (b BadStatusError) Error() string {
 }
 ```
 
-### What does the test do?
+### Test ne yapar?
 
-Instead of checking the exact string of the error, we are doing a [type assertion](https://tour.golang.org/methods/15) on the error to see if it is a `BadStatusError`. This reflects our desire for the _kind_ of error clearer. Assuming the assertion passes we can then check the properties of the error are correct.
+Tam hata string'ini kontrol etmek yerine hatanın bir `BadStatusError` olup olmadığını görmek için bir [tür belirtimi (type assertion)](https://tour.golang.org/methods/15) yapıyoruz. Belirtimin geçtiğini varsayarak, hatanın özelliklerinin doğru olduğunu kontrol edebiliriz.
 
-When we run the test, it tells us we didn't return the right kind of error
+Testi çalıştırdığımızda, bize doğru türde hata döndürmediğimizi söylüyor:
 
 ```
 --- FAIL: TestDumbGetter (0.00s)
@@ -140,7 +140,7 @@ When we run the test, it tells us we didn't return the right kind of error
     	error-types_test.go:56: was not a BadStatusError, got *errors.errorString
 ```
 
-Let's fix `DumbGetter` by updating our error handling code to use our type
+Hata işleme kodumuzu kendi türümüzle güncelleyerek `DumbGetter`'ı düzeltelim:
 
 ```go
 if res.StatusCode != http.StatusOK {
@@ -148,23 +148,24 @@ if res.StatusCode != http.StatusOK {
 }
 ```
 
-This change has had some _real positive effects_
 
-- Our `DumbGetter` function has become simpler, it's no longer concerned with the intricacies of an error string, it just creates a `BadStatusError`.
-- Our tests now reflect (and document) what a user of our code _could_ do if they decided they wanted to do some more sophisticated error handling than just logging. Just do a type assertion and then you get easy access to the properties of the error.
-- It is still "just" an `error`, so if they choose to they can pass it up the call stack or log it like any other `error`.
+Bu değişiklik bazı _gerçek olumlu etkiler_ yarattı:
 
-## Wrapping up
+- `DumbGetter` işlevimiz daha basit hale geldi, artık bir hata string'inin incelikleri ile ilgilenmiyor, sadece bir `BadStatusError` oluşturuyor.
+- Testlerimiz artık kodumuzun kullanıcısının, yalnızca günlüğe kaydetme dışında daha karmaşık hata işleme yapmaya karar vermesi durumunda neler _yapabileceğini_ yansıtıyor (ve belgeliyor). Sadece bir tür onayı yapın ve ardından hatanın özelliklerine kolayca erişin.
+- Bu halen "sadece" bir `error` olduğu için, istediklerinde bunu call stack'e geçirebilirler veya diğer `error`'lar gibi kaydedebilirler."
 
-If you find yourself testing for multiple error conditions don't fall in to the trap of comparing the error messages.
+## Özetlersek
 
-This leads to flaky and difficult to read/write tests and it reflects the difficulties the users of your code will have if they also need to start doing things differently depending on the kind of errors that have occurred.
+Eğer kendinizi birçok hata durumunu test ederken bulursanız, hata mesajlarını karşılaştırma tuzağına düşmeyin.
 
-Always make sure your tests reflect how _you'd_ like to use your code, so in this respect consider creating error types to encapsulate your kinds of errors. This makes handling different kinds of errors easier for users of your code and also makes writing your error handling code simpler and easier to read.
+Bu, istikrarsız ve okuması/yazması zor testlere yol açar ve kodunuzu kullananların, meydana gelen hataların türüne bağlı olarak işleri farklı şekilde yapmaya başlamaları gerektiğinde karşılaşacakları zorlukları yansıtır.
 
-## Addendum
+Testlerinizin her zaman kodunuzu nasıl kullanmak _istediğinizi_ yansıttığından emin olun. Bu nedenle, kendi hata türlerinizi özetlemek için hata türleri oluşturmayı düşünün. Bu, kodunuzu kullanan kullanıcılar için farklı türde hataların ele alınmasını kolaylaştırır ve aynı zamanda hata işleme kodu yazmayı daha basit ve okunması kolay hale getirir.
 
-As of Go 1.13 there are new ways to work with errors in the standard library which is covered in the [Go Blog](https://blog.golang.org/go1.13-errors)
+## Ek Bilgi
+
+Go 1.13'ten itibaren, [Go Blog](https://blog.golang.org/go1.13-errors)'da standart kütüphanede hatalarla çalışmanın yeni yolları ele alınmaktadır.
 
 ```go
 t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
@@ -194,4 +195,6 @@ t.Run("when you don't get a 200 you get a status error", func(t *testing.T) {
 })
 ```
 
-In this case we are using [`errors.As`](https://pkg.go.dev/errors#example-As) to try and extract our error into our custom type. It returns a `bool` to denote success and extracts it into `got` for us.
+Bu durumda, hatayı denemek ve çıkarmak için [`errors.As`](https://pkg.go.dev/errors#example-As) kullanıyoruz ve hatamızı custom type'ımıza çıkarıyoruz. Bu, başarı durumunu temsil etmek için bir `bool` döndürür ve bizim için `got` içine çıkartır.
+
+Bu sayfa [@rasimthegrey](https://github.com/rasimthegrey) tarafından çevrildi.
